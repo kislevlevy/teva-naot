@@ -9,6 +9,7 @@ import hpp from 'hpp';
 import path from 'path';
 
 import AppError from './utils/appError.js';
+import globalErrorHandler from './utils/errorHandler.js';
 
 ////////////////////////////////////////////////
 // App init:
@@ -63,6 +64,10 @@ app.all('*', (req, res, next) => {
     )
   );
 });
+
+////////////////////////////////////////////////
+//Global error handler
+app.use(globalErrorHandler)
 
 ////////////////////////////////////////////////
 // Export module:
