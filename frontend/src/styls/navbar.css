@@ -1,0 +1,15 @@
+.main-navbar{
+width:100%;
+background-color:hsl(var(--black));  
+padding:0.8rem 0rem;
+}
+.main-navbar-container{
+    max-width:80%;  
+  margin: 0 auto;
+  display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.logo-container{
+ width:2rem;
+}

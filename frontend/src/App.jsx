@@ -1,12 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Footer from './components/Footer'
+import React, { lazy, Suspense } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Outlet,
+  createRoutesFromElements,
+} from "react-router-dom";
+ const Root = lazy(()=>import("./layout/Root")) ;
+ const Error = lazy(() => import("./components/Error")); 
+ const Home = lazy(() => import("./pages/Home"));
+ const Login = lazy(() => import("./pages/Login")); 
+
 
 function App() {
-  const [count, setCount] = useState(0)
+const router = createBrowserRouter(
+    createRoutesFromElements(
+    <Route path="/" element={<Root />} errorElement={<Error />}>
+        <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
 
+    </Route>
+  )
+)
   return (
     <>
       <div className="card m-50 p-60 flex-row justify-center align-middle">
@@ -15,8 +30,9 @@ function App() {
         </button>
         {<Footer/>}
       </div>
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
