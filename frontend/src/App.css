@@ -1,6 +1,4 @@
-@import './styls/base.css';
-@import './styls/vairbles.css';
-@import './styls/root.css';
-@import './styls/btn.css';
-@import './styls/navbar.css';
-
+@import './styles/base.css';
+@import './styles/vairbles.css';
+@import './styles/btn.css';
+@import './styles/navbar.css';

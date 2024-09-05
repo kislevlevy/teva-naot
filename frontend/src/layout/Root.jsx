@@ -1,17 +1,15 @@
-import { Outlet } from 'react-router-dom'
-import { Suspense } from 'react'
-import Navbar from '../components/Navbar'
-// import React from 'react'
-function Root() {
+import React, { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+
+import Navbar from '../components/nav/Navbar';
+
+export default function Root() {
   return (
     <>
-<Suspense fallback={<div>Loading...</div>}>
-<Navbar/>
-  <Outlet/>
-</Suspense>   
+      <Suspense fallback={<div>Loading...</div>}>
+        <Navbar />
+        <Outlet />
+      </Suspense>
     </>
-
-  )
+  );
 }
-
-export default Root
