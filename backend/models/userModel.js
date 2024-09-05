@@ -1,7 +1,7 @@
 // Module imports:
 import mongoose from "mongoose";
 import validator from "validator";
-import bycrypt from "bycrypt";
+import bycrypt from "bycryptjs";
 
 // Schema:
 const userSchema = new mongoose.Schema({
@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema({
   },
   profileImg: {
     type: String,
+    validate: {
+      validator: (val) =>
+        validator.isURL(val, {
+          protocols: ["https"],
+          require_protocol: true,
+        }) && val.startsWith("https://res.cloudinary.com"),
+      message: "The provided image URL is not a valid Cloudinary image url.",
+    },
   },
   email: {
     type: String,
@@ -57,6 +65,7 @@ const userSchema = new mongoose.Schema({
       "shippingManager",
       "productManager",
       "csManager",
+      "admin",
     ],
     default: "customer",
   },
@@ -114,6 +123,16 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetTokenExpires = Date.now() + 5 * 60 * 1000;
+  return resetToken;
+};
 // Virtual fields:
 userSchema.virtual("orderHistory", {
   ref: "Order",
