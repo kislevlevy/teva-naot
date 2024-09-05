@@ -10,6 +10,8 @@ import {
   changePassword,
 } from "../controllers/authController.js";
 
+import { getMe } from "../controllers/userController.js";
+
 const router = Router();
 
 router.route("/login").post(login);
@@ -20,5 +22,6 @@ router.route("/forgotPassword").post(protect, forgotPassword);
 router.route("/resetPassword/:resetToken").patch(resetPassword);
 router.route("/restrictByRole").post(restrictByRole);
 router.route("/changePassword").patch(protect, changePassword);
+router.route("/getMe").get(protect, getMe);
 
 export default router;
