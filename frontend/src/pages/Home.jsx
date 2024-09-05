@@ -1,5 +1,11 @@
-import React from 'react';
+import FooterComp from '../components/FooterComp'
 
-export default function Home() {
-  return <div>Home</div>;
+const Home = () => {
+  return (
+   <>
+   <div className='h-screen'>Home
+    </div>
+            {<FooterComp  />}
+            </>
+  )
 }
