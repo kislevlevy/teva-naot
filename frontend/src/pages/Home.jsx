@@ -1,11 +1,12 @@
-import FooterComp from '../components/FooterComp'
+import FooterMainComp from '../components/footer/FooterMainComp'
 
 const Home = () => {
   return (
    <>
-   <div className='h-screen'>Home
+    <div className='h-screen'>Home
     </div>
-            {<FooterComp  />}
-            </>
+    {<FooterMainComp  />}
+    </>
   )
 }
+export default Home
