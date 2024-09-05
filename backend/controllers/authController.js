@@ -17,7 +17,11 @@ const login = asyncHandler(async (req, res, next) => {
   if (!email || !password) return next(new AppError(403, "Missing details"));
 
   const user = await User.findOne({ email }).select("+password");
-
+  if (!user || !user.isActive) {
+    return next(
+      new AppError(401, "This account is deactivated or does not exist.")
+    );
+  }
   if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError(401, "Invalid email or password"));
   }
@@ -85,9 +89,13 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new AppError(401, "Bad request - email is missing"));
   }
   const user = await User.findOne({ email });
-  if (!user) {
+  if (!user || !user.isActive) {
     return next(
       new AppError(404, "No account associated with the given email")
+    );
+  } else if (!user.isActive) {
+    return next(
+      new AppError(404, "There is no active user with that email address.")
     );
   }
   //only update the fields we want to modify(passwordResetToken in our case)
@@ -134,6 +142,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetTokenExpires: { $gt: Date.now() },
+    isActive: true,
   });
   if (!user) return next(new AppError(404), "Token is invalid or has expired");
 
