@@ -1,8 +1,8 @@
 // Imports:
 import asyncHandler from 'express-async-handler';
 
-import AppError from './appError';
-import ApiFeatures from './apiFeatures';
+import AppError from './appError.js';
+import ApiFeatures from './apiFeatures.js';
 
 // Helper functions:
 export const oneDocApiReponse = (res, statusCode, data) =>

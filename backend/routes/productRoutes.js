@@ -1,5 +1,6 @@
 // Imports:
 import express from 'express';
+
 import {
   createProduct,
   createProductGroup,
@@ -13,15 +14,15 @@ import {
   getProductGroupById,
   getProducts,
   getProductsGroups,
-} from '../controllers/productController';
-import { getProductsStockStats } from '../controllers/statsController';
+} from '../controllers/productController.js';
+import { getProductsStockStats } from '../controllers/statsController.js';
 
 // Initiation for router:
 const router = express.Router({ mergeParams: true });
 
 // Stock:
 router.patch('/:id/stock', editProductStockById);
-router.route('/stats').get('/stock', getProductsStockStats);
+// router.route('/stats').get('/stock', getProductsStockStats);
 
 // Product Groups:
 router

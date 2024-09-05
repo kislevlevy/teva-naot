@@ -1,6 +1,9 @@
-import express from "express";
-import changeOrderStatus from "../controllers/orderController";
+import express from 'express';
+import { changeOrderStatus } from '../controllers/orderController.js';
 
-router.patch("/order/:id/status", changeOrderStatus);
+// Initiation for router:
+const router = express.Router({ mergeParams: true });
 
-module.exports = router;
+router.patch('/order/:id/status', changeOrderStatus);
+
+export default router;

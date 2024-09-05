@@ -1,10 +1,11 @@
-import crypto from "crypto";
-import User from "../models/userModel";
-import AppError from "../utils/appError";
-import jwt from "jsonwebtoken";
-import asyncHandler from "express-async-handler";
-import sendEmail from "../utils/email";
-import { promisify } from "util";
+import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import asyncHandler from 'express-async-handler';
+import { promisify } from 'util';
+
+import User from '../models/userModel.js';
+import AppError from '../utils/appError.js';
+import sendEmail from '../utils/email.js';
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.envJWT_SECRET, {
@@ -14,29 +15,25 @@ const signToken = (id) => {
 //front parameters: email, password
 const login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) return next(new AppError(403, "Missing details"));
+  if (!email || !password) return next(new AppError(403, 'Missing details'));
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select('+password');
   if (!user || !user.isActive) {
-    return next(
-      new AppError(401, "This account is deactivated or does not exist.")
-    );
+    return next(new AppError(401, 'This account is deactivated or does not exist.'));
   }
   if (!user || !(await user.checkPassword(password, user.password))) {
-    return next(new AppError(401, "Invalid email or password"));
+    return next(new AppError(401, 'Invalid email or password'));
   }
   const token = signToken(user._id);
 
-  res.cookie("jwt", token, {
+  res.cookie('jwt', token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
-    ),
+    sameSite: 'None',
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000),
   });
   res.status(200).json({
-    status: "success",
+    status: 'success',
     token,
     newUser: {
       email: newUser.email,
@@ -47,9 +44,9 @@ const login = asyncHandler(async (req, res, next) => {
 const signUp = asyncHandler(async (req, res, next) => {
   const { fullName, email, password, confirmPassword, profileImg } = req.body;
   if (!email || !password || !confirmPassword || !fullName)
-    return next(new AppError(403, "Missing details"));
+    return next(new AppError(403, 'Missing details'));
   if (password !== confirmPassword)
-    return next(new AppError(403, "Passwords are not matched!"));
+    return next(new AppError(403, 'Passwords are not matched!'));
   //user creation in the DB
   const newUser = await User.create({
     email,
@@ -62,17 +59,15 @@ const signUp = asyncHandler(async (req, res, next) => {
   const token = signToken(newUser._id);
 
   //store the jwt in cookie
-  res.cookie("jwt", token, {
+  res.cookie('jwt', token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
-    ),
+    sameSite: 'None',
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000),
   });
   //response contains: email, fullName, profileImg
   res.status(201).json({
-    status: "success",
+    status: 'success',
     token,
     newUser: {
       email: newUser.email,
@@ -86,16 +81,14 @@ const signUp = asyncHandler(async (req, res, next) => {
 const forgotPassword = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
-    return next(new AppError(401, "Bad request - email is missing"));
+    return next(new AppError(401, 'Bad request - email is missing'));
   }
   const user = await User.findOne({ email });
   if (!user || !user.isActive) {
-    return next(
-      new AppError(404, "No account associated with the given email")
-    );
+    return next(new AppError(404, 'No account associated with the given email'));
   } else if (!user.isActive) {
     return next(
-      new AppError(404, "There is no active user with that email address.")
+      new AppError(404, 'There is no active user with that email address.')
     );
   }
   //only update the fields we want to modify(passwordResetToken in our case)
@@ -108,43 +101,43 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   const resetURL = `http://127.0.0.1:5500/api/users/resetPassword/${resetToken}`;
 
   const mailOptions = {
-    from: "Teva Naot <dontreplay@teva-naot.com>",
+    from: 'Teva Naot <dontreplay@teva-naot.com>',
     to: user.email,
-    subject: "Password reset",
+    subject: 'Password reset',
     text: `<h3>Please follow this link to reset your password:</h3>
     <a href ="${resetURL}">} ${resetURL}</a>`,
   };
   try {
     await sendEmail(mailOptions);
     res.status(200).json({
-      status: "success",
-      message: "The password reset link has been sent to your email",
+      status: 'success',
+      message: 'The password reset link has been sent to your email',
     });
   } catch (err) {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(new AppError(500), "There was a problem sending email");
+    return next(new AppError(500), 'There was a problem sending email');
   }
 });
 //front parameters: newPassword, confirmNewPassword
 const resetPassword = asyncHandler(async (req, res, next) => {
   const { newPassword, confirmNewPassword } = req.body;
   if (newPassword !== confirmNewPassword) {
-    return next(new AppError(404), "Passwords do not match");
+    return next(new AppError(404), 'Passwords do not match');
   }
   //extract the token from the URL and hash it, in order to compare it against reset tokens in the DB which are saved in their hashed version
   const hashedToken = crypto
-    .createHash("sha256")
+    .createHash('sha256')
     .update(req.params.token)
-    .digest("hex");
+    .digest('hex');
   //find the user by the token and the expiration, then assigned the new password
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetTokenExpires: { $gt: Date.now() },
     isActive: true,
   });
-  if (!user) return next(new AppError(404), "Token is invalid or has expired");
+  if (!user) return next(new AppError(404), 'Token is invalid or has expired');
 
   user.password = newPassword;
   user.passwordConfirm = confirmNewPassword;
@@ -156,23 +149,21 @@ const resetPassword = asyncHandler(async (req, res, next) => {
   const token = signToken(user._id);
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     token,
   });
 });
 
 const protect = asyncHandler(async (req, res, next) => {
-  if (!req.cookies || !req.cookies.jwt)
-    return next(AppError(403), "Please Login");
+  if (!req.cookies || !req.cookies.jwt) return next(AppError(403), 'Please Login');
   const token = req.cookies.jwt;
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   if (!decoded || decoded.exp < Date.now() / 1000)
-    return next(new AppError(403), "Please login, token has expired!");
+    return next(new AppError(403), 'Please login, token has expired!');
 
   const user = await User.findById(decoded.id);
-  if (!user)
-    return next(new AppError(403), "Please login, user no longer exist!");
+  if (!user) return next(new AppError(403), 'Please login, user no longer exist!');
   //convert passwordChangedAt to seconds, then check if user changed password, if he did, tell him to log in
   // this will prevent any valid jwt that users already not using to increase security
   if (user.passwordChangedAt) {
@@ -183,7 +174,7 @@ const protect = asyncHandler(async (req, res, next) => {
     if (decoded.iat < passwordChangeTimeStamp) {
       return next(
         new AppError(403),
-        "User recently changed password, please login!"
+        'User recently changed password, please login!'
       );
     }
   }
@@ -197,7 +188,7 @@ const restrictByRole = asyncHandler(async (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError(403),
-        "You do not have permission to perform this action"
+        'You do not have permission to perform this action'
       );
     }
     next();
@@ -208,12 +199,12 @@ const restrictByRole = asyncHandler(async (...roles) => {
 const changePassword = asyncHandler(async (req, res, next) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
 
-  const user = await User.findById(req.user.id).select("+password");
+  const user = await User.findById(req.user.id).select('+password');
 
   if (!(await user.checkPassword(currentPassword, user.password)))
-    return next(new AppError(401), "Your current password is incorrect");
+    return next(new AppError(401), 'Your current password is incorrect');
   if (newPassword !== confirmNewPassword)
-    return next(new AppError(400), "Passwords do not match");
+    return next(new AppError(400), 'Passwords do not match');
 
   user.password = newPassword;
   user.passwordConfirm = confirmNewPassword;
@@ -224,10 +215,10 @@ const changePassword = asyncHandler(async (req, res, next) => {
   //to denied access with the email + password of the user, before the update happend
   const token = signToken(user._id);
   //saving jwt as cookie in the user browser
-  res.cookie("jwt", token, {
+  res.cookie('jwt', token, {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: 'None',
     expires: new Date(
       Date.now() + process.env,
       JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
@@ -235,23 +226,23 @@ const changePassword = asyncHandler(async (req, res, next) => {
   });
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     token,
-    message: "Password successfully changed",
+    message: 'Password successfully changed',
   });
 });
 
 const logOut = asyncHandler(async (req, res, next) => {
   //overide the value of jwt with "loggedout", and make it the cookie expire in 5 seconds
-  res.cookie("jwt", "loggedout", {
+  res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 5 * 1000),
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: 'None',
   });
   res.status(200).json({
-    status: "success",
-    message: "You have successfully logged out",
+    status: 'success',
+    message: 'You have successfully logged out',
   });
 });
 

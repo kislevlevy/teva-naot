@@ -7,7 +7,12 @@ import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import hpp from "hpp";
 import path from "path";
-import usersRouter from "./routes/userRoutes";
+
+import userRouter from "./routes/userRoutes.js";
+import productRouter from "./routes/productRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
+// import statsRouter from "./routes/statsRoutes";
+// import reviewRouter from "./routes/reviewRoutes";
 
 import AppError from "./utils/appError.js";
 
@@ -54,7 +59,13 @@ app.use(
 
 ////////////////////////////////////////////////
 // App router:
-app.use("/api/users", usersRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/orders", orderRouter);
+// app.use("/api/v1/reviews", reviewRouter);
+// app.use("/api/v1/stats", statsRouter);
+// app.use("/api/v1/stats", statsRouter);
+
 // Error handeling:
 app.all("*", (req, res, next) => {
   next(

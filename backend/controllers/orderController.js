@@ -1,13 +1,13 @@
 //import asyncHandler from "express-async-handler";
-import Order from "../models/orderModel";
-import AppError from "../utils/appError";
+import Order from '../models/orderModel.js';
+import AppError from '../utils/appError.js';
 import {
   editOneById,
   getMany,
   getOneById,
   createOne,
   oneDocApiReponse,
-} from "../utils/handlerFactory";
+} from '../utils/handlerFactory.js';
 
 export const createOrder = createOne(Order);
 export const getOrders = getMany(Order);
@@ -19,12 +19,12 @@ export const changeOrderStatus = (req, res, next) => {
   const { status } = req.body;
 
   if (!status || !id) {
-    return next(new AppError(404, "ID and status are required"));
+    return next(new AppError(404, 'ID and status are required'));
   }
 
   const updatedOrder = Order.findByIdAndUpdate(id, { status });
   if (!updatedOrder) {
-    return next(new AppError(404, "Order not found"));
+    return next(new AppError(404, 'Order not found'));
   }
 
   oneDocApiReponse(res, 200, { doc: updatedOrder });

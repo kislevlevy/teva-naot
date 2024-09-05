@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer';
 
 //need to add to env: EMAIL_HOST, EMAIL_USER, EMAIL_PORT, EMAIL_PASSWORD
 const sendEmail = async (options) => {
@@ -21,4 +21,4 @@ const sendEmail = async (options) => {
   await transport.sendMail(mailOptions);
 };
 
-module.exports = sendEmail;
+export default sendEmail;

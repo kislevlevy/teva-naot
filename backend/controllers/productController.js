@@ -1,7 +1,8 @@
 // Imports:
 import asyncHandler from 'express-async-handler';
-import ProductGroup from '../models/productGroupModel';
-import Product from '../models/productModel';
+
+import ProductGroup from '../models/productGroupModel.js';
+import Product from '../models/productModel.js';
 import {
   createOne,
   deleteOneById,
@@ -9,8 +10,8 @@ import {
   getMany,
   getOneById,
   oneDocApiReponse,
-} from '../utils/handlerFactory';
-import AppError from '../utils/appError';
+} from '../utils/handlerFactory.js';
+import AppError from '../utils/appError.js';
 
 // Methodes:
 // Product:
