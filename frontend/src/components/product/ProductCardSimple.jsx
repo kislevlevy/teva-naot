@@ -1,18 +1,30 @@
 import { Card } from 'flowbite-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiShoppingOutline, mdiStar, mdiStarOutline } from '@mdi/js';
+import hoverFunc from '../../utils/hover';
 
-export default function ProductCartSimple() {
+export default function ProductCardSimple({ responsive }) {
+  useEffect(() => {
+    hoverFunc();
+  }, []);
   return (
-    <Card className="max-w-sm">
+    <Card className={responsive + ' m-1 max-w-md'}>
       <div className="relative">
-        <img
-          alt="Lemone"
-          src="/img/שחר נשים.jpg"
-          className="rounded-xl border-[1px] border-slate-300"
-        />
+        <div
+          className="img_producto_container rounded-xl border-2 border-slate-200"
+          data-scale="1.6"
+        >
+          <a
+            className="dslc-lightbox-image img_producto"
+            target="_self"
+            style={{
+              backgroundImage:
+                'url(https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-382-01_1_11.jpg)',
+            }}
+          ></a>
+        </div>
         <div className="absolute inset-0 flex translate-y-[92%] justify-center">
           <Icon
             className="rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"

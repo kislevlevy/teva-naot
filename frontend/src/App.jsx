@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Root = lazy(() => import('./layout/Root'));
 const Error = lazy(() => import('./pages/Error'));
