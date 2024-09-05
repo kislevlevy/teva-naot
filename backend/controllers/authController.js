@@ -52,14 +52,47 @@ const signUp = asyncHandler(async (req, res, next) => {
     return next(new AppError(403, "Missing details"));
   if (password !== passwordConfirm)
     return next(new AppError(403, "Passwords are not matched!"));
-  //user creation in the DB
+
+  // If the user exists but is disabled, reactivate their account
+
+  const existingUser = await User.findOne({ email }).select("+isActive");
+  if (existingUser && !existingUser.isActive) {
+    existingUser.isActive = true;
+    existingUser.password = password;
+    existingUser.passwordConfirm = confirmPassword;
+    existingUser.fullName = fullName;
+    existingUser.profileImg = profileImg;
+
+    await existingUser.save({ validateBeforeSave: true });
+
+    const token = signToken(existingUser._id);
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      expires: new Date(
+        Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
+      ),
+    });
+    return res.status(200).json({
+      status: "success",
+      token,
+      newUser: {
+        email: existingUser.email,
+        fullName: existingUser.fullName,
+        profileImg: existingUser.profileImg,
+      },
+      message: "Account reactivated successfully",
+    });
+  }
+  //If the user does not exist or is active - create a new account
   const newUser = await User.create({
     email,
     password,
     passwordConfirm,
     profileImg,
     fullName,
-    isActive: true,
   });
   //genereate the jwt token of the user, create jwt in both the login in signup, for better UX, so a user will be forward immeditaly to the website after registeration
   const token = signToken(newUser._id);
@@ -92,7 +125,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
     return next(new AppError(401, "Bad request - email is missing"));
   }
   const user = await User.findOne({ email });
-  if (!user || !user.isActive) {
+  if (!user) {
     return next(
       new AppError(404, "No account associated with the given email")
     );

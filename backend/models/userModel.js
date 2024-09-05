@@ -73,7 +73,10 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
-    isActive: Boolean,
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     shippingAddress: {
       type: {
         address: {
@@ -162,7 +165,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
   // Encrypyt password:
-  this.password = await bycrypt.hash(this.password, 12);
+  this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
 
   next();
