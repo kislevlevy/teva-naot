@@ -1,7 +1,7 @@
 // Module imports:
 import mongoose from "mongoose";
 import validator from "validator";
-import bycrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 // Schema:
 const userSchema = new mongoose.Schema(
@@ -140,6 +140,13 @@ userSchema.methods.createPasswordResetToken = function () {
 
   this.passwordResetTokenExpires = Date.now() + 5 * 60 * 1000;
   return resetToken;
+};
+
+userSchema.methods.checkPassword = async function (
+  enteredPassword,
+  userPassword
+) {
+  return await bcrypt.compare(enteredPassword, userPassword);
 };
 // Virtual fields:
 userSchema.virtual("orderHistory", {

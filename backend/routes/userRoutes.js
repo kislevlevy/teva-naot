@@ -13,7 +13,7 @@ import {
 const router = Router();
 
 router.route("/login").post(login);
-router.route("/logOut").delete(protect, logOut);
+router.route("/logOut").get(logOut);
 router.route("/signup").post(signUp);
 router.route("/protect").post(protect);
 router.route("/forgotPassword").post(protect, forgotPassword);

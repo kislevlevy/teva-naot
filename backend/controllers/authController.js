@@ -38,10 +38,11 @@ const login = asyncHandler(async (req, res, next) => {
   });
   res.status(200).json({
     status: "success",
-    token,
     newUser: {
-      email: newUser.email,
+      email: user.email,
     },
+    cookie: token,
+    message: "successfully logged in :)",
   });
 });
 //front parameters: fullName, email, password, confirmPassword, profileImg
@@ -165,7 +166,7 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 
 const protect = asyncHandler(async (req, res, next) => {
   if (!req.cookies || !req.cookies.jwt)
-    return next(AppError(403), "Please Login");
+    return next(new AppError(403, "Please Login"));
   const token = req.cookies.jwt;
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
@@ -245,15 +246,10 @@ const changePassword = asyncHandler(async (req, res, next) => {
 
 const logOut = asyncHandler(async (req, res, next) => {
   //overide the value of jwt with "loggedout", and make it the cookie expire in 5 seconds
-  res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 5 * 1000),
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  });
-  res.status(200).json({
+  res.clearCookie("jwt", { httpOnly: true, secure: true, sameSite: "None" });
+  res.status(204).json({
     status: "success",
-    message: "You have successfully logged out",
+    data: null,
   });
 });
 
