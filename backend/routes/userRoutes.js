@@ -1,27 +1,27 @@
-import express, { Router } from "express";
+import express, { Router } from 'express';
 import {
   login,
-  logOut,
-  signUp,
   forgotPassword,
   resetPassword,
   protect,
-  restrictByRole,
   changePassword,
-} from "../controllers/authController.js";
+  logout,
+  signup,
+} from '../controllers/authController.js';
 
-import { getMe } from "../controllers/userController.js";
+import { getMe } from '../controllers/userController.js';
 
 const router = Router();
 
-router.route("/login").post(login);
-router.route("/logOut").get(logOut);
-router.route("/signup").post(signUp);
-router.route("/protect").post(protect);
-router.route("/forgotPassword").post(protect, forgotPassword);
-router.route("/resetPassword/:resetToken").patch(resetPassword);
-router.route("/restrictByRole").post(restrictByRole);
-router.route("/changePassword").patch(protect, changePassword);
-router.route("/getMe").get(protect, getMe);
+router.route('/login').post(login);
+router.route('/logout').get(logout);
+router.route('/signup').post(signup);
+router.route('/resetPassword/:resetToken').patch(resetPassword);
+
+router.use(protect);
+router.route('/forgotPassword').post(forgotPassword);
+router.route('/changePassword').patch(changePassword);
+
+router.route('/getMe').get(getMe);
 
 export default router;

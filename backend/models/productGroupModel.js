@@ -14,7 +14,7 @@ const productGroupSchema = new mongoose.Schema(
       maxLength: [40, 'Product name must not exceed 40 characters.'],
       validate: {
         validator: (val) =>
-          validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
         message: 'Product name must only contain letters.',
       },
     },
@@ -26,7 +26,7 @@ const productGroupSchema = new mongoose.Schema(
       required: [true, 'Product description is required.'],
       validate: {
         validator: (val) =>
-          validator.isAlphanumeric(val, ['he', 'en-US'], { ignore: ' .,-\n' }),
+          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
         message: 'Product description must only contain alphanumeric characters.',
       },
     },
@@ -36,7 +36,7 @@ const productGroupSchema = new mongoose.Schema(
           type: String,
           validate: {
             validator: (val) =>
-              validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+              validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
             message:
               'Each category must must not exceed 20 characters and contain only letters. ',
           },
@@ -92,11 +92,11 @@ productGroupSchema.index({ ratingsAvg: -1, ratingsQuantity: -1 });
 
 // Virtual fields:
 // Reviews virtual field array:
-productGroupSchema.virtual('reviews', {
-  ref: 'Review',
-  foreignField: 'product',
-  localField: '_id',
-});
+// productGroupSchema.virtual('reviews', {
+//   ref: 'Review',
+//   foreignField: 'product',
+//   localField: '_id',
+// });
 
 // Middleware:
 // Add slug to product:
@@ -105,13 +105,13 @@ productGroupSchema.pre('save', function (next) {
   next();
 });
 // Populate reviews:
-productGroupSchema.pre(/^findOne/, function (next) {
-  this.populate({
-    path: 'reviews',
-    select: '-__v',
-  });
-  next();
-});
+// productGroupSchema.pre(/^findOne/, function (next) {
+//   this.populate({
+//     path: 'reviews',
+//     select: '-__v',
+//   });
+//   next();
+// });
 
 // Export schema:
 const ProductGroup = mongoose.model('ProductGroup', productGroupSchema);

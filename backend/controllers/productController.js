@@ -22,18 +22,29 @@ export const getProductById = getOneById(Product);
 export const editProductById = editOneById(Product);
 export const deleteProductById = deleteOneById(Product);
 
-export const editProductStockById = (req, res, next) => {
-  const { id, size, newStock } = req.body;
+export const editProductStockById = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { size, newStock } = req.body;
+  console.log(req.body);
+  res.clearCookie;
   if ((!id, !size, !newStock))
     return next(new AppError(404, 'All fields are mandetory'));
 
-  const { sizes } = Product.findById(id);
-  if (!sizes) return next(new AppError(404, 'Cannot find product by ID.'));
-  const newSizes = sizes.map((ele) => ele[0] === size && (ele[1] = newStock));
+  const product = await Product.findById(id);
+  if (!product) return next(new AppError(404, 'Cannot find product by ID.'));
 
-  const updatedProduct = Product.findByIdAndUpdate(id, { sizes: newSizes });
+  const newSizes = product.sizes.map((ele) =>
+    ele[0] === size ? [ele[0], newStock] : ele
+  );
+  product.sizes = newSizes;
+  const updatedProduct = await product.save({
+    validateModifiedOnly: true,
+    validateBeforeSave: true,
+  });
+
+  // updatedProduct
   oneDocApiReponse(res, 200, { doc: updatedProduct });
-};
+});
 
 // Product Group:
 export const getProductsGroups = getMany(ProductGroup);

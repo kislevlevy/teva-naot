@@ -1,19 +1,16 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 import {
-  getReviews,
-  addReview,
-  editReview,
-  deleteReview,
-  filterByRating,
-  getAverageReview,
-} from "../controllers/reviewController";
+  getReviewsByProductGroupId,
+  createReview,
+  editReviewById,
+  deleteReviewById,
+} from '../controllers/reviewController';
 
 const router = Router();
 
-router.route("/getReviews").get(getReviews);
-router.route("/addReview").post(protect, addReview);
-router.route("/editReview").patch(protect, editReview);
-router.route("/deleteReview").delete(protect, deleteReview);
-router.route("/filterByRating").get(filterByRating);
-router.route("getAverageReview").get(getAverageReview);
+router.route('/').get(getReviewsByProductGroupId).post(protect, createReview);
+router
+  .route('/:id')
+  .patch(protect, editReviewById)
+  .delete(protect, deleteReviewById);

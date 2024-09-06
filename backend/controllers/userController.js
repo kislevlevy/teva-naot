@@ -1,13 +1,13 @@
-import asyncHandler from "express-async-handler";
+import asyncHandler from 'express-async-handler';
 
-import User from "../models/userModel.js";
-import AppError from "../utils/appError.js";
+import User from '../models/userModel.js';
+import AppError from '../utils/appError.js';
 import {
   editOneById,
   getMany,
   getOneById,
   oneDocApiReponse,
-} from "../utils/handlerFactory.js";
+} from '../utils/handlerFactory.js';
 
 export const getUsers = getMany(User);
 export const getUsertById = getOneById(User);
@@ -18,18 +18,17 @@ const getMe = asyncHandler(async (req, res, next) => {
   // in route - router.get('/me', protect, getMe);
   const user = await User.findById(req.user._id);
   if (!user) {
-    return next(new AppError(404, "User not found"));
+    return next(new AppError(404, 'User not found'));
   }
 
   oneDocApiReponse(res, 200, { doc: user });
 });
 
 const updateMe = asyncHandler(async (req, res, next) => {
-  const { fullName, profileImg, shippingAddress, favoriteCategories } =
-    req.body;
+  const { fullName, profileImg, shippingAddress, favoriteCategories } = req.body;
 
   if (req.body.password || req.body.passwordConfirm) {
-    return next(new AppError(400, "Password updates are not allowed here."));
+    return next(new AppError(400, 'Password updates are not allowed here.'));
   }
 
   // Prepare the update data
@@ -52,11 +51,11 @@ const updateMe = asyncHandler(async (req, res, next) => {
   oneDocApiReponse(res, 200, { doc: updatedProduct });
 
   if (!user) {
-    return next(new AppError(404, "User not found"));
+    return next(new AppError(404, 'User not found'));
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       user,
     },

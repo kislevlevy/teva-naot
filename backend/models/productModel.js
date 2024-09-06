@@ -8,27 +8,26 @@ const productSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (val) =>
-        validator.isAlphanumeric(val, ['he', 'en-US'], { ignore: '- ' }),
+        validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
       message: 'Name must only contain alphanumeric characters.',
     },
     required: [true, 'Name is required.'],
   },
   thumbnail: {
-    type: [
-      {
-        type: String,
-        enum: ['img', 'hex'],
-      },
-      String,
-    ],
+    type: [String],
     validate: {
-      validator: (arr) =>
-        arr[0] === 'hex'
-          ? validator.isHexColor(val[1])
-          : validator.isURL(val[1], {
+      validator: (arr) => {
+        if (arr.length !== 2 || !['hex', 'img'].includes(arr[0])) return false;
+        if (arr[0] === 'hex') return validator.isHexColor(arr[1]);
+        else if (arr[0] === 'img')
+          return (
+            validator.isURL(arr[1], {
               protocols: ['https'],
               require_protocol: true,
-            }) && val[1].startsWith('https://res.cloudinary.com'),
+            }) && arr[1].startsWith('https://res.cloudinary.com')
+          );
+        else return false;
+      },
       message: 'Lable contents is not a valid hex color or texture image.',
     },
   },
@@ -46,7 +45,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Color barcode is required.'],
     validate: {
-      validator: (val) => validator.isNumeric(val, { ignore: '-' }),
+      validator: (val) => validator.isAlphanumeric(val, 'en-US', { ignore: '-' }),
       message: 'Color barcode must be numeric.',
     },
   },
