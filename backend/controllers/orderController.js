@@ -11,7 +11,7 @@ import {
   oneDocApiReponse,
 } from '../utils/handlerFactory.js';
 
-export const createOrder = createOne(Order);
+//export const createOrder = createOne(Order);
 export const getOrders = getMany(Order);
 export const getOrderById = getOneById(Order);
 export const editOrderById = editOneById(Order);
@@ -37,52 +37,88 @@ export const changeOrderStatusById = expressAsyncHandler(async (req, res, next) 
   oneDocApiReponse(res, 200, { doc: updatedOrder });
 });
 
-export const validateAndUpdateStock = expressAsyncHandler(async (req, res, next) => {
-  const { products } = req.body;
-
-  for (const item of products) {
-    const product = await Product.findById(item.product);
-
-    if (!product) {
-      return next(
-        new AppError(404, `Product with ID ${item.product} does not exist`)
-      );
-    }
-
-    const productSizes = product.sizes;
-
-    for (const [size, quantity] of item.sizes) {
-      const productSize = productSizes.find(([prodSize]) => prodSize === size);
-
-      if (!productSize) {
-        return next(
-          new AppError(
-            400,
-            `Size ${size} is not available for product with ID ${item.product}`
-          )
-        );
-      }
-
-      const availableStock = productSize[1];
-      if (availableStock < quantity) {
-        return next(
-          new AppError(
-            400,
-            `Not enough stock for size ${size} of product with ID ${item.product}`
-          )
-        );
-      }
-    }
-
-    for (const [size, quantity] of item.sizes) {
-      const sizeIndex = productSizes.findIndex(([prodSize]) => prodSize === size);
-      if (sizeIndex !== -1) {
-        productSizes[sizeIndex][1] -= quantity;
-      }
-    }
-
-    await product.save();
+export const createOrder = async (req, res, next) => {
+  try {
+    const order = await Order.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        order,
+      },
+    });
+  } catch (err) {
+    next(err);
   }
+};
 
-  next();
-});
+export const validateAndUpdateStock = async (req, res, next) => {
+  try {
+    for (const item of req.body.products) {
+      const product = await Product.findById(item.product);
+
+      if (!product) {
+        return next(new AppError(404, `Product with ID ${item.product} not found`));
+      }
+
+      if (!(product.sizes instanceof Map)) {
+        product.sizes = new Map(Object.entries(product.sizes));
+      }
+
+      let sizesMap;
+      if (Array.isArray(item.sizes)) {
+        sizesMap = new Map(item.sizes);
+      } else if (item.sizes instanceof Map) {
+        sizesMap = item.sizes;
+      } else {
+        return next(new AppError(400, 'Invalid sizes format'));
+      }
+
+      for (const [size, quantity] of sizesMap) {
+        if (quantity <= 0) {
+          return next(
+            new AppError(400, `Quantity for size ${size} must be greater than 0`)
+          );
+        }
+
+        if (!product.sizes.has(size)) {
+          return next(
+            new AppError(404, `Size ${size} not found in Product ID ${item.product}`)
+          );
+        }
+
+        if (product.sizes.get(size) < quantity) {
+          return next(
+            new AppError(400, `Product does not have enough stock for size ${size}`)
+          );
+        }
+      }
+    }
+
+    for (const item of req.body.products) {
+      const product = await Product.findById(item.product);
+
+      if (!(product.sizes instanceof Map)) {
+        product.sizes = new Map(Object.entries(product.sizes));
+      }
+
+      let sizesMap;
+      if (Array.isArray(item.sizes)) {
+        sizesMap = new Map(item.sizes);
+      } else if (item.sizes instanceof Map) {
+        sizesMap = item.sizes;
+      }
+
+      for (const [size, quantity] of sizesMap) {
+        product.sizes.set(size, product.sizes.get(size) - quantity);
+      }
+
+      await product.save();
+    }
+
+    next();
+  } catch (err) {
+    return next(
+      new AppError(500, 'Server error while validating and updating stock')
+    );
+  }
+};

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import validator from 'validator';
 
 const orderSchema = new mongoose.Schema({
   user: {
@@ -14,17 +15,21 @@ const orderSchema = new mongoose.Schema({
         required: true,
       },
       sizes: {
-        type: [
-          {
-            type: [String, Number],
-            validate: {
-              validator: (arr) =>
-                typeof arr[0] === 'string' && typeof arr[1] === 'number',
-              message: 'Each size must be a string followed by a number.',
-            },
-          },
-        ],
+        type: Map,
+        of: {
+          type: Number,
+          min: 0,
+        },
         required: [true, 'Sizes are required.'],
+        validate: {
+          validator: function (map) {
+            return Array.from(map.entries()).every(
+              ([size, quantity]) => validator.isNumeric(size) && quantity >= 0
+            );
+          },
+          message:
+            'Sizes must be a map of numeric size values with non-negative quantities.',
+        },
       },
       price: {
         type: Number,
