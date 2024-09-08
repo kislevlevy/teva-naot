@@ -16,6 +16,7 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
+    "aos": "^2.3.4",
     "bootstrap": "^5.3.3",
     "flowbite-react": "^0.8.0",
     "jquery": "^3.7.1",

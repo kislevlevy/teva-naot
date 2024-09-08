@@ -8,7 +8,7 @@ const FooterContacts = () => {
   return (
         <>
             <Footer.Link href="#">
-                    <div className="flex justify-start">
+                    <div className="flex justify-start pb-3">
                         <BsFillPhoneFill size={"1.5rem"} className="mr-2" /> 073-2120151
                     </div>
                 </Footer.Link>

@@ -1,9 +1,12 @@
 import React from 'react';
 import ProductCardSimple from './ProductCardSimple';
 
-export default function ProductList() {
+export default function ProductList({listToRender}) {
+  console.log(listToRender);
+  
   return (
     <>
+      {listToRender}
       <div className="flex w-[100%] flex-wrap">
         {[1, 1, 1, 1].map((ele, i) => (
           <ProductCardSimple

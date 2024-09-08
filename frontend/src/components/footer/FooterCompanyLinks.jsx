@@ -3,7 +3,7 @@ import React from 'react'
 
 const FooterCompanyLinks = () => {
   return (
-    <Footer.LinkGroup col>
+    <Footer.LinkGroup col className='md:mr-5'>
                   <Footer.Link href="#">About Us</Footer.Link>
                   <Footer.Link href="#">Delivery Information</Footer.Link>
                   <Footer.Link href="#">Privacy Policy</Footer.Link>

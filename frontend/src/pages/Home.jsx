@@ -1,9 +1,11 @@
 import FooterMainComp from '../components/footer/FooterMainComp'
+import PopularProductsSection from '../components/productsShow/PopularProductsMain'
 
 const Home = () => {
   return (
    <>
-    <div className='h-screen'>Home
+    <div >Home
+      <PopularProductsSection/> 
     </div>
     {<FooterMainComp  />}
     </>

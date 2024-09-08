@@ -57,25 +57,25 @@ const FooterComp = () => {
           <FooterLogo/>
           <Accordion>
             <Accordion.Panel>
-              <Accordion.Title>Contact Us</Accordion.Title>
-              <Accordion.Content className="list-none">
+              <Accordion.Title className="py-4 px-5">Contact Us</Accordion.Title>
+              <Accordion.Content className="list-none py-4 px-5">
                 <FooterContacts/>
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title>Company</Accordion.Title>
-              <Accordion.Content>
+              <Accordion.Title className="py-4 px-5">Company</Accordion.Title>
+              <Accordion.Content className="py-4 px-5">
                 <FooterCompanyLinks/>
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title>Category</Accordion.Title>
-              <Accordion.Content>
+              <Accordion.Title className="py-4 px-5">Category</Accordion.Title>
+              <Accordion.Content className="py-4 px-5">
                 <FooterCategoryLinks/>
               </Accordion.Content>
             </Accordion.Panel>
           </Accordion>
-          <div className="flex justify-center items-center my-4">
+          <div className="flex justify-center items-center">
             <FooterSocialIcons className="flex align-middle justify-center"/>  
           </div>        </div>
         <Footer.Divider />

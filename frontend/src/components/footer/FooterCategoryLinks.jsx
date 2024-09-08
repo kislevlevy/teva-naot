@@ -3,7 +3,7 @@ import React from 'react'
 
 const FooterCategoryLinks = () => {
   return (
-    <Footer.LinkGroup col>
+    <Footer.LinkGroup col className='md:mr-5'>
     <Footer.Link href="#">Women</Footer.Link>
     <Footer.Link href="#">Men</Footer.Link>
     <Footer.Link href="#">Sale</Footer.Link>
