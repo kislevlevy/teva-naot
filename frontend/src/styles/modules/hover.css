@@ -1,6 +1,6 @@
 .img_producto_container {
-  min-width: 250px;
-  min-height: 250px;
+  min-width: 180px;
+  min-height: 180px;
 
   position: relative;
   overflow: hidden;

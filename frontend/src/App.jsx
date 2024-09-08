@@ -1,4 +1,5 @@
 import React, { lazy } from 'react';
+import { MantineProvider } from '@mantine/core';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -6,7 +7,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '@mantine/core/styles.css';
 
 const Root = lazy(() => import('./layout/Root'));
 const Error = lazy(() => import('./pages/Error'));
@@ -23,8 +24,8 @@ export default function App() {
     ),
   );
   return (
-    <>
+    <MantineProvider>
       <RouterProvider router={router} />
-    </>
+    </MantineProvider>
   );
 }

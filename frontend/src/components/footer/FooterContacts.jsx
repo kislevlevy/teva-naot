@@ -1,8 +1,7 @@
-import { Footer } from 'flowbite-react'
-import React from 'react'
-import { TfiEmail } from "react-icons/tfi";
-import { BsFillPhoneFill } from "react-icons/bs";
-
+import { Footer } from 'flowbite-react';
+import React from 'react';
+import { TfiEmail } from 'react-icons/tfi';
+import { BsFillPhoneFill } from 'react-icons/bs';
 
 const FooterContacts = () => {
   return (
@@ -21,4 +20,4 @@ const FooterContacts = () => {
     )
 }
 
-export default FooterContacts
+export default FooterContacts;

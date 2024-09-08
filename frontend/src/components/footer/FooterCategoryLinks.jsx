@@ -1,5 +1,5 @@
-import { Footer } from 'flowbite-react'
-import React from 'react'
+import { Footer } from 'flowbite-react';
+import React from 'react';
 
 const FooterCategoryLinks = () => {
   return (
@@ -16,4 +16,4 @@ const FooterCategoryLinks = () => {
   )
 }
 
-export default FooterCategoryLinks
+export default FooterCategoryLinks;
