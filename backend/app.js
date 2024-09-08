@@ -15,6 +15,7 @@ import orderRouter from './routes/orderRoutes.js';
 // import reviewRouter from "./routes/reviewRoutes";
 
 import AppError from './utils/appError.js';
+import errorController from './controllers/errorController.js';
 
 ////////////////////////////////////////////////
 // App init:
@@ -75,6 +76,8 @@ app.all('*', (req, res, next) => {
     )
   );
 });
+
+app.use(errorController);
 
 ////////////////////////////////////////////////
 // Export module:

@@ -13,22 +13,22 @@ const orderSchema = new mongoose.Schema({
         ref: 'Product',
         required: true,
       },
-      variantId: {
-        type: String,
-        required: [true, 'Variant ID is required'],
-      },
-      quantity: {
-        type: Number,
-        required: [true, 'Quantity is required'],
-        min: [1, 'Quantity must be at least 1'],
-        validate: {
-          validator: Number.isInteger,
-          message: 'Quantity must be an integer',
-        },
+      sizes: {
+        type: [
+          {
+            type: [String, Number],
+            validate: {
+              validator: (arr) =>
+                typeof arr[0] === 'string' && typeof arr[1] === 'number',
+              message: 'Each size must be a string followed by a number.',
+            },
+          },
+        ],
+        required: [true, 'Sizes are required.'],
       },
       price: {
         type: Number,
-        required: [true, 'Price is required'],
+        required: [true, 'Price is required.'],
         min: [0, 'Price must be a positive number'],
       },
     },
