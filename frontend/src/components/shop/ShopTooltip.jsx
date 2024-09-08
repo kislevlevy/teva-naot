@@ -6,7 +6,7 @@ import { mdiGrid, mdiFormatListText } from '@mdi/js';
 
 export default function ShopTooltip({ isDetailed, setIsDetailed }) {
   return (
-    <div className="flex justify-between items-center bg-[#f9fafb] p-2 m-2 ml-0 rounded-lg align-middle">
+    <div className="flex justify-between items-center bg-[#f9fafb] p-2 my-2 rounded-lg align-middle">
       <div className="flex items-center">
         <Button
           onClick={() => setIsDetailed(false)}

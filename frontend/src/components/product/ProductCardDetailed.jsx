@@ -24,7 +24,7 @@ export default function ProductCardDetailed() {
       <div className="flex justify-between">
         <div className="relative">
           <div
-            className="img_producto_container rounded-xl border-2 border-slate-200 w-1/3 h-full"
+            className="img_producto_container rounded-xl border-2 border-slate-200 h-full w-64"
             data-scale="1.6"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
