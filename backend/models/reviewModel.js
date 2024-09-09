@@ -1,22 +1,26 @@
 import mongoose from 'mongoose';
+import ProductGroup from './productGroupModel.js';
+import { updateProductGroupRating } from '../controllers/reviewController.js';
 
 const reviewSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.objectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'Review must belong to a user'],
     },
 
     productGroup: {
-      type: mongoose.Schema.objectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'ProductGroup',
       required: [true, 'Review must belong to a product group'],
     },
     review: {
       type: String,
       required: [true, 'Review cannot be empty'],
-      maxlengh: [400, 'Review cannot exceed 400 characters'],
+      trim: true,
+      minlength: [5, 'Review must be at least 10 characters long'],
+      maxlength: [400, 'Review cannot exceed 400 characters'],
     },
     rating: {
       type: Number,
@@ -29,8 +33,20 @@ const reviewSchema = new mongoose.Schema(
     },
   },
   {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v; // Exclude __v field
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v; // Exclude __v field
+      },
+    },
   }
 );
 
@@ -48,10 +64,17 @@ reviewSchema.virtual('timeSinceReview').get(function () {
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'fullName profileImg -__v',
-  }).populate({ path: 'productGroup', select: 'name category -__v' });
+    select: 'fullName profileImg',
+  }).populate({ path: 'productGroup', select: 'name category' });
   next();
 });
 
+reviewSchema.post('save', async function () {
+  await updateProductGroupRating(this.productGroup);
+});
+
+reviewSchema.post('remove', async function () {
+  await updateProductGroupRating(this.productGroup);
+});
 const Review = mongoose.model('Review', reviewSchema);
 export default Review;

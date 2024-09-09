@@ -2,6 +2,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 // Schema:
 const userSchema = new mongoose.Schema(
@@ -35,28 +36,38 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, 'Please provide a password'],
-      // // validate: {
-      // //   validator: (val) =>
-      // //     validator.isStrongPassword(val, {
-      // //       minLength: 8,
-      // //       minLowercase: 1,
-      // //       minUppercase: 1,
-      // //       minNumbers: 1,
-      // //       minSymbols: 1,
-      // //     }),
-      //   message: "Please provide a stronger password",
-      // },
+      validate: [
+        {
+          validator: function (val) {
+            return val.length >= 8;
+          },
+          message: 'Password must be at least 8 characters long',
+        },
+        {
+          validator: function (val) {
+            return validator.isStrongPassword(val, {
+              minLength: 8,
+              minLowercase: 1,
+              minUppercase: 1,
+              minNumbers: 1,
+              minSymbols: 1,
+            });
+          },
+          message:
+            'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol',
+        },
+      ],
       select: false,
     },
     passwordConfirm: {
       type: String,
       required: [true, 'Please confirm your password'],
-      // validate: {
-      //   validator: function (el) {
-      //     return el === this.password;
-      //   },
-      //   message: "Password are not the same!",
-      // },
+      validate: {
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: 'Password are not the same!',
+      },
     },
     role: {
       type: String,
@@ -113,24 +124,36 @@ const userSchema = new mongoose.Schema(
           },
         },
       },
-    },
-    favoriteCategories: [
-      {
-        category: {
-          type: String,
-          validate: {
-            validator: (val) =>
-              validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
-            message: 'Category must only contain characters',
+      favoriteCategories: [
+        {
+          category: {
+            type: String,
+            validate: {
+              validator: (val) =>
+                validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+              message: 'Category must only contain characters',
+            },
           },
+          clicks: Number,
         },
-        clicks: Number,
-      },
-    ],
+      ],
+    },
   },
   {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
   }
 );
 //used in the authController.forgotPassword, and save it in the passwordResetToken field of the relevent user

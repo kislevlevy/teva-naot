@@ -1,0 +1,17 @@
+{
+  "_id": "66ddf37e567027c5ec192435",
+  "user": {
+    "_id": "66dd72abe08872106eb11b3f",
+    "fullName": "John Doe",
+    "profileImg": "https://res.cloudinary.com/example/image/upload/v12345/profile.jpg"
+  },
+  "productGroup": {
+    "_id": "66dded1219a6e94fc1d9775d",
+    "name": "Shahar Men Sandals",
+    "category": ["Men", "Sandals"]
+  },
+  "review": "Amazing product! The quality is top-notch, and it’s very comfortable.",
+  "rating": 9,
+  "createdAt": "2024-09-08T18:34:05.241Z",
+  "timeSinceReview": "1 day ago"
+}

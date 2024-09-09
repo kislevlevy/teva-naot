@@ -7,12 +7,13 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 
 import userRouter from './routes/userRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
+import reviewRouter from './routes/reviewRoutes.js';
 // import statsRouter from "./routes/statsRoutes";
-// import reviewRouter from "./routes/reviewRoutes";
 
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
@@ -23,7 +24,8 @@ const app = express();
 
 // Static public folder:
 app.use(express.static('public'));
-
+// cookieParser
+app.use(cookieParser());
 ////////////////////////////////////////////////
 // Middlewares:
 app.use(helmet()); // HTTP secure setup:
@@ -63,7 +65,7 @@ app.use(
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/orders', orderRouter);
-// app.use("/api/v1/reviews", reviewRouter);
+app.use('/api/v1/reviews', reviewRouter);
 // app.use("/api/v1/stats", statsRouter);
 // app.use("/api/v1/stats", statsRouter);
 
@@ -71,8 +73,8 @@ app.use('/api/v1/orders', orderRouter);
 app.all('*', (req, res, next) => {
   next(
     new AppError(
-      `Cannot find desired request on this server. (${req.originalUrl})`,
-      404
+      404,
+      `Cannot find desired request on this server. (${req.originalUrl})`
     )
   );
 });
