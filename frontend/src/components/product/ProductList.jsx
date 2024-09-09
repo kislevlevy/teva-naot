@@ -1,16 +1,20 @@
-import React from 'react';
-import ProductCardSimple from './ProductCardSimple';
-import ProductCardDetailed from './ProductCardDetailed';
+import React, { useState } from 'react';
+import ProductCardSimple from './_ProductCardSimple';
+import ProductCardDetailed from './_ProductCardDetailed';
+import ProductModal from './ProductModal';
 
 export default function ProductList({ isDetailed }) {
+  const [productModalId, setProductModalId] = useState('');
+
   return (
     <>
-      <div className="flex flex-wrap w-full">
+      {productModalId && <ProductModal {...{ productModalId, setProductModalId }} />}
+      <div className="flex flex-wrap w-full justify-center md:justify-auto">
         {[1, 1, 1, 1].map((ele, i) =>
           isDetailed ? (
-            <ProductCardDetailed key={i} />
+            <ProductCardDetailed {...{ setProductModalId }} key={i} />
           ) : (
-            <ProductCardSimple key={i} />
+            <ProductCardSimple {...{ setProductModalId }} key={i} />
           ),
         )}
       </div>

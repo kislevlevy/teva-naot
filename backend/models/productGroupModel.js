@@ -81,8 +81,20 @@ const productGroupSchema = new mongoose.Schema(
     ],
   },
   {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
   }
 );
 
@@ -92,11 +104,11 @@ productGroupSchema.index({ ratingsAvg: -1, ratingsQuantity: -1 });
 
 // Virtual fields:
 // Reviews virtual field array:
-// productGroupSchema.virtual('reviews', {
-//   ref: 'Review',
-//   foreignField: 'product',
-//   localField: '_id',
-// });
+productGroupSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'productGroup',
+  localField: '_id',
+});
 
 // Middleware:
 // Add slug to product:
@@ -104,14 +116,14 @@ productGroupSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
-// Populate reviews:
-// productGroupSchema.pre(/^findOne/, function (next) {
-//   this.populate({
-//     path: 'reviews',
-//     select: '-__v',
-//   });
-//   next();
-// });
+
+productGroupSchema.pre(/^findOne/, function (next) {
+  this.populate({
+    path: 'reviews',
+    select: '-__v',
+  });
+  next();
+});
 
 // Export schema:
 const ProductGroup = mongoose.model('ProductGroup', productGroupSchema);

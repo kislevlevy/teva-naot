@@ -7,6 +7,7 @@ import {
   changePassword,
   logout,
   signup,
+  restrictByRole,
 } from '../controllers/authController.js';
 
 import { getMe } from '../controllers/userController.js';
@@ -20,7 +21,7 @@ router.route('/resetPassword/:resetToken').patch(resetPassword);
 
 router.use(protect);
 router.route('/forgotPassword').post(forgotPassword);
-router.route('/changePassword').patch(changePassword);
+router.route('/changePassword').patch(restrictByRole('csManager'), changePassword);
 
 router.route('/getMe').get(getMe);
 

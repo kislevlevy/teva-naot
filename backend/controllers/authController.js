@@ -35,11 +35,13 @@ export const login = asyncHandler(async (req, res, next) => {
   });
   res.status(200).json({
     status: 'success',
-    newUser: {
-      email: user.email,
+    data: {
+      newUser: {
+        email: user.email,
+      },
+      token,
     },
-    cookie: token,
-    message: 'successfully logged in :)',
+    message: 'Successfully logged in :)',
   });
 });
 
@@ -133,9 +135,10 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({
     validateBeforeSave: false,
   });
-
+  console.log(resetToken);
   //handling the email message and link(a reset password form) to the user
   const resetURL = `http://127.0.0.1:5500/api/users/resetPassword/${resetToken}`;
+  console.log(resetURL);
 
   const mailOptions = {
     from: 'Teva Naot <dontreplay@teva-naot.com>',
@@ -154,20 +157,21 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(new AppError(500), 'There was a problem sending email');
+    return next(new AppError(500, 'There was a problem sending email'));
   }
 });
 
 //front parameters: newPassword, confirmNewPassword
 export const resetPassword = asyncHandler(async (req, res, next) => {
-  const { newPassword, confirmNewPassword } = req.body;
+  const { resetToken, newPassword, confirmNewPassword } = req.body;
+  console.log(req.params.resetToken); // Add this line to log the token
   if (newPassword !== confirmNewPassword) {
     return next(new AppError(404), 'Passwords do not match');
   }
   //extract the token from the URL and hash it, in order to compare it against reset tokens in the DB which are saved in their hashed version
   const hashedToken = crypto
     .createHash('sha256')
-    .update(req.params.token)
+    .update(req.params.resetToken)
     .digest('hex');
   //find the user by the token and the expiration, then assigned the new password
   const user = await User.findOne({
@@ -175,7 +179,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
     passwordResetTokenExpires: { $gt: Date.now() },
     isActive: true,
   });
-  if (!user) return next(new AppError(404), 'Token is invalid or has expired');
+  if (!user) return next(new AppError(404, 'Token is invalid or has expired'));
 
   user.password = newPassword;
   user.passwordConfirm = confirmNewPassword;
@@ -193,6 +197,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 export const protect = asyncHandler(async (req, res, next) => {
+  console.log('Cookies:', req.cookies);
   if (!req.cookies || !req.cookies.jwt)
     return next(new AppError(403, 'Please Login'));
   const token = req.cookies.jwt;
@@ -222,17 +227,16 @@ export const protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export const restrictByRole = asyncHandler(async (...roles) => {
-  (req, res, next) => {
+export const restrictByRole = (...roles) => {
+  return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
-        new AppError(403),
-        'You do not have permission to perform this action'
+        new AppError(403, 'You do not have permission to perform this action')
       );
     }
     next();
   };
-});
+};
 
 // front parameters: currentPassword, newPassword, confirmNewPassword
 export const changePassword = asyncHandler(async (req, res, next) => {
@@ -241,9 +245,9 @@ export const changePassword = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 
   if (!(await user.checkPassword(currentPassword, user.password)))
-    return next(new AppError(401), 'Your current password is incorrect');
+    return next(new AppError(401, 'Your current password is incorrect'));
   if (newPassword !== confirmNewPassword)
-    return next(new AppError(400), 'Passwords do not match');
+    return next(new AppError(400, 'Passwords do not match'));
 
   user.password = newPassword;
   user.passwordConfirm = confirmNewPassword;
@@ -258,10 +262,7 @@ export const changePassword = asyncHandler(async (req, res, next) => {
     httpOnly: true,
     secure: true,
     sameSite: 'None',
-    expires: new Date(
-      Date.now() + process.env,
-      JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000),
   });
 
   res.status(200).json({

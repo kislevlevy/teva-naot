@@ -23,6 +23,7 @@ export default function App() {
       </Route>,
     ),
   );
+
   return (
     <MantineProvider>
       <RouterProvider router={router} />
