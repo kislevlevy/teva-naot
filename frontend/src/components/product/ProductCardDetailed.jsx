@@ -6,7 +6,7 @@ import {
   mdiStarOutline,
 } from '@mdi/js';
 import Icon from '@mdi/react';
-import { Button, Card } from 'flowbite-react';
+import { Card } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import hoverFunc from '../../utils/hover';
 

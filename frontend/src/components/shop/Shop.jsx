@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid2';
 import ShopFilter from './ShopFilter';
 import ProductList from '../product/ProductList';
 import ShopTooltip from './ShopTooltip';
-import { Label, Pagination } from 'flowbite-react';
+import { Pagination } from 'flowbite-react';
 
 export default function Shop() {
   const [isDetailed, setIsDetailed] = useState(false);

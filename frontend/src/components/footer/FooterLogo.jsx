@@ -1,7 +1,7 @@
 import { Footer } from 'flowbite-react';
 import React from 'react';
 
-const FooterLogo = () => {
+export default function FooterLogo() {
   return (
     <Footer.Brand
       href="#"
@@ -11,6 +11,4 @@ const FooterLogo = () => {
       className="flex-col p-7 justify-center align-middle mb-0"
     />
   );
-};
-
-export default FooterLogo;
+}

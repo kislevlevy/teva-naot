@@ -6,7 +6,7 @@ import FooterSocialIcons from './FooterSocialIcons';
 import FooterContacts from './FooterContacts';
 import FooterSearch from './FooterSearch';
 
-const FooterComp = () => {
+export default function FooterComp() {
   return (
     <Footer container>
       <div className="w-full">
@@ -62,25 +62,26 @@ const FooterComp = () => {
             <Accordion.Panel>
               <Accordion.Title className="py-4 px-5">Contact Us</Accordion.Title>
               <Accordion.Content className="list-none py-4 px-5">
-                <FooterContacts/>
+                <FooterContacts />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title className="py-4 px-5">Company</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
-                <FooterCompanyLinks/>
+                <FooterCompanyLinks />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
               <Accordion.Title className="py-4 px-5">Category</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
-                <FooterCategoryLinks/>
+                <FooterCategoryLinks />
               </Accordion.Content>
             </Accordion.Panel>
           </Accordion>
           <div className="flex justify-center items-center">
-            <FooterSocialIcons className="flex align-middle justify-center"/>  
-          </div>        </div>
+            <FooterSocialIcons className="flex align-middle justify-center" />
+          </div>{' '}
+        </div>
         <Footer.Divider />
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright href="#" by="KYSOD R&D LTD" year={2024} />
@@ -88,6 +89,4 @@ const FooterComp = () => {
       </div>
     </Footer>
   );
-};
-
-export default FooterComp;
+}

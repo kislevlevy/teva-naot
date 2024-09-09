@@ -1,21 +1,19 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from 'react';
 import AOS from 'aos'; // To use AOS for animation
 import 'aos/dist/aos.css'; // Import AOS CSS
-import PopularProductsItemContainer from "./PopularProductsItemContainer";
-import PopularProductsSidebar from "./PopularProductsSidebar";
-import PopularProductsButtonsGroup from "./PopularProductsButtonGroup";
-
-
+import PopularProductsItemContainer from './PopularProductsItemContainer';
+import PopularProductsSidebar from './PopularProductsSidebar';
+import PopularProductsButtonsGroup from './PopularProductsButtonGroup';
 
 export default function PopularProducts() {
-
   useEffect(() => {
     AOS.init();
-  }, []);  const [selectedCategory, setSelectedCategory] = useState("")
+  }, []);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   return (
     <section className="relative pb-24 md:pb-16">
-      <div 
+      <div
         className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
         data-aos="fade-up"
         data-aos-duration="2000"
@@ -33,8 +31,8 @@ export default function PopularProducts() {
             <PopularProductsButtonsGroup setSelectedCategory={setSelectedCategory} />
           </div>
 
-          <div className="flex justify-between align-top">   
-              <PopularProductsSidebar setSelectedCategory={setSelectedCategory} />
+          <div className="flex justify-between align-top">
+            <PopularProductsSidebar setSelectedCategory={setSelectedCategory} />
             <PopularProductsItemContainer selectedCategory={selectedCategory} />
           </div>
         </div>
