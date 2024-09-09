@@ -11,8 +11,9 @@ import React, { useEffect, useState } from 'react';
 import hoverFunc from '../../utils/hover';
 
 import '../../styles/modules/hover.css';
+import StarComponent from './subComponents/_StarComponent';
 
-export default function ProductCardDetailed() {
+export default function ProductCardDetailed({ setProductModalId }) {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
@@ -58,26 +59,21 @@ export default function ProductCardDetailed() {
                 size={1.5}
                 color="green"
               />
-              <Icon
-                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-                path={mdiEyeOutline}
-                size={1.5}
-                color="green"
-              />
+              <div onClick={() => setProductModalId(123)}>
+                <Icon
+                  className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
+                  path={mdiEyeOutline}
+                  size={1.5}
+                  color="green"
+                />
+              </div>
             </div>
           )}
         </div>
         <div className="p-2 rtl flex flex-col ml-5">
           <div className="flex items-center">
             <p className="text-xs font-medium   text-gray-400">כפכפים לנשים</p>
-            <div className="m-2 mr-5 flex items-center">
-              <Icon color="#E98F65" path={mdiStar} size={0.75} />
-              <Icon color="#E98F65" path={mdiStar} size={0.75} />
-              <Icon color="#E98F65" path={mdiStar} size={0.75} />
-              <Icon color="#E98F65" path={mdiStar} size={0.75} />
-              <Icon color="#E98F65" path={mdiStarOutline} size={0.75} />
-              <span className="ml-1 text-xs font-medium text-gray-400">( 7 )</span>
-            </div>
+            <StarComponent rating={5} reveiws={50} />
           </div>
 
           <h3 className="text-right text-xl font-medium">שחר נשים</h3>

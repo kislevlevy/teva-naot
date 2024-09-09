@@ -11,13 +11,15 @@ import {
 } from '@mdi/js';
 import hoverFunc from '../../utils/hover';
 import '../../styles/modules/hover.css';
+import StarComponent from './subComponents/_StarComponent';
 
-export default function ProductCardSimple() {
+export default function ProductCardSimple({ setProductModalId }) {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
     hoverFunc();
   }, []);
+
   return (
     <Card className="m-1 max-w-xs">
       <div className="relative">
@@ -52,12 +54,14 @@ export default function ProductCardSimple() {
               size={1.5}
               color="green"
             />
-            <Icon
-              className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-              path={mdiEyeOutline}
-              size={1.5}
-              color="green"
-            />
+            <div onClick={() => setProductModalId('123')}>
+              <Icon
+                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
+                path={mdiEyeOutline}
+                size={1.5}
+                color="green"
+              />
+            </div>
           </div>
         )}
       </div>
@@ -66,14 +70,7 @@ export default function ProductCardSimple() {
           כפכפים לנשים
         </p>
 
-        <div className="m-2 flex items-center justify-center">
-          <Icon color="#E98F65" path={mdiStar} size={0.75} />
-          <Icon color="#E98F65" path={mdiStar} size={0.75} />
-          <Icon color="#E98F65" path={mdiStar} size={0.75} />
-          <Icon color="#E98F65" path={mdiStar} size={0.75} />
-          <Icon color="#E98F65" path={mdiStarOutline} size={0.75} />
-          <span className="ml-1 text-xs font-medium text-gray-400">( 7 )</span>
-        </div>
+        <StarComponent rating={5} reveiws={50} />
 
         <h3 className="text-center text-lg font-medium">שחר נשים</h3>
 
