@@ -31,16 +31,19 @@ const productSchema = new mongoose.Schema({
       message: 'Lable contents is not a valid hex color or texture image.',
     },
   },
-  image: {
-    type: String,
-    required: [true, 'Image is required.'],
-    validate: {
-      validator: (val) =>
-        validator.isURL(val, { protocols: ['https'], require_protocol: true }) &&
-        val.startsWith('https://res.cloudinary.com'),
-      message: 'The provided image URL is not a valid Cloudinary image url.',
+  images: [
+    {
+      type: String,
+      validate: {
+        validator: (val) =>
+          validator.isURL(val, {
+            protocols: ['https'],
+            require_protocol: true,
+          }) && val.startsWith('https://res.cloudinary.com'),
+        message: 'The provided image URL is not a valid Cloudinary image url.',
+      },
     },
-  },
+  ],
   colorBarcode: {
     type: String,
     required: [true, 'Color barcode is required.'],

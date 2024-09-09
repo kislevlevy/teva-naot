@@ -6,8 +6,9 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
-import path from 'path';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
 import userRouter from './routes/userRoutes.js';
 import productRouter from './routes/productRoutes.js';
@@ -20,15 +21,11 @@ import errorController from './controllers/errorController.js';
 
 ////////////////////////////////////////////////
 // App init:
+dotenv.config();
 const app = express();
 
 // Cors config:
-const corsWhiteList = [
-  'http://localhost:5173',
-  'http://localhost:5173/',
-  process.env.FRONT_END,
-  process.env.FRONT_END + '/',
-];
+const corsWhiteList = [process.env.FRONT_END, process.env.FRONT_END + '/'];
 const corsConfig = {
   origin: (origin, callback) => {
     if (!origin || corsWhiteList.includes(origin)) callback(null, true);
@@ -37,6 +34,8 @@ const corsConfig = {
   credentials: true,
   optionsSuccessStatus: 200,
 };
+// Dev logging:
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Static public folder:
 app.use(express.static('public'));
@@ -46,9 +45,6 @@ app.use(cors(corsConfig));
 // Middlewares:
 app.use(cookieParser()); // cookieParser
 app.use(helmet()); // HTTP secure setup:
-
-// Dev logging:
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Limit api req from one client:
 const limiter = rateLimit({
