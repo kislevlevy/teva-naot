@@ -1,10 +1,6 @@
 // Module Imports:
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-//////////////////////////////////////////////////////
-// Environment config
-dotenv.config();
 import app from './app.js';
 
 //////////////////////////////////////////////////////

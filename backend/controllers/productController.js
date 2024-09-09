@@ -10,6 +10,7 @@ import {
   getMany,
   getOneById,
   oneDocApiReponse,
+  validIdCheck,
 } from '../utils/handlerFactory.js';
 import AppError from '../utils/appError.js';
 
@@ -24,21 +25,24 @@ export const deleteProductById = deleteOneById(Product);
 
 export const editProductStockById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { size, newStock } = req.body;
-  console.log(req.body);
-  res.clearCookie;
-  if ((!id, !size, !newStock))
-    return next(new AppError(404, 'All fields are mandetory'));
+  const { sizes } = req.body;
 
+  if ((!id, !sizes))
+    return next(
+      new AppError(404, 'Request must include product ID, and sizes object.')
+    );
+
+  // Chack for valid ID:
+  const { outputId, errorId } = validIdCheck(id);
+  if (!outputId) return next(errorId);
+
+  // Find product by ID:
   const product = await Product.findById(id);
   if (!product) return next(new AppError(404, 'Cannot find product by ID.'));
 
-  const newSizes = product.sizes.map((ele) =>
-    ele[0] === size ? [ele[0], newStock] : ele
-  );
-  product.sizes = newSizes;
+  Object.entries(sizes).map(([size, stock]) => product.sizes.set(size, stock));
+
   const updatedProduct = await product.save({
-    validateModifiedOnly: true,
     validateBeforeSave: true,
   });
 

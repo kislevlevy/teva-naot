@@ -44,19 +44,7 @@ const productGroupSchema = new mongoose.Schema(
       ],
       required: [true, 'Product category is required.'],
     },
-    images: [
-      {
-        type: String,
-        validate: {
-          validator: (val) =>
-            validator.isURL(val, {
-              protocols: ['https'],
-              require_protocol: true,
-            }) && val.startsWith('https://res.cloudinary.com'),
-          message: 'The provided image URL is not a valid Cloudinary image url.',
-        },
-      },
-    ],
+
     ratingsAvg: {
       type: Number,
       default: 0,
