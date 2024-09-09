@@ -22,12 +22,29 @@ import errorController from './controllers/errorController.js';
 // App init:
 const app = express();
 
+// Cors config:
+const corsWhiteList = [
+  'http://localhost:5173',
+  'http://localhost:5173/',
+  process.env.FRONT_END,
+  process.env.FRONT_END + '/',
+];
+const corsConfig = {
+  origin: (origin, callback) => {
+    if (!origin || corsWhiteList.includes(origin)) callback(null, true);
+    else callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
 // Static public folder:
 app.use(express.static('public'));
-// cookieParser
-app.use(cookieParser());
+app.use(cors(corsConfig));
+
 ////////////////////////////////////////////////
 // Middlewares:
+app.use(cookieParser()); // cookieParser
 app.use(helmet()); // HTTP secure setup:
 
 // Dev logging:
