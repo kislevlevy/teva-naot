@@ -10,12 +10,15 @@ import {
 import { MantineProvider } from '@mantine/core';
 import './App.css';
 import '@mantine/core/styles.css';
+import { Provider } from 'react-redux';
+import store from './slices/store';
+import Shop from './components/shop/Shop';
 
 // Lazy imports:
 const Root = lazy(() => import('./layout/Root'));
 const Error = lazy(() => import('./pages/Error'));
 const Home = lazy(() => import('./pages/Home'));
-const Product = lazy(() => import('./pages/ProductPage'));
+const Product = lazy(() => import('./pages/Product'));
 
 // Component:
 export default function App() {
@@ -24,13 +27,16 @@ export default function App() {
       <Route path="/" element={<Root />} errorElement={<Error />}>
         <Route index element={<Home />} />
         <Route path="product/:slug" element={<Product />} />
+        <Route path="product" element={<Shop />} />
       </Route>,
     ),
   );
 
   return (
     <MantineProvider>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </MantineProvider>
   );
 }

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
-import { mdiEyeOutline, mdiHeartOutline, mdiShoppingOutline } from '@mdi/js';
+import { mdiEyeOutline, mdiHeartOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
 
 import hoverFunc from '../../utils/hover';
@@ -10,7 +10,7 @@ import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
 
 // Component:
-export default function ProductCardDetailed({ setProductModalId }) {
+export default function ProductCardDetailed({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
@@ -31,8 +31,7 @@ export default function ProductCardDetailed({ setProductModalId }) {
               className="dslc-lightbox-image img_producto"
               target="_self"
               style={{
-                backgroundImage:
-                  'url(https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-382-01_1_11.jpg)',
+                backgroundImage: `url(${product.image})`,
               }}
             ></a>
           </div>
@@ -47,7 +46,7 @@ export default function ProductCardDetailed({ setProductModalId }) {
                 />
               </div>
             )}
-            <div onClick={() => setProductModalId(123)}>
+            <div onClick={() => setProductModalId(product._id)}>
               <Icon
                 className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
                 path={mdiEyeOutline}
@@ -59,23 +58,23 @@ export default function ProductCardDetailed({ setProductModalId }) {
         </div>
         <div className="p-2 rtl flex flex-col ml-5">
           <div className="flex items-center">
-            <p className="text-xs font-medium   text-gray-400">כפכפים לנשים</p>
-            <StarComponent rating={5} reveiws={50} />
+            <p className="text-xs font-medium   text-gray-400">
+              {product.category[product.category.length - 1]}
+            </p>
+            <StarComponent
+              rating={product.ratingsAvg}
+              reveiws={product.ratingsQuantity}
+            />
           </div>
 
-          <h3 className="text-right text-xl font-medium">שחר נשים</h3>
+          <h3 className="text-right text-xl font-medium">{product.name}</h3>
 
-          <p className="text-sm mt-1">
-            דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של כף
-            הרגל. עשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של טבע
-            נאות המקנה תחושת גמישות ורכות מלטפת בכל צעד, בולמת זעזועים ותומכת בכל
-            חלקי כף הרגל מהבוהן ועד העקב, וסוליית EVA עשויה גומי מוקצף לבלימת זעזועים
-            ולמניעת החלקה. מיוצר בישראל בעבודת יד.
-          </p>
+          <p className="text-sm mt-1">{product.description}</p>
 
           <div className="self-end mt-10">
-            <span className="mr-1 font-bold text-emerald-500">429.00₪</span>
-            <span className="ml-1 text-xs text-gray-500 line-through">449.00₪</span>
+            <span className="mr-1 font-bold text-lg text-emerald-500">
+              {product.lastProductPrice}₪
+            </span>
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ export default function ShopFilter() {
 
   const setValueInCategory = ({ target: { name } }) =>
     setCategories((prev) =>
-      prev.includes(name) ? prev.filter((ele) => ele !== name) : [...prev, name],
+      prev.includes(name) ? prev.filter((ele) => ele !== name) : [...prev, name]
     );
 
   return (
