@@ -4,14 +4,17 @@ export const apiProducts = createApi({
   reducerPath: 'apiProducts',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
   tagTypes: ['Products'],
+
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => '/products',
       providesTags: ['Products'],
     }),
+
     getProduct: builder.query({
       query: (productId) => `/products/${productId}`,
     }),
+
     addNewProduct: builder.mutation({
       query: (newProduct) => ({
         url: '/products',
@@ -20,6 +23,7 @@ export const apiProducts = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
+
     editProduct: builder.mutation({
       query: (product) => ({
         url: `/products/${product.id}`,
@@ -27,6 +31,7 @@ export const apiProducts = createApi({
         body: product,
       }),
     }),
+
     editProductStock: builder.mutation({
       query: (product) => ({
         url: `/products/${product.id}/stock`,
@@ -34,6 +39,7 @@ export const apiProducts = createApi({
         body: product,
       }),
     }),
+
     deleteProduct: builder.mutation({
       query: (id) => ({
         method: 'DELETE',

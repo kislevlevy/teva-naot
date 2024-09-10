@@ -4,14 +4,17 @@ export const apiReviews = createApi({
   reducerPath: 'apiReviws',
   baseQuery: fetchBaseQuery({ baseUrl: '/localhost:3000/api/v1' }),
   tagTypes: ['Reviews'],
+
   endpoints: (builder) => ({
     getReviews: builder.query({
       query: () => '/Reviews',
       providesTags: ['Reviews'],
     }),
+
     getReviewsByGroup: builder.query({
       query: (groupId) => `/Reviews/${groupId}`,
     }),
+
     addNewReview: builder.mutation({
       query: (newReview) => ({
         url: '/Reviews',
@@ -20,6 +23,7 @@ export const apiReviews = createApi({
       }),
       invalidatesTags: ['Reviews'],
     }),
+
     editReviewsById: builder.mutation({
       query: (Review) => ({
         url: `/Reviews/${Review.id}`,
@@ -27,6 +31,7 @@ export const apiReviews = createApi({
         body: Review,
       }),
     }),
+
     deleteReview: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
@@ -37,9 +42,9 @@ export const apiReviews = createApi({
 });
 
 export const {
-useGetReviewsQuery,
-useGetReviewsByGroupQuery,
-useAddNewReviewMutation,
-useEditReviewsByIdMutation,
-useDeleteReviewMutation,
+  useGetReviewsQuery,
+  useGetReviewsByGroupQuery,
+  useAddNewReviewMutation,
+  useEditReviewsByIdMutation,
+  useDeleteReviewMutation,
 } = apiReviews;

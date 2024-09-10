@@ -4,14 +4,17 @@ export const apiOrders = createApi({
   reducerPath: 'apiOrders',
   baseQuery: fetchBaseQuery({ baseUrl: '/localhost:3000/api/v1' }),
   tagTypes: ['orders'],
+
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: () => '/orders',
       providesTags: ['orders'],
     }),
+
     getOrder: builder.query({
       query: (orderId) => `/Orders/${orderId}`,
     }),
+
     addNewOrder: builder.mutation({
       query: (newOrder) => ({
         url: '/orders',
@@ -20,6 +23,7 @@ export const apiOrders = createApi({
       }),
       invalidatesTags: ['orders'],
     }),
+
     editOrder: builder.mutation({
       query: (order) => ({
         url: `/orders/${order.id}`,
@@ -27,6 +31,7 @@ export const apiOrders = createApi({
         body: order,
       }),
     }),
+
     changeOrderStatus: builder.mutation({
       query: (order) => ({
         url: `/orders/${order.id}`,
@@ -38,9 +43,9 @@ export const apiOrders = createApi({
 });
 
 export const {
-useGetOrdersQuery,
-useGetOrderQuery,
-useAddNewOrderMutation,
-useEditOrderMutation,
-useChangeOrderStatusMutation
-} = apiOrders ;
+  useGetOrdersQuery,
+  useGetOrderQuery,
+  useAddNewOrderMutation,
+  useEditOrderMutation,
+  useChangeOrderStatusMutation,
+} = apiOrders;

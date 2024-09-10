@@ -7,12 +7,15 @@ export const apiUsers = createApi({
     getUsers: builder.query({
       query: () => '/Users',
     }),
+
     getUserById: builder.query({
       query: (userId) => `/users/${userId}`,
     }),
+
     logoutUserById: builder.query({
       query: (userId) => `/users/logout/${userId}`,
     }),
+
     loginUser: builder.mutation({
       query: (user) => ({
         url: '/users/login',
@@ -20,6 +23,7 @@ export const apiUsers = createApi({
         body: user,
       }),
     }),
+
     signupUser: builder.mutation({
       query: (user) => ({
         url: '/users/signup',
@@ -27,6 +31,7 @@ export const apiUsers = createApi({
         body: user,
       }),
     }),
+
     forgotPassword: builder.mutation({
       query: (user) => ({
         url: '/users/forgotpassword',
@@ -34,6 +39,7 @@ export const apiUsers = createApi({
         body: user,
       }),
     }),
+
     resetPassword: builder.mutation({
       query: (user) => ({
         url: `/users/resetPassword/${user.resettoken}`,
@@ -41,6 +47,7 @@ export const apiUsers = createApi({
         body: user,
       }),
     }),
+
     changePassword: builder.mutation({
       query: (user) => ({
         url: '/users/changePassword',
@@ -52,13 +59,12 @@ export const apiUsers = createApi({
 });
 
 export const {
-useGetUsersQuery,    
-useGetUserByIdQuery,
-useLogoutUserByIdQuery,
-useLoginUserMutation,
-useSignupUserMutation,
-useForgotPasswordMutation,
-useResetPasswordMutation,
-useChangePasswordMutation
-
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useLogoutUserByIdQuery,
+  useLoginUserMutation,
+  useSignupUserMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation,
 } = apiUsers;

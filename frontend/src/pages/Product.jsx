@@ -12,7 +12,7 @@ import Icon from '@mdi/react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import BreadcrumbsLink from '@mui/material/Link';
 import BreadcrumbsTypography from '@mui/material/Typography';
-import { Grid, Skeleton, Container } from '@mantine/core';
+import { Grid, Container } from '@mantine/core';
 
 import StarComponent from '../components/product/subComponents/_StarComponent';
 import ProductGallery from '../components/product/subComponents/_ProductGallery';
@@ -167,7 +167,11 @@ export default function ProductPage() {
                     setActiveImg(products[i].images[0]);
                   }}
                   key={`thumbnail-${i}`}
-                  className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${currentProduct._id === ele._id ? 'border-gray-600' : 'border-gray-300'}`}
+                  className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${
+                    currentProduct._id === ele._id
+                      ? 'border-gray-600'
+                      : 'border-gray-300'
+                  }`}
                   style={
                     ele.thumbnail[0] === 'hex'
                       ? { backgroundColor: ele.thumbnail[1] }
@@ -181,7 +185,9 @@ export default function ProductPage() {
               {Object.keys(currentProduct.sizes).map((key, i) => (
                 <div
                   key={`size-${i}`}
-                  className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}`}
+                  className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${
+                    currentSize === key ? 'border-gray-600' : 'border-gray-300'
+                  }`}
                   onClick={() => setCurrentSize(key)}
                 >
                   {key}
