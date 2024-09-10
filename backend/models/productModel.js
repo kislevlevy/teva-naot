@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     validate: {
       validator: (val) =>
         validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-      message: 'Name must only contain alphanumeric characters.',
+      message: '{VALUE}- Name must only contain alphanumeric characters.',
     },
     required: [true, 'Name is required.'],
   },
@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
           );
         else return false;
       },
-      message: 'Lable contents is not a valid hex color or texture image.',
+      message: '{VALUE}- Lable contents is not a valid hex color or texture image.',
     },
   },
   images: [
@@ -40,7 +40,8 @@ const productSchema = new mongoose.Schema({
             protocols: ['https'],
             require_protocol: true,
           }) && val.startsWith('https://res.cloudinary.com'),
-        message: 'The provided image URL is not a valid Cloudinary image url.',
+        message:
+          '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
       },
     },
   ],
@@ -49,7 +50,7 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Color barcode is required.'],
     validate: {
       validator: (val) => validator.isAlphanumeric(val, 'en-US', { ignore: '-' }),
-      message: 'Color barcode must be numeric.',
+      message: '{VALUE}- Color barcode must be numeric.',
     },
   },
   sizes: {
@@ -66,7 +67,7 @@ const productSchema = new mongoose.Schema({
         );
       },
       message:
-        'Sizes must be a map of numeric size values with non-negative quantities.',
+        '{VALUE}- Sizes must be a map of numeric size values with non-negative quantities.',
     },
     select: false,
   },
@@ -89,7 +90,7 @@ const productSchema = new mongoose.Schema({
         );
       },
       message:
-        'Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
+        '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
     },
   },
   price: {

@@ -11,23 +11,27 @@ const productGroupSchema = new mongoose.Schema(
       required: [true, 'Product name is required.'],
       unique: true,
       trim: true,
-      maxLength: [40, 'Product name must not exceed 40 characters.'],
+      maxLength: [40, '{VALUE}- Product name must not exceed 40 characters.'],
       validate: {
         validator: (val) =>
           validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-        message: 'Product name must only contain letters.',
+        message: '{VALUE}- Product name must only contain letters.',
       },
     },
     slug: String,
     description: {
       type: String,
       trim: true,
-      maxLength: [400, 'Product description must not exceed 400 characters.'],
+      maxLength: [
+        400,
+        '{VALUE}- Product description must not exceed 400 characters.',
+      ],
       required: [true, 'Product description is required.'],
       validate: {
         validator: (val) =>
           validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-        message: 'Product description must only contain alphanumeric characters.',
+        message:
+          '{VALUE}- Product description must only contain alphanumeric characters.',
       },
     },
     category: {
@@ -36,9 +40,9 @@ const productGroupSchema = new mongoose.Schema(
           type: String,
           validate: {
             validator: (val) =>
-              validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+              validator.isAlpha(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
             message:
-              'Each category must must not exceed 20 characters and contain only letters. ',
+              '{VALUE}- Each category must must not exceed 20 characters and contain only letters.',
           },
         },
       ],
@@ -58,7 +62,7 @@ const productGroupSchema = new mongoose.Schema(
       required: [true, 'Product barcode is required.'],
       validate: {
         validator: (val) => validator.isNumeric(val, { ignore: '-' }),
-        message: 'Base barcode must be numeric.',
+        message: '{VALUE}- Base barcode must be numeric.',
       },
     },
     products: [
