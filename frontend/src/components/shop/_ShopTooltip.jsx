@@ -1,10 +1,12 @@
+// Imports:
 import React from 'react';
-import Icon from '@mdi/react';
 
 import { Button, Select } from '@mantine/core';
+import Icon from '@mdi/react';
 import { mdiGrid, mdiFormatListText } from '@mdi/js';
 
-export default function ShopTooltip({ isDetailed, setIsDetailed }) {
+// Component:
+export default function ShopTooltip({ isDetailed, setIsDetailed, results }) {
   return (
     <div className="flex justify-between items-center bg-[#f9fafb] p-2 my-2 rounded-lg align-middle">
       <div className="flex items-center">
@@ -27,7 +29,11 @@ export default function ShopTooltip({ isDetailed, setIsDetailed }) {
           />
         </Button>
 
-        <h4 className="rtl">נמצאו 29 תוצאות עבורך!</h4>
+        {results === 1 ? (
+          <h4 className="rtl">נמצאה תוצאה אחת!</h4>
+        ) : (
+          <h4 className="rtl">נמצאו {results} תוצאות עבורך!</h4>
+        )}
       </div>
       <div>
         <Select

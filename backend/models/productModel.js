@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     validate: {
       validator: (val) =>
         validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-      message: 'Name must only contain alphanumeric characters.',
+      message: '{VALUE}- Name must only contain alphanumeric characters.',
     },
     required: [true, 'Name is required.'],
   },
@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
           );
         else return false;
       },
-      message: 'Lable contents is not a valid hex color or texture image.',
+      message: '{VALUE}- Lable contents is not a valid hex color or texture image.',
     },
   },
   images: [
@@ -40,7 +40,8 @@ const productSchema = new mongoose.Schema({
             protocols: ['https'],
             require_protocol: true,
           }) && val.startsWith('https://res.cloudinary.com'),
-        message: 'The provided image URL is not a valid Cloudinary image url.',
+        message:
+          '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
       },
     },
   ],
@@ -49,7 +50,7 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Color barcode is required.'],
     validate: {
       validator: (val) => validator.isAlphanumeric(val, 'en-US', { ignore: '-' }),
-      message: 'Color barcode must be numeric.',
+      message: '{VALUE}- Color barcode must be numeric.',
     },
   },
   sizes: {
@@ -66,7 +67,30 @@ const productSchema = new mongoose.Schema({
         );
       },
       message:
-        'Sizes must be a map of numeric size values with non-negative quantities.',
+        '{VALUE}- Sizes must be a map of numeric size values with non-negative quantities.',
+    },
+    select: false,
+  },
+  priceBeforeDiscount: {
+    type: Number,
+    min: 1,
+  },
+  sizesAvailability: {
+    type: Map,
+    of: {
+      type: Number,
+      enum: [0, 1],
+    },
+    required: [true, 'Available sizes are required'],
+    validate: {
+      validator: function (map) {
+        return Array.from(map.entries()).every(
+          ([size, availability]) =>
+            validator.isNumeric(size) && (availability === 0 || availability === 1)
+        );
+      },
+      message:
+        '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
     },
   },
   price: {
@@ -84,7 +108,7 @@ const productSchema = new mongoose.Schema({
 // Indexes:
 productSchema.index({ price: -1 });
 
-// Middleware:
+// Middlewares:
 // Populate product group:
 productSchema.pre(/^find/, function (next) {
   this.populate({
@@ -95,6 +119,16 @@ productSchema.pre(/^find/, function (next) {
   next();
 });
 
+// update product group price + image, when new product is created
+productSchema.post('save', async function () {
+  const productGroup = await productGroup.findById(this.productGroup);
+
+  productGroup.image = this.images[0];
+  if (productGroup.price === 0 || this.price < productGroup.price)
+    productGroup.price = this.price;
+
+  await productGroup.save();
+});
 // Export schema:
 const Product = mongoose.model('Product', productSchema);
 export default Product;

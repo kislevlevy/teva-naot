@@ -14,10 +14,9 @@ export const oneDocApiReponse = (res, statusCode, data) =>
 export const manyDocsApiReponse = (res, statusCode, data) =>
   res.status(statusCode).json({
     status: 'success',
-    results: data.length,
+    results: data.docs.length,
     data,
   });
-
 export const reqBodyCheck = (body) => ({
   outputBody: Object.keys(body).length < 1,
   errorBody: new AppError(404, 'Request must include a body'),

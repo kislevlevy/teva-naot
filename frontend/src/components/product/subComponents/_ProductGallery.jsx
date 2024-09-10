@@ -1,16 +1,26 @@
+// Imports:
 import React, { useEffect } from 'react';
+
 import hoverFunc from '../../../utils/hover';
 import '../../../styles/modules/hover.css';
 
-export default function ProductGallery({ images, setActiveImg, activeImg }) {
+// Component:
+export default function ProductGallery({
+  images,
+  setActiveImg,
+  activeImg,
+  classNames,
+}) {
   useEffect(() => {
     hoverFunc();
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       <div
-        className="img_producto_container rounded-xl border-2 border-slate-200"
+        className={
+          'img_producto_container rounded-xl border-2 border-slate-200' + classNames
+        }
         data-scale="1.6"
       >
         <a

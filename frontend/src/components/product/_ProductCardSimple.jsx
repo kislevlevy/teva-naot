@@ -1,19 +1,16 @@
-import { Card } from 'flowbite-react';
+// Imports:
 import React, { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
-import {
-  mdiEyeOutline,
-  mdiHeartOutline,
-  mdiShoppingOutline,
-  mdiStar,
-  mdiStarOutline,
-} from '@mdi/js';
+import { mdiEyeOutline, mdiHeartOutline } from '@mdi/js';
+import { Card } from 'flowbite-react';
+
 import hoverFunc from '../../utils/hover';
 import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
 
-export default function ProductCardSimple({ setProductModalId }) {
+// Component:
+export default function ProductCardSimple({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
@@ -33,15 +30,17 @@ export default function ProductCardSimple({ setProductModalId }) {
             className="dslc-lightbox-image img_producto"
             target="_self"
             style={{
-              backgroundImage:
-                'url(https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-382-01_1_11.jpg)',
+              backgroundImage: `url(${product.image})`,
             }}
           ></a>
         </div>
-        <div className="absolute inset-0 flex translate-y-[92%] justify-center">
+        <div
+          className="w-fit h-fit bottom-0 absolute justify-center translate-x-[70px] translate-y-4"
+          onClick={() => setProductModalId(product._id)}
+        >
           <Icon
             className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-            path={mdiShoppingOutline}
+            path={mdiEyeOutline}
             size={1.5}
             color="green"
           />
@@ -54,29 +53,25 @@ export default function ProductCardSimple({ setProductModalId }) {
               size={1.5}
               color="green"
             />
-            <div onClick={() => setProductModalId('123')}>
-              <Icon
-                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-                path={mdiEyeOutline}
-                size={1.5}
-                color="green"
-              />
-            </div>
           </div>
         )}
       </div>
       <div className="p-2">
         <p className="text-center text-xs font-medium   text-gray-400">
-          כפכפים לנשים
+          {product.category[product.category.length - 1]}
         </p>
 
-        <StarComponent rating={5} reveiws={50} />
+        <StarComponent
+          rating={product.ratingsAvg}
+          reveiws={product.ratingsQuantity}
+        />
 
-        <h3 className="text-center text-lg font-medium">שחר נשים</h3>
+        <h3 className="text-center text-lg font-medium">{product.name}</h3>
 
         <div className="text-center">
-          <span className="mr-1 font-bold text-emerald-500">429.00₪</span>
-          <span className="ml-1 text-xs text-gray-500 line-through">449.00₪</span>
+          <span className="mr-1 font-bold text-emerald-500">
+            {product.lastProductPrice}₪
+          </span>
         </div>
       </div>
     </Card>

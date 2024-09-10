@@ -10,7 +10,11 @@ const userSchema = new mongoose.Schema(
     fullName: {
       type: String,
       required: [true, 'Please provide your full name'],
-      maxlength: [50, 'Full name cannot exceed 50 characters'],
+      maxlength: [50, '{VALUE}- Full name cannot exceed 50 characters'],
+      validate: {
+        validator: (val) => validator.isAlpha(val, ['en-US'], { ignore: ' -' }),
+        message: '{VALUE}- Full name must only contain english characters',
+      },
     },
     profileImg: {
       type: String,
@@ -20,7 +24,8 @@ const userSchema = new mongoose.Schema(
             protocols: ['https'],
             require_protocol: true,
           }) && val.startsWith('https://res.cloudinary.com'),
-        message: 'The provided image URL is not a valid Cloudinary image url.',
+        message:
+          '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
       },
     },
     email: {
@@ -30,7 +35,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: {
         validator: (val) => validator.isEmail(val),
-        message: 'Please provide a valid email',
+        message: '{VALUE}- Please provide a valid email',
       },
     },
     password: {
@@ -41,7 +46,7 @@ const userSchema = new mongoose.Schema(
           validator: function (val) {
             return val.length >= 8;
           },
-          message: 'Password must be at least 8 characters long',
+          message: '{VALUE}- Password must be at least 8 characters long',
         },
         {
           validator: function (val) {
@@ -54,7 +59,7 @@ const userSchema = new mongoose.Schema(
             });
           },
           message:
-            'Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol',
+            '{VALUE}- Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol',
         },
       ],
       select: false,
@@ -71,48 +76,57 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: [
-        'customer',
-        'inventoryManager',
-        'shippingManager',
-        'productManager',
-        'csManager',
-        'admin',
-      ],
-      default: 'customer',
+      enum: ['client', 'employee', 'manager', 'admin'],
+      default: 'client',
+      select: 'false',
     },
-    passwordChangedAt: Date,
-    passwordResetToken: String,
-    passwordResetTokenExpires: Date,
+    permissions: {
+      type: [String],
+      enum: ['product', 'shipping', 'supply', 'cs'],
+      select: false,
+    },
+    passwordChangedAt: {
+      type: Date,
+      select: false,
+    },
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetTokenExpires: {
+      type: Date,
+      select: false,
+    },
     isActive: {
       type: Boolean,
       default: true,
+      select: false,
     },
     shippingAddress: {
       type: {
         address: {
           type: String,
           required: [true, 'Address is a required field'],
-          minLength: [2, 'Address name must be at least 2 character long'],
-          maxlength: [50, 'Address name must no exceed 50 character long'],
+          minLength: [2, '{VALUE}- Address name must be at least 2 character long'],
+          maxlength: [50, '{VALUE}- Address name must no exceed 50 character long'],
           trim: true,
           validate: {
             validator: (val) =>
               validator.isAlphanumeric(val, 'he', {
                 ignore: /[ .,\-\nA-Za-z]/g,
               }),
-            message: 'Address must only contain alpha numeric characters',
+            message: '{VALUE}- Address must only contain alpha numeric characters',
           },
         },
         city: {
           type: String,
           required: [true, 'City is a required field'],
-          minLength: [2, 'City name must be at least 2 character long'],
-          maxlength: [20, 'City name must no exceed 20 character long'],
+          minLength: [2, '{VALUE}- City name must be at least 2 character long'],
+          maxlength: [20, '{VALUE}- City name must no exceed 20 character long'],
           validate: {
             validator: (val) =>
               validator.isAlpha(val, ['en-US', 'he'], { ignore: ' -' }),
-            message: 'City must only contain characters',
+            message: '{VALUE}- City must only contain characters',
           },
         },
         postalCode: {
@@ -120,24 +134,24 @@ const userSchema = new mongoose.Schema(
           required: [true, 'Postal code is a required field'],
           validate: {
             validator: (val) => validator.isPostalCode(val, 'IL'),
-            message: 'Postal code is not valid',
+            message: '{VALUE}- Postal code is not valid',
           },
         },
       },
-      favoriteCategories: [
-        {
-          category: {
-            type: String,
-            validate: {
-              validator: (val) =>
-                validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
-              message: 'Category must only contain characters',
-            },
-          },
-          clicks: Number,
-        },
-      ],
     },
+    favoriteCategories: [
+      {
+        category: {
+          type: String,
+          validate: {
+            validator: (val) =>
+              validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+            message: '{VALUE}- Category must only contain characters',
+          },
+        },
+        clicks: Number,
+      },
+    ],
   },
   {
     toJSON: {
@@ -168,9 +182,17 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-userSchema.methods.checkPassword = async function (enteredPassword, userPassword) {
-  return await bcrypt.compare(enteredPassword, userPassword);
+userSchema.methods.checkPassword = async (enteredPassword, userPassword) =>
+  await bcrypt.compare(enteredPassword, userPassword);
+
+userSchema.methods.changePasswordAfter = function (iat) {
+  if (this.passwordChangedAt) {
+    const timeStamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return iat < timeStamp;
+  }
+  return false;
 };
+
 // Virtual fields:
 userSchema.virtual('orderHistory', {
   ref: 'Order',

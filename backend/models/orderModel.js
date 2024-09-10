@@ -39,25 +39,40 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   shippingAddress: {
-    street: {
-      type: String,
-      required: [true, 'Street address is required'],
-    },
-    city: {
-      type: String,
-      required: [true, 'City is required'],
-    },
-    state: {
-      type: String,
-      required: [true, 'State is required'],
-    },
-    zip: {
-      type: String,
-      required: [true, 'ZIP code is required'],
-    },
-    country: {
-      type: String,
-      required: [true, 'Country is required'],
+    type: {
+      address: {
+        type: String,
+        required: [true, 'Address is a required field'],
+        minLength: [2, 'Address name must be at least 2 character long'],
+        maxlength: [50, 'Address name must no exceed 50 character long'],
+        trim: true,
+        validate: {
+          validator: (val) =>
+            validator.isAlphanumeric(val, 'he', {
+              ignore: /[ .,\-\nA-Za-z]/g,
+            }),
+          message: 'Address must only contain alpha numeric characters',
+        },
+      },
+      city: {
+        type: String,
+        required: [true, 'City is a required field'],
+        minLength: [2, 'City name must be at least 2 character long'],
+        maxlength: [20, 'City name must no exceed 20 character long'],
+        validate: {
+          validator: (val) =>
+            validator.isAlpha(val, ['en-US', 'he'], { ignore: ' -' }),
+          message: 'City must only contain characters',
+        },
+      },
+      postalCode: {
+        type: String,
+        required: [true, 'Postal code is a required field'],
+        validate: {
+          validator: (val) => validator.isPostalCode(val, 'IL'),
+          message: 'Postal code is not valid',
+        },
+      },
     },
   },
   paymentMethod: {

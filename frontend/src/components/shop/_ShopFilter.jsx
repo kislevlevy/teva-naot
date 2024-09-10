@@ -1,9 +1,12 @@
+// Imports:
 import React, { useState } from 'react';
 
 import { Button, RangeSlider, Slider } from '@mantine/core';
 import { Checkbox, Label, Sidebar } from 'flowbite-react';
+
 import classes from '../../styles/modules/rangeLable.module.css';
 
+// Component:
 export default function ShopFilter() {
   const [filterObj, setFilterObj] = useState({});
   const [categories, setCategories] = useState([]);

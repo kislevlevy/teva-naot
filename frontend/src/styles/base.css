@@ -10,3 +10,6 @@ img {
 .rtl {
   direction: rtl;
 }
+.heb-font {
+  font-family: 'RagSans', sans-serif;
+}

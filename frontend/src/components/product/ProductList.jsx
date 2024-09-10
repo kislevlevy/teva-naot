@@ -1,20 +1,23 @@
+// Imports:
 import React, { useState } from 'react';
+
+import ProductModal from './_ProductModal';
 import ProductCardSimple from './_ProductCardSimple';
 import ProductCardDetailed from './_ProductCardDetailed';
-import ProductModal from './ProductModal';
 
-export default function ProductList({ isDetailed }) {
+// Component:
+export default function ProductList({ isDetailed, productsGroupArr }) {
   const [productModalId, setProductModalId] = useState('');
 
   return (
     <>
       {productModalId && <ProductModal {...{ productModalId, setProductModalId }} />}
       <div className="flex flex-wrap w-full justify-center md:justify-auto">
-        {[1, 1, 1, 1].map((ele, i) =>
+        {productsGroupArr.map((product, i) =>
           isDetailed ? (
-            <ProductCardDetailed {...{ setProductModalId }} key={i} />
+            <ProductCardDetailed {...{ setProductModalId, product }} key={i} />
           ) : (
-            <ProductCardSimple {...{ setProductModalId }} key={i} />
+            <ProductCardSimple {...{ setProductModalId, product }} key={i} />
           ),
         )}
       </div>

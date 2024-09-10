@@ -1,28 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: "RagSans";
-  src: url("/fonts/RagSans-1.4-Bold.woff") format("woff");
+  font-family: 'RagSans';
+  src: url('/fonts/RagSans-1.4-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
+  unicode-range: U+0590- U+05FF;
 }
 
 @font-face {
-  font-family: "RagSans";
-  src: url("/fonts/RagSans-1.4-Medium.woff") format("woff");
+  font-family: 'RagSans';
+  src: url('/fonts/RagSans-1.4-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
+  unicode-range: U+0590- U+05FF;
 }
 
 @font-face {
-  font-family: "RagSans";
-  src: url("/fonts/RagSans-1.4-Regular.woff") format("woff");
+  font-family: 'RagSans';
+  src: url('/fonts/RagSans-1.4-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  unicode-range: U+0590- U+05FF;
 }
 
 * {
-  font-family: "RagSans", sans-serif;
+  font-family: 'RagSans', sans-serif;
+}
+*[lang='en'] {
+  font-family: 'Open Sans', sans-serif;
 }
