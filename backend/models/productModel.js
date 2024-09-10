@@ -69,6 +69,28 @@ const productSchema = new mongoose.Schema({
         'Sizes must be a map of numeric size values with non-negative quantities.',
     },
   },
+  priceBeforeDiscount: {
+    type: Number,
+    min: 1,
+  },
+  availabilityOfSizes: {
+    type: Map,
+    of: {
+      type: Number,
+      enum: [0, 1],
+    },
+    required: [true, 'Available sizes are required'],
+    validate: {
+      validator: function (map) {
+        return Array.from(map.entries()).every(
+          ([size, availability]) =>
+            validator.isNumeric(size) && (availability === 0 || availability === 1)
+        );
+      },
+      message:
+        'Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
+    },
+  },
   price: {
     type: Number,
     min: 1,
@@ -84,7 +106,7 @@ const productSchema = new mongoose.Schema({
 // Indexes:
 productSchema.index({ price: -1 });
 
-// Middleware:
+// Middlewares:
 // Populate product group:
 productSchema.pre(/^find/, function (next) {
   this.populate({
@@ -95,6 +117,17 @@ productSchema.pre(/^find/, function (next) {
   next();
 });
 
+// update product group price + image, when new product is created
+productSchema.post('save', async function () {
+  const productGroup = await productGroup.findById(this.productGroup);
+
+  productGroup.price = this.price;
+  if (this.images.length > 0) {
+    productGroup.image = this.images[0];
+  }
+
+  await productGroup.save();
+});
 // Export schema:
 const Product = mongoose.model('Product', productSchema);
 export default Product;

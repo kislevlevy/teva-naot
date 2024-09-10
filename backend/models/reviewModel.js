@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import ProductGroup from './productGroupModel.js';
-import { updateProductGroupRating } from '../controllers/reviewController.js';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -8,6 +7,7 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
       required: [true, 'Review must belong to a user'],
+      //create middleware to check only 1 user for feedback for groupProduct
     },
 
     productGroup: {
@@ -30,7 +30,9 @@ const reviewSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
+      default: Date.now,
     },
+    daysSinceReview: { type: Number },
   },
   {
     toJSON: {
@@ -50,31 +52,43 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-//index
-reviewSchema.index({ productGroup: 1, user: 1 }, { unique: true });
-
-//timeSinceReview virtual field
-reviewSchema.virtual('timeSinceReview').get(function () {
+//calculates the number of days passed since a created review
+reviewSchema.pre('save', function (next) {
   const diff = Date.now() - this.createdAt;
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  return `${days} days ago`;
+
+  this.daysSinceReview = days;
+
+  next();
 });
 
 //populate user and productGroup(questionable, might be redundant if frontend have it)
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'fullName profileImg',
-  }).populate({ path: 'productGroup', select: 'name category' });
+    select: '',
+  }).populate({ path: 'productGroup', select: '' });
   next();
 });
 
-reviewSchema.post('save', async function () {
-  await updateProductGroupRating(this.productGroup);
-});
+const calcAvgRating = (num) =>
+  async function () {
+    const productGroup = await ProductGroup.findById(this.productGroup);
+    productGroup.ratingsQuantity + num;
+    const { ratingsAvg, ratingsQuantity } = productGroup;
 
-reviewSchema.post('remove', async function () {
-  await updateProductGroupRating(this.productGroup);
-});
+    productGroup.ratingsAvg = Math.round(
+      (ratingsAvg * (ratingsQuantity - num) + this.rating) / ratingsQuantity
+    );
+
+    await productGroup.save();
+  };
+
+// Calculate new average rating and quantity in case of create/edit review
+reviewSchema.post('save', calcAvgRating(1));
+
+// OPTIONAL: in case we want that user can delete feedback
+reviewSchema.post('remove', calcAvgRating(-1));
+
 const Review = mongoose.model('Review', reviewSchema);
 export default Review;

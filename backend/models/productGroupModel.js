@@ -47,7 +47,7 @@ const productGroupSchema = new mongoose.Schema(
 
     ratingsAvg: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     ratingsQuantity: {
       type: Number,
@@ -67,6 +67,11 @@ const productGroupSchema = new mongoose.Schema(
         ref: 'Product',
       },
     ],
+    lastProductPrice: {
+      type: Number,
+      default: 0,
+    },
+    lastProductImage: { type: String, default: '' },
   },
   {
     toJSON: {

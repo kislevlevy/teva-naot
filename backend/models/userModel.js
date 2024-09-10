@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide your full name'],
       maxlength: [50, 'Full name cannot exceed 50 characters'],
+      validate: {
+        validator: (val) => validator.isAlpha(val, ['en-US'], { ignore: ' -' }),
+        message: 'Full name must only contain english characters',
+      },
     },
     profileImg: {
       type: String,
@@ -124,20 +128,20 @@ const userSchema = new mongoose.Schema(
           },
         },
       },
-      favoriteCategories: [
-        {
-          category: {
-            type: String,
-            validate: {
-              validator: (val) =>
-                validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
-              message: 'Category must only contain characters',
-            },
-          },
-          clicks: Number,
-        },
-      ],
     },
+    favoriteCategories: [
+      {
+        category: {
+          type: String,
+          validate: {
+            validator: (val) =>
+              validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+            message: 'Category must only contain characters',
+          },
+        },
+        clicks: Number,
+      },
+    ],
   },
   {
     toJSON: {

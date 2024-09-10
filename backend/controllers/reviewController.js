@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Review from '../models/reviewModel.js';
 import AppError from '../utils/appError.js';
 import ProductGroup from '../models/productGroupModel.js';
+import { deleteOneById, editOneById } from '../utils/handlerFactory.js';
 
 export const getReviewsByProductGroupId = asyncHandler(async (req, res, next) => {
   const { id: productGroupId } = req.params;
@@ -17,42 +18,13 @@ export const getReviewsByProductGroupId = asyncHandler(async (req, res, next) =>
   });
 });
 
-export const updateProductGroupRating = async (productGroupId) => {
-  const productGroup = await ProductGroup.findById(productGroupId).populate(
-    'reviews'
-  );
-  console.log('Updating ratings for product group:', productGroupId); // Add this
-  console.log('Product group reviews:', productGroup.reviews); // Add this
-
-  if (productGroup.reviews.length > 0) {
-    const totalRating = productGroup.reviews.reduce(
-      (sum, review) => sum + review.rating,
-      0
-    );
-    const avgRating = totalRating / productGroup.reviews.length;
-
-    await ProductGroup.findByIdAndUpdate(productGroupId, {
-      ratingsAvg: avgRating,
-      ratingsQuantity: productGroup.reviews.length,
-    });
-  } else {
-    await ProductGroup.findByIdAndUpdate(productGroupId, {
-      ratingsAvg: 0,
-      ratingsQuantity: 0,
-    });
-  }
-};
-
 export const createReview = asyncHandler(async (req, res, next) => {
   const { productGroupId, review, rating } = req.body;
-  console.log('Product Group ID: ', productGroupId); // Log productGroupId
 
   const existingReview = await Review.findOne({
     user: req.user.id,
     productGroup: productGroupId,
   });
-  if (existingReview)
-    return next(new AppError(400, 'you have already reviewd this product group'));
 
   const newReview = await Review.create({
     user: req.user.id,
@@ -66,40 +38,57 @@ export const createReview = asyncHandler(async (req, res, next) => {
     newReview,
   });
 });
-export const editReviewById = asyncHandler(async (req, res, next) => {
-  const { review, rating } = req.body;
+// export const editReviewById = asyncHandler(async (req, res, next) => {
+//   const { review, rating } = req.body;
+//   const { id: reviewId } = req.params;
+
+//   const updatedReview = await Review.findOneAndUpdate(
+//     {
+//       _id: reviewId,
+//       user: req.user.id,
+//     },
+//     { review, rating },
+//     {
+//       new: true, //return the updated review after the changes are saved
+//       runValidators: true,
+//     }
+//   );
+//   if (!updatedReview) return next(new AppError(404, 'Review not found'));
+
+//   await updateProductGroupRating(updatedReview.productGroup);
+
+//   res.status(200).json({
+//     status: 'success',
+//     updatedReview,
+//   });
+// });
+
+// asyncHandler(async (req, res, next) => {
+//   const { id: reviewId } = req.params;
+//   const review = await Review.findOneAndDelete({ _id: reviewId, user: req.user.id });
+//   if (!review) return next(new AppError(404, 'Review not found'));
+
+//   await updateProductGroupRating(review.productGroup);
+
+//   res.status(204).json({
+//     status: 'success',
+//     data: null,
+//   });
+// });
+
+export const deleteReviewById = deleteOneById(Review);
+export const editReviewById = editOneById(Review);
+export const isUserAuthor = asyncHandler(async (req, res, next) => {
+  // Assign veriables:
   const { id: reviewId } = req.params;
+  const { _id: userId } = req.user;
 
-  const updatedReview = await Review.findOneAndUpdate(
-    {
-      _id: reviewId,
-      user: req.user.id,
-    },
-    { review, rating },
-    {
-      new: true, //return the updated review after the changes are saved
-      runValidators: true,
-    }
-  );
-  if (!updatedReview) return next(new AppError(404, 'Review not found'));
+  // Check author in review to be user loggedin
+  const review = await Review.findById(reviewId);
+  console.log('review.user:' + review.user._id);
+  console.log('userId:' + userId);
+  if (review.user._id === userId) return next();
 
-  await updateProductGroupRating(updatedReview.productGroup);
-
-  res.status(200).json({
-    status: 'success',
-    updatedReview,
-  });
-});
-
-export const deleteReviewById = asyncHandler(async (req, res, next) => {
-  const { id: reviewId } = req.params;
-  const review = await Review.findOneAndDelete({ _id: reviewId, user: req.user.id });
-  if (!review) return next(new AppError(404, 'Review not found'));
-
-  await updateProductGroupRating(review.productGroup);
-
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+  // Error not authorized:
+  return next(new AppError(403, 'you are unauthorized to acess this route'));
 });
