@@ -21,7 +21,7 @@ router.route('/resetPassword/:resetToken').patch(resetPassword);
 
 router.use(protect);
 router.route('/forgotPassword').post(forgotPassword);
-router.route('/changePassword').patch(restrictByRole('csManager'), changePassword);
+router.route('/changePassword').patch(protect, changePassword);
 
 router.route('/getMe').get(getMe);
 

@@ -71,7 +71,10 @@ const productGroupSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    lastProductImage: { type: String, default: '' },
+    lastProductImage: {
+      type: String,
+      default: '',
+    },
   },
   {
     toJSON: {

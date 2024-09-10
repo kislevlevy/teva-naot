@@ -91,6 +91,7 @@ const userSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+      select: false,
     },
     shippingAddress: {
       type: {
@@ -172,9 +173,17 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-userSchema.methods.checkPassword = async function (enteredPassword, userPassword) {
-  return await bcrypt.compare(enteredPassword, userPassword);
+userSchema.methods.checkPassword = async (enteredPassword, userPassword) =>
+  await bcrypt.compare(enteredPassword, userPassword);
+
+userSchema.methods.changePasswordAfter = function (iat) {
+  if (this.passwordChangedAt) {
+    const timeStamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return iat < timeStamp;
+  }
+  return false;
 };
+
 // Virtual fields:
 userSchema.virtual('orderHistory', {
   ref: 'Order',

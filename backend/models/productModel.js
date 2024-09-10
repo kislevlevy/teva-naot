@@ -68,12 +68,13 @@ const productSchema = new mongoose.Schema({
       message:
         'Sizes must be a map of numeric size values with non-negative quantities.',
     },
+    select: false,
   },
   priceBeforeDiscount: {
     type: Number,
     min: 1,
   },
-  availabilityOfSizes: {
+  sizesAvailability: {
     type: Map,
     of: {
       type: Number,
@@ -121,10 +122,9 @@ productSchema.pre(/^find/, function (next) {
 productSchema.post('save', async function () {
   const productGroup = await productGroup.findById(this.productGroup);
 
-  productGroup.price = this.price;
-  if (this.images.length > 0) {
-    productGroup.image = this.images[0];
-  }
+  productGroup.image = this.images[0];
+  if (productGroup.price === 0 || this.price < productGroup.price)
+    productGroup.price = this.price;
 
   await productGroup.save();
 });
