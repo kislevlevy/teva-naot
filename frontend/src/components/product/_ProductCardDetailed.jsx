@@ -36,36 +36,26 @@ export default function ProductCardDetailed({ setProductModalId }) {
               }}
             ></a>
           </div>
-
-          <div className="absolute inset-0 top-auto left-auto m-2">
-            <Icon
-              className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-              path={mdiShoppingOutline}
-              size={1.5}
-              color="green"
-            />
-          </div>
-          {isHover && (
-            <div
-              className="absolute top-0 m-1"
-              onMouseEnter={() => setIsHover(true)}
-            >
-              <Icon
-                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2 mb-1"
-                path={mdiHeartOutline}
-                size={1.5}
-                color="green"
-              />
-              <div onClick={() => setProductModalId(123)}>
+          <div className="absolute flex top-0 right-0 m-1">
+            {isHover && (
+              <div onMouseEnter={() => setIsHover(true)} className="mr-0.5">
                 <Icon
-                  className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-                  path={mdiEyeOutline}
+                  className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2 mb-1"
+                  path={mdiHeartOutline}
                   size={1.5}
                   color="green"
                 />
               </div>
+            )}
+            <div onClick={() => setProductModalId(123)}>
+              <Icon
+                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
+                path={mdiEyeOutline}
+                size={1.5}
+                color="green"
+              />
             </div>
-          )}
+          </div>
         </div>
         <div className="p-2 rtl flex flex-col ml-5">
           <div className="flex items-center">

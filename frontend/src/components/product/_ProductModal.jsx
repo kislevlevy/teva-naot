@@ -85,12 +85,11 @@ export default function ProductModal({ productModalId, setProductModalId }) {
           <Icon path={mdiCloseThick} size={0.75} />
         </div>
         <div className="flex justify-between">
-          <div className="h-full">
-            <div className="my-2 w-full h-[50px] flex rounded-md">
-              <ProductGallery
-                {...{ setActiveImg, activeImg, images: currentProduct.images }}
-              />
-            </div>
+          <div className="my-2 w-full h-full flex rounded-md">
+            <ProductGallery
+              classNames=" w-[250px]"
+              {...{ setActiveImg, activeImg, images: currentProduct.images }}
+            />
           </div>
           <div className="p-2 rtl flex flex-col ml-5">
             <div className="flex items-center">
@@ -126,8 +125,9 @@ export default function ProductModal({ productModalId, setProductModalId }) {
               </div>
               <h4>מידות:</h4>
               <div className="flex flex-wrap">
-                {Object.keys(currentProduct.sizes).map((key) => (
+                {Object.keys(currentProduct.sizes).map((key, i) => (
                   <div
+                    key={`size-${i}`}
                     className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}`}
                     onClick={() => setCurrentSize(key)}
                   >

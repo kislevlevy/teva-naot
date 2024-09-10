@@ -13,7 +13,6 @@ export default function ProductGallery({
 }) {
   useEffect(() => {
     hoverFunc();
-    console.log(classNames);
   }, []);
 
   return (

@@ -1,6 +1,6 @@
 // Imports:
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   mdiChevronLeft,
@@ -88,6 +88,7 @@ export default function ProductPage() {
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quam, ratione ducimus alias velit nobis quo quaerat aperiam minima magnam?',
   };
 
+  const navigate = useNavigate();
   const [currentProduct, setCurrentProduct] = useState(products[0]);
   const [currentSize, setCurrentSize] = useState('');
   const [activeImg, setActiveImg] = useState(products[0].images[0]);
@@ -108,36 +109,39 @@ export default function ProductPage() {
                 separator={<Icon path={mdiChevronLeft} size={1} />}
                 maxItems={4}
               >
-                <BreadcrumbsLink color="inherit">
-                  <Link to="/">
-                    <div className="hover:text-[#64b496]">
-                      <Icon
-                        path={mdiHome}
-                        size={1}
-                        className="cursor-pointer text-inherit"
-                      />
-                    </div>
-                  </Link>
-                </BreadcrumbsLink>
+                <div className="hover:text-[#64b496]" onClick={() => navigate('/')}>
+                  <BreadcrumbsLink color="inherit">
+                    <Icon
+                      path={mdiHome}
+                      size={1}
+                      className="cursor-pointer text-inherit"
+                    />
+                  </BreadcrumbsLink>
+                </div>
+                <div>
+                  <BreadcrumbsLink
+                    underline="hover"
+                    color="inherit"
+                    className="cursor-pointer"
+                  >
+                    כפכפים
+                  </BreadcrumbsLink>
+                </div>
+                <div>
+                  <BreadcrumbsLink
+                    underline="hover"
+                    color="inherit"
+                    className="cursor-pointer"
+                  >
+                    כפכפים לנשים
+                  </BreadcrumbsLink>
+                </div>
 
-                <BreadcrumbsLink
-                  underline="hover"
-                  color="inherit"
-                  className="cursor-pointer"
-                >
-                  <div>כפכפים</div>
-                </BreadcrumbsLink>
-                <BreadcrumbsLink
-                  underline="hover"
-                  color="inherit"
-                  className="cursor-pointer"
-                >
-                  <div>כפכפים לנשים</div>
-                </BreadcrumbsLink>
-
-                <BreadcrumbsTypography>
-                  <div>שחר נשים</div>
-                </BreadcrumbsTypography>
+                <div>
+                  <BreadcrumbsTypography color="inherit">
+                    <span>שחר נשים</span>
+                  </BreadcrumbsTypography>
+                </div>
               </Breadcrumbs>
             </div>
           </div>
@@ -174,8 +178,9 @@ export default function ProductPage() {
             </div>
             <h4>מידות:</h4>
             <div className="flex flex-wrap">
-              {Object.keys(currentProduct.sizes).map((key) => (
+              {Object.keys(currentProduct.sizes).map((key, i) => (
                 <div
+                  key={`size-${i}`}
                   className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}`}
                   onClick={() => setCurrentSize(key)}
                 >
