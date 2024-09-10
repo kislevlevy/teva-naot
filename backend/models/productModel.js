@@ -69,6 +69,10 @@ const productSchema = new mongoose.Schema({
         'Sizes must be a map of numeric size values with non-negative quantities.',
     },
   },
+  priceBeforeDiscount: {
+    type: Number,
+    min: 1,
+}
   price: {
     type: Number,
     min: 1,
