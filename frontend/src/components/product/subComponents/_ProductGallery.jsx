@@ -5,15 +5,23 @@ import hoverFunc from '../../../utils/hover';
 import '../../../styles/modules/hover.css';
 
 // Component:
-export default function ProductGallery({ images, setActiveImg, activeImg }) {
+export default function ProductGallery({
+  images,
+  setActiveImg,
+  activeImg,
+  classNames,
+}) {
   useEffect(() => {
     hoverFunc();
+    console.log(classNames);
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       <div
-        className="img_producto_container rounded-xl border-2 border-slate-200"
+        className={
+          'img_producto_container rounded-xl border-2 border-slate-200' + classNames
+        }
         data-scale="1.6"
       >
         <a

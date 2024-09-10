@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import Icon from '@mdi/react';
-import { mdiCloseThick } from '@mdi/js';
+import { mdiCloseThick, mdiHeartOutline, mdiShoppingOutline } from '@mdi/js';
 import { Modal } from 'flowbite-react';
 
 import StarComponent from './subComponents/_StarComponent';
@@ -136,16 +136,27 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                 ))}
               </div>
             </div>
-            <div className="self-end mt-10">
-              <span className="mr-1 font-bold text-emerald-500 text-xl">
-                {currentProduct.price}₪
-              </span>
-
-              {currentProduct.discountPrice && (
-                <span className="ml-1 text-md text-gray-500 line-through">
-                  {currentProduct.discountPrice}₪
+            <div className="w-full flex justify-between mt-10 items-center">
+              <div className="flex">
+                <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
+                  <Icon path={mdiHeartOutline} size={1} color="green" />
+                </div>
+                <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
+                  <Icon path={mdiShoppingOutline} size={1} color="green" />
+                  <span className="mr-1 text-sm">הוסף לעגלה</span>
+                </div>
+              </div>
+              <div>
+                <span className="mr-1 font-bold text-emerald-500 text-xl">
+                  {currentProduct.price}₪
                 </span>
-              )}
+
+                {currentProduct.discountPrice && (
+                  <span className="ml-1 text-md text-gray-500 line-through">
+                    {currentProduct.discountPrice}₪
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -17,7 +17,9 @@ export default function StarComponent({ rating, reveiws }) {
       {getArray(5 - base5).map((_, i) => (
         <Icon key={'star_' + i} color="#E98F65" path={mdiStarOutline} size={0.75} />
       ))}
-      <span className="mx-1 text-xs font-medium text-gray-400">( {reveiws} )</span>
+      {reveiws && (
+        <span className="mx-1 text-xs font-medium text-gray-400">( {reveiws} )</span>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 // Imports:
 import React, { useState } from 'react';
 
-import ProductModal from './ProductModal';
+import ProductModal from './_ProductModal';
 import ProductCardSimple from './_ProductCardSimple';
 import ProductCardDetailed from './_ProductCardDetailed';
 

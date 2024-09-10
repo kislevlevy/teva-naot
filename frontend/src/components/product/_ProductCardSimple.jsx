@@ -35,10 +35,13 @@ export default function ProductCardSimple({ setProductModalId }) {
             }}
           ></a>
         </div>
-        <div className="absolute inset-0 flex translate-y-[92%] justify-center">
+        <div
+          className="w-fit h-fit bottom-0 absolute justify-center translate-x-[70px] translate-y-4"
+          onClick={() => setProductModalId('123')}
+        >
           <Icon
             className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-            path={mdiShoppingOutline}
+            path={mdiEyeOutline}
             size={1.5}
             color="green"
           />
@@ -51,14 +54,6 @@ export default function ProductCardSimple({ setProductModalId }) {
               size={1.5}
               color="green"
             />
-            <div onClick={() => setProductModalId('123')}>
-              <Icon
-                className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"
-                path={mdiEyeOutline}
-                size={1.5}
-                color="green"
-              />
-            </div>
           </div>
         )}
       </div>
