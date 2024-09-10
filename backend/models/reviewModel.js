@@ -21,11 +21,6 @@ const reviewSchema = new mongoose.Schema(
       trim: true,
       minlength: [5, 'Review must be at least 10 characters long'],
       maxlength: [400, 'Review cannot exceed 400 characters'],
-      validate: {
-        validator: (val) =>
-          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-        message: 'Review must only contain letters.',
-      },
     },
     rating: {
       type: Number,

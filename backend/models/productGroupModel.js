@@ -79,16 +79,6 @@ const productGroupSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    availableSizes: {
-      type: [String],
-      required: [true, 'availableSizes is a required field'],
-      validate: {
-        validator: (arr) =>
-          arr.length === 2 &&
-          arr.every((val) => Number(val) > 25 && Number(val) < 50),
-        message: '{VALUE}- availableSizes are with two elements higher than 1',
-      },
-    },
   },
   {
     toJSON: {
