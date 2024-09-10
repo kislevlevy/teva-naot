@@ -75,24 +75,6 @@ const productSchema = new mongoose.Schema({
     type: Number,
     min: 1,
   },
-  sizesAvailability: {
-    type: Map,
-    of: {
-      type: Number,
-      enum: [0, 1],
-    },
-    required: [true, 'Available sizes are required'],
-    validate: {
-      validator: function (map) {
-        return Array.from(map.entries()).every(
-          ([size, availability]) =>
-            validator.isNumeric(size) && (availability === 0 || availability === 1)
-        );
-      },
-      message:
-        '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
-    },
-  },
   price: {
     type: Number,
     min: 1,
