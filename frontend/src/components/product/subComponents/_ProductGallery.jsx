@@ -1,7 +1,10 @@
+// Imports:
 import React, { useEffect } from 'react';
+
 import hoverFunc from '../../../utils/hover';
 import '../../../styles/modules/hover.css';
 
+// Component:
 export default function ProductGallery({ images, setActiveImg, activeImg }) {
   useEffect(() => {
     hoverFunc();

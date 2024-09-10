@@ -1,18 +1,15 @@
-import {
-  mdiEyeOutline,
-  mdiHeartOutline,
-  mdiShoppingOutline,
-  mdiStar,
-  mdiStarOutline,
-} from '@mdi/js';
-import Icon from '@mdi/react';
-import { Card } from 'flowbite-react';
+// Imports:
 import React, { useEffect, useState } from 'react';
-import hoverFunc from '../../utils/hover';
 
+import Icon from '@mdi/react';
+import { mdiEyeOutline, mdiHeartOutline, mdiShoppingOutline } from '@mdi/js';
+import { Card } from 'flowbite-react';
+
+import hoverFunc from '../../utils/hover';
 import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
 
+// Component:
 export default function ProductCardDetailed({ setProductModalId }) {
   const [isHover, setIsHover] = useState(false);
 

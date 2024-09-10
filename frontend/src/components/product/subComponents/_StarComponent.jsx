@@ -1,7 +1,10 @@
-import { mdiStar, mdiStarOutline } from '@mdi/js';
-import Icon from '@mdi/react';
+// Imports:
 import React from 'react';
 
+import { mdiStar, mdiStarOutline } from '@mdi/js';
+import Icon from '@mdi/react';
+
+// Component:
 export default function StarComponent({ rating, reveiws }) {
   const base5 = rating / 2;
   const getArray = (num) => Array(Math.trunc(num)).fill('');

@@ -1,9 +1,11 @@
+// Imports:
 import React from 'react';
-import Icon from '@mdi/react';
 
 import { Button, Select } from '@mantine/core';
+import Icon from '@mdi/react';
 import { mdiGrid, mdiFormatListText } from '@mdi/js';
 
+// Component:
 export default function ShopTooltip({ isDetailed, setIsDetailed }) {
   return (
     <div className="flex justify-between items-center bg-[#f9fafb] p-2 my-2 rounded-lg align-middle">

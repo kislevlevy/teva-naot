@@ -1,10 +1,14 @@
+// Imports:
 import React, { useState } from 'react';
-import Grid from '@mui/material/Grid2';
-import ShopFilter from './ShopFilter';
-import ProductList from '../product/ProductList';
-import ShopTooltip from './ShopTooltip';
-import { Pagination } from 'flowbite-react';
 
+import { Pagination } from 'flowbite-react';
+import Grid from '@mui/material/Grid2';
+
+import ProductList from '../product/ProductList';
+import ShopFilter from './_ShopFilter';
+import ShopTooltip from './_ShopTooltip';
+
+// Component:
 export default function Shop() {
   const [isDetailed, setIsDetailed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);

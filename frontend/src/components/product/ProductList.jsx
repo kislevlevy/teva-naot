@@ -1,8 +1,11 @@
+// Imports:
 import React, { useState } from 'react';
+
+import ProductModal from './ProductModal';
 import ProductCardSimple from './_ProductCardSimple';
 import ProductCardDetailed from './_ProductCardDetailed';
-import ProductModal from './ProductModal';
 
+// Component:
 export default function ProductList({ isDetailed }) {
   const [productModalId, setProductModalId] = useState('');
 
