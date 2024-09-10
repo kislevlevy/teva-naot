@@ -55,6 +55,7 @@ export const signup = asyncHandler(async (req, res, next) => {
 
   // If the user exists but is disabled, reactivate their account
 
+  //kislev optimization
   const existingUser = await User.findOne({ email }).select('+isActive');
   if (existingUser && !existingUser.isActive) {
     existingUser.isActive = true;
@@ -166,7 +167,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   const { resetToken, newPassword, confirmNewPassword } = req.body;
   console.log(req.params.resetToken); // Add this line to log the token
   if (newPassword !== confirmNewPassword) {
-    return next(new AppError(404), 'Passwords do not match');
+    return next(new AppError(404, 'Passwords do not match'));
   }
   //extract the token from the URL and hash it, in order to compare it against reset tokens in the DB which are saved in their hashed version
   const hashedToken = crypto
@@ -204,10 +205,10 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   if (!decoded || decoded.exp < Date.now() / 1000)
-    return next(new AppError(403), 'Please login, token has expired!');
+    return next(new AppError(403, 'Please login, token has expired!'));
 
   const user = await User.findById(decoded.id);
-  if (!user) return next(new AppError(403), 'Please login, user no longer exist!');
+  if (!user) return next(new AppError(403, 'Please login, user no longer exist!'));
   //convert passwordChangedAt to seconds, then check if user changed password, if he did, tell him to log in
   // this will prevent any valid jwt that users already not using to increase security
   if (user.passwordChangedAt) {
@@ -217,8 +218,7 @@ export const protect = asyncHandler(async (req, res, next) => {
     );
     if (decoded.iat < passwordChangeTimeStamp) {
       return next(
-        new AppError(403),
-        'User recently changed password, please login!'
+        new AppError(403, 'User recently changed password, please login!')
       );
     }
   }
