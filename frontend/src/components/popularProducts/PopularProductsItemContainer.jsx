@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import ProductList from '../product/ProductList';
 
 export default function PopularProductsItemContainer({ selectedCategory }) {
-  console.log(selectedCategory)
   useEffect(() => {
     //SEND APIREQ FOR THE 3 CARDS OF THE REQUESTED TOPIC
   }, [selectedCategory]);

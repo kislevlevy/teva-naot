@@ -17,8 +17,6 @@ export default function Shop() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isSuccess, isLoading, isError } = useGetProductsGroupQuery();
 
-  console.log(data);
-
   if (isError) return <Error />;
   if (isLoading) return <h2>Loading...</h2>;
 
