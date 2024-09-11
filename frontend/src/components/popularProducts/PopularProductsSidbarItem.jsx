@@ -1,15 +1,14 @@
+import { useState } from 'react';
 import { Sidebar } from 'flowbite-react';
 import { HiArrowSmRight } from 'react-icons/hi';
-
 export default function PopularProductsSidbarItem({
   iconToShow,
   textToShow,
   setSelectedCategory,
 }) {
-  const handleItemClick = (e) => {
-    console.log(e.target.text);
-
-    setSelectedCategory(e.target.text);
+  const btnContet = textToShow;
+  const handleItemClick = () => {
+    setSelectedCategory(btnContet);
   };
 
   return (

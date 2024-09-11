@@ -6,7 +6,7 @@ import ProductCardSimple from './_ProductCardSimple';
 import ProductCardDetailed from './_ProductCardDetailed';
 
 // Component:
-export default function ProductList({ isDetailed, productsGroupArr }) {
+export default function ProductList({ isDetailed=false, productsGroupArr }) {
   const [productModalId, setProductModalId] = useState('');
 
   return (
