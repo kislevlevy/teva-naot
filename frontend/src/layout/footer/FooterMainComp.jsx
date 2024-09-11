@@ -20,7 +20,7 @@ export default function FooterComp() {
                 <br /> Walk with us!
               </p>
               <div>
-                <Footer.Title title="Contact Us" />
+                <Footer.Title title="שמרו על קשר" />
                 <Footer.LinkGroup col>
                   <FooterContacts />
                 </Footer.LinkGroup>
@@ -28,11 +28,11 @@ export default function FooterComp() {
             </div>
             <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-2 sm:gap-6">
               <div>
-                <Footer.Title title="Company" />
+                <Footer.Title title="החברה" />
                 <FooterCompanyLinks />
               </div>
               <div>
-                <Footer.Title title="Category" />
+                <Footer.Title title="קטגוריות" />
                 <FooterCategoryLinks />
               </div>
             </div>
@@ -60,19 +60,19 @@ export default function FooterComp() {
           <FooterLogo />
           <Accordion>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">Contact Us</Accordion.Title>
+              <Accordion.Title className="py-4 px-5">שמרו על קשר</Accordion.Title>
               <Accordion.Content className="list-none py-4 px-5">
                 <FooterContacts />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">Company</Accordion.Title>
+              <Accordion.Title className="py-4 px-5">החברה</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
                 <FooterCompanyLinks />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">Category</Accordion.Title>
+              <Accordion.Title className="py-4 px-5">קטגוריות</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
                 <FooterCategoryLinks />
               </Accordion.Content>

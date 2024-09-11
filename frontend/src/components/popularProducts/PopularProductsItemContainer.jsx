@@ -7,7 +7,7 @@ export default function PopularProductsItemContainer({ selectedCategory }) {
   }, [selectedCategory]);
   return (
     <div className="product-content flex flex-grow flex-wrap w-full mb-6">
-      <ProductList listToRender={selectedCategory} />
+      {/* <ProductList listToRender={selectedCategory} /> */}
     </div>
   );
 }

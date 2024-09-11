@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../base/Button';
-import Logo from '../base/Logo';
+import Button from '../../components/base/Button';
+import Logo from '../../components/base/Logo';
 
 export default function Navbar() {
   return (
