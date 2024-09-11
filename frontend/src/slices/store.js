@@ -4,9 +4,10 @@ import { apiProducts } from './api/apiProductsSlices';
 import { apiReviews } from './api/apiReviewsSlices';
 import { apiOrders } from './api/apiOrdersSlices';
 import { apiUsers } from './api/apiUesrsSlices';
-
+import popularProductsReducer from './comp.Slices/popularProduct';
 const store = configureStore({
   reducer: {
+    popularProducts:popularProductsReducer,
     [apiProducts.reducerPath]: apiProducts.reducer,
     [apiProductsGroup.reducerPath]: apiProductsGroup.reducer,
     [apiReviews.reducerPath]: apiReviews.reducer,
