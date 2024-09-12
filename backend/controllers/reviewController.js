@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Review from '../models/reviewModel.js';
 import AppError from '../utils/appError.js';
-import ProductGroup from '../models/productGroupModel.js';
+import Product from '../models/productModel.js';
 import { deleteOneById, editOneById } from '../utils/handlerFactory.js';
 
 export const getReviewsByProductGroupId = asyncHandler(async (req, res, next) => {

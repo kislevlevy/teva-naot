@@ -1,140 +1,130 @@
 // Module Imports:
 import mongoose from 'mongoose';
 import validator from 'validator';
-import ProductGroup from './productGroupModel.js';
+import slugify from 'slugify';
 
 // DB Schema:
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    validate: {
-      validator: (val) =>
-        validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
-      message: '{VALUE}- Name must only contain alphanumeric characters.',
-    },
-    required: [true, 'Name is required.'],
-  },
-  thumbnail: {
-    type: [String],
-    validate: {
-      validator: (arr) => {
-        if (arr.length !== 2 || !['hex', 'img'].includes(arr[0])) return false;
-        if (arr[0] === 'hex') return validator.isHexColor(arr[1]);
-        else if (arr[0] === 'img')
-          return (
-            validator.isURL(arr[1], {
-              protocols: ['https'],
-              require_protocol: true,
-            }) && arr[1].startsWith('https://res.cloudinary.com')
-          );
-        else return false;
-      },
-      message: '{VALUE}- Lable contents is not a valid hex color or texture image.',
-    },
-  },
-  images: [
-    {
+const ProductSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
+      required: [true, 'Product name is required.'],
+      unique: true,
+      trim: true,
+      maxLength: [40, '{VALUE}- Product name must not exceed 40 characters.'],
       validate: {
         validator: (val) =>
-          validator.isURL(val, {
-            protocols: ['https'],
-            require_protocol: true,
-          }) && val.startsWith('https://res.cloudinary.com'),
+          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+        message: '{VALUE}- Product name must only contain letters.',
+      },
+    },
+    slug: String,
+    description: {
+      type: String,
+      trim: true,
+      maxLength: [
+        400,
+        '{VALUE}- Product description must not exceed 400 characters.',
+      ],
+      required: [true, 'Product description is required.'],
+      validate: {
+        validator: (val) =>
+          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
         message:
-          '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
+          '{VALUE}- Product description must only contain alphanumeric characters.',
       },
     },
-  ],
-  colorBarcode: {
-    type: String,
-    required: [true, 'Color barcode is required.'],
-    validate: {
-      validator: (val) => validator.isAlphanumeric(val, 'en-US', { ignore: '-' }),
-      message: '{VALUE}- Color barcode must be numeric.',
+    category: {
+      type: [
+        {
+          type: String,
+          validate: {
+            validator: (val) =>
+              validator.isAlpha(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+            message:
+              '{VALUE}- Each category must must not exceed 20 characters and contain only letters.',
+          },
+        },
+      ],
+      required: [true, 'Product category is required.'],
     },
-  },
-  sizes: {
-    type: Map,
-    of: {
+
+    ratingsAvg: {
       type: Number,
-      min: 0,
+      default: 1,
     },
-    required: [true, 'Sizes are required.'],
-    validate: {
-      validator: function (map) {
-        return Array.from(map.entries()).every(
-          ([size, quantity]) => validator.isNumeric(size) && quantity >= 0
-        );
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
+    },
+    baseBarcode: {
+      type: String,
+      required: [true, 'Product barcode is required.'],
+      validate: {
+        validator: (val) => validator.isNumeric(val, { ignore: '-' }),
+        message: '{VALUE}- Base barcode must be numeric.',
       },
-      message:
-        '{VALUE}- Sizes must be a map of numeric size values with non-negative quantities.',
+    },
+    colors: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Product',
+      },
+    ],
+    lastProductPrice: {
+      type: Number,
+      default: 0,
+    },
+    lastProductImage: {
+      type: String,
+      default: '',
     },
   },
-  priceBeforeDiscount: {
-    type: Number,
-    min: 1,
-  },
-  // sizesAvailability: {
-  //   type: Map,
-  //   of: {
-  //     type: Number,
-  //     enum: [0, 1],
-  //   },
-  //   required: [true, 'Available sizes are required'],
-  //   validate: {
-  //     validator: function (map) {
-  //       return Array.from(map.entries()).every(
-  //         ([size, availability]) =>
-  //           validator.isNumeric(size) && (availability === 0 || availability === 1)
-  //       );
-  //     },
-  //     message:
-  //       '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
-  //   },
-  // },
-  price: {
-    type: Number,
-    min: 1,
-    required: [true, 'Price is required.'],
-  },
-  productGroup: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'ProductGroup',
-    required: [true, 'Product must be related to a product group.'],
-  },
-});
-
-// Indexes:
-productSchema.index({ price: -1 });
-
-// Middlewares:
-// Populate product group:
-
-// update product group price + image, when new product is created
-productSchema.post('save', async function () {
-  if (this.isNew) {
-    const productGroup = await ProductGroup.findById(this.productGroup);
-    productGroup.image = this.images[0];
-    if (productGroup.price === 0 || this.price < productGroup.price)
-      productGroup.price = this.price;
-    await productGroup.save();
+  {
+    toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret.id;
+        delete ret.__v;
+      },
+    },
   }
+);
+
+// Index:
+ProductSchema.index({ slug: 1 });
+ProductSchema.index({ ratingsAvg: -1, ratingsQuantity: -1 });
+
+// Virtual fields:
+// Reviews virtual field array:
+ProductSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id',
 });
-productSchema.set('toJSON', {
-  transform: (doc, ret) =>
-    ret.sizes
-      ? {
-          ...ret,
-          sizes: Object.fromEntries(
-            Object.entries(ret.sizes).map(([size, stock]) => [
-              size,
-              stock > 0 ? 1 : 0,
-            ])
-          ),
-        }
-      : ret,
+
+// Middleware:
+// Add slug to product:
+ProductSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
+
+ProductSchema.pre(/^findOne/, function (next) {
+  this.populate({
+    path: 'reviews',
+    select: '-__v',
+  });
+  next();
+});
+
 // Export schema:
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model('Product', ProductSchema);
 export default Product;

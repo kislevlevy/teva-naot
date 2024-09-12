@@ -32,17 +32,24 @@ export default function ProductGallery({
         ></a>
       </div>
       <div className="flex h-12 my-2 overflow-hidden">
-        {images.map((img, i) => (
-          <img
-            key={i}
-            onClick={(e) => {
-              setActiveImg(img);
-              e.target.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-            }}
-            src={img}
-            className="mx-0.5 h-full w-12 cursor-pointer rounded-lg object-cover"
-          />
-        ))}
+        {images.map((img, i) => {
+          // const isScroll = e.target.parentElement.clientWidth / 48;
+          return (
+            <img
+              key={i}
+              onClick={(e) => {
+                setActiveImg(img);
+                e.target.scrollIntoView({
+                  behavior: 'smooth',
+                  inline: 'center',
+                  block: 'nearest',
+                });
+              }}
+              src={img}
+              className="mx-0.5 h-full w-12 cursor-pointer rounded-lg object-cover"
+            />
+          );
+        })}
       </div>
     </div>
   );

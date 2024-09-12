@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   'Popular Products': [
@@ -43,7 +43,7 @@ const initialState = {
         'דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של…',
       category: ['נשים', 'כפכפים לנשים'],
       image:
-             'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600',
+        'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600',
       price: 0,
       ratingsAvg: 4,
       ratingsQuantity: 80,
@@ -75,18 +75,16 @@ const initialState = {
   ],
 };
 
-
 const popularProductsSlice = createSlice({
- name:'popularProducts',
- initialState,
- reducers:{
- updatePopularProducts(state,action){
-    return{...state,...action.payload}
+  name: 'popularProducts',
+  initialState,
+  reducers: {
+    updatePopularProducts(state, action) {
+      return { ...state, ...action.payload };
+    },
+  },
+});
 
- }
- }
-})
+export default popularProductsSlice.reducer;
 
-export default popularProductsSlice.reducer
-
-export const {updatePopularProducts} = popularProductsSlice.actions
+export const { updatePopularProducts } = popularProductsSlice.actions;

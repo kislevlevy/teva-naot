@@ -1,7 +1,7 @@
 //import asyncHandler from "express-async-handler";
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
-import Product from '../models/productModel.js';
+import Product from '../models/productColorModel.js';
 import AppError from '../utils/appError.js';
 import {
   editOneById,
@@ -54,7 +54,7 @@ export const createOrder = async (req, res, next) => {
 export const validateAndUpdateStock = async (req, res, next) => {
   try {
     for (const item of req.body.products) {
-      const product = await Product.findById(item.product);
+      const product = await ProductColor.findById(item.product);
 
       if (!product) {
         return next(new AppError(404, `Product with ID ${item.product} not found`));
@@ -95,7 +95,7 @@ export const validateAndUpdateStock = async (req, res, next) => {
     }
 
     for (const item of req.body.products) {
-      const product = await Product.findById(item.product);
+      const product = await ProductColor.findById(item.product);
 
       if (!(product.sizes instanceof Map)) {
         product.sizes = new Map(Object.entries(product.sizes));
