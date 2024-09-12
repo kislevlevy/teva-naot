@@ -1,6 +1,6 @@
 // Imports:
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import {
   mdiChevronLeft,
@@ -17,6 +17,7 @@ import { Grid, Container } from '@mantine/core';
 import StarComponent from '../components/product/subComponents/_StarComponent';
 import ProductGallery from '../components/product/subComponents/_ProductGallery';
 import ReviewCard from '../components/reviews/_ReviewCard';
+import {useGetProductQuery} from '../slices/api/apiProductsSlices'
 
 // Component:
 export default function ProductPage() {
@@ -87,6 +88,24 @@ export default function ProductPage() {
     review:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quam, ratione ducimus alias velit nobis quo quaerat aperiam minima magnam?',
   };
+
+  /**paging: location.state._id - the id to fetch data for */
+  const location = useLocation()
+  console.log(location.state);
+  const {data, isLoading, isSuccess} = useGetProductQuery(location.state._id)
+  const product = !isLoading&& isSuccess ? data.data.doc : products[0]
+  console.log(product);
+  
+  function componentDidMount() {
+    if (!("Notification" in window)) {
+      console.log("Browser does not support desktop notification");
+    } else {
+      Notification.requestPermission();
+    }
+  }
+  componentDidMount()
+  
+  
 
   const navigate = useNavigate();
   const [currentProduct, setCurrentProduct] = useState(products[0]);

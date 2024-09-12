@@ -8,6 +8,8 @@ import { Card } from 'flowbite-react';
 import hoverFunc from '../../utils/hover';
 import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { slugify } from '../../utils/slugify';
 
 // Component:
 export default function ProductCardDetailed({ setProductModalId, product }) {
@@ -16,6 +18,12 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
   useEffect(() => {
     hoverFunc();
   }, []);
+
+  /** Paging Navigation Handling (onClick of <h3> below)*/
+  const navigate = useNavigate();
+  const location = useLocation();
+  const goToProductPage = () =>
+      navigate(`/products/product/${slugify(product.name)}`, { state: {...location.state||{}, _id:product._id } });
 
   return (
     <Card className="m-1 w-full">
@@ -67,7 +75,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
             />
           </div>
 
-          <h3 className="text-right text-xl font-medium">{product.name}</h3>
+          <h3 className="hover:underline hover:text-blue-800 text-right text-xl font-medium" onClick={goToProductPage}>{product.name}</h3>
 
           <p className="text-sm mt-1">{product.description}</p>
 

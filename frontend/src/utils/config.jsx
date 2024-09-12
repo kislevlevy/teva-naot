@@ -513,40 +513,40 @@ export const informationBank = {
 </section> 
       `,
 
-"צור קשר": `<main id="maincontent" class="page-main p-8 bg-gray-50">
-    <div class="page-title-wrapper mb-6">
-        <h1 class="page-title text-3xl font-bold text-gray-800">שירות לקוחות</h1>
+"צור קשר": `<section id="maincontent" class="p-8 bg-gray-50">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">שירות לקוחות</h1>
     </div>
 
-    <div class="columns flex flex-wrap">
+    <div class="flex flex-wrap">
         <!-- Contact Form -->
-        <div class="col-r w-full lg:w-2/3 p-4">
-            <form class="form contact bg-white p-6 rounded-lg shadow-md" action="https://www.tevanaot.co.il/contact/index/post/" id="contact-form" method="post">
-                <div class="fieldset mb-4">
-                    <legend class="legend text-xl font-semibold mb-2"><span>כתבו לנו</span></legend>
-                    <div class="field note no-label mb-4">אנא מלאו פרטים ונחזור אליכם בהקדם:</div>
+        <div class="w-full lg:w-2/3 p-4">
+            <form class="bg-white p-6 rounded-lg shadow-md" action={} id="contact-form" method="post">
+                <div class="mb-4">
+                    <legend class="text-xl font-semibold mb-2"><span>כתבו לנו</span></legend>
+                    <div class="mb-4">אנא מלאו פרטים ונחזור אליכם בהקדם:</div>
 
-                    <div class="field firstname required mb-4">
-                        <label class="label block text-gray-700" for="firstname"><span>שם פרטי</span></label>
-                        <input name="firstname" id="firstname" title="שם פרטי" class="input-text w-full border border-gray-300 rounded-md p-2" type="text" placeholder="שם פרטי" aria-required="true">
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="firstname"><span>שם פרטי</span></label>
+                        <input name="firstname" id="firstname" title="שם פרטי" class="w-full border border-gray-300 rounded-md p-2" type="text" placeholder="שם פרטי" aria-required="true">
                     </div>
                     
-                    <div class="field lastname required mb-4">
-                        <label class="label block text-gray-700" for="lastname"><span>שם משפחה</span></label>
-                        <input name="lastname" id="lastname" title="שם משפחה" class="input-text w-full border border-gray-300 rounded-md p-2" type="text" placeholder="שם משפחה" aria-required="true">
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="lastname"><span>שם משפחה</span></label>
+                        <input name="lastname" id="lastname" title="שם משפחה" class="w-full border border-gray-300 rounded-md p-2" type="text" placeholder="שם משפחה" aria-required="true">
                     </div>
                     
-                    <div class="field email required mb-4">
-                        <label class="label block text-gray-700" for="email"><span>דוא"ל</span></label>
-                        <input name="email" id="email" title="דוא"ל" class="input-text w-full border border-gray-300 rounded-md p-2" type="email" placeholder="דוא"ל" aria-required="true">
+                    <div class="mb-4">
+                        <label class='block text-gray-700' for="email"><span>דוא\"ל</span></label>
+                        <input name="email" id="email" title='דוא\"ל' class="w-full border border-gray-300 rounded-md p-2" type="email" placeholder='דוא\"ל' aria-required="true">
                     </div>
                     
-                    <div class="field telephone required mb-4">
-                        <label class="label block text-gray-700" for="telephone"><span>טלפון/סלולרי</span></label>
-                        <input name="telephone" id="telephone" maxlength="10" title="טלפון/סלולרי" class="input-text w-full border border-gray-300 rounded-md p-2" type="tel" placeholder="טלפון" aria-required="true">
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="telephone"><span>טלפון/סלולרי</span></label>
+                        <input name="telephone" id="telephone" maxlength="10" title="טלפון/סלולרי" class="w-full border border-gray-300 rounded-md p-2" type="tel" placeholder="טלפון" aria-required="true">
                     </div>
 
-                    <div class="field subject required mb-4">
+                    <div class="mb-4">
                         <label for="subject" class="block text-gray-700"><span>נושא הפנייה</span></label>
                         <select name="subject" id="subject" class="w-full border border-gray-300 rounded-md p-2">
                             <option value="selected">נושא הפנייה</option>
@@ -558,34 +558,35 @@ export const informationBank = {
                         </select>
                     </div>
                     
-                    <div class="field comment mb-4">
-                        <label class="label block text-gray-700" for="comment"><span>תוכן הפנייה:</span></label>
-                        <textarea name="comment" id="comment" title="תוכן הפנייה:" class="input-text w-full border border-gray-300 rounded-md p-2" cols="5" rows="3" placeholder="במה נוכל לעזור?"></textarea>
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="comment"><span>תוכן הפנייה:</span></label>
+                        <textarea name="comment" id="comment" title="תוכן הפנייה:" class="w-full border border-gray-300 rounded-md p-2" cols="5" rows="3" placeholder="במה נוכל לעזור?"></textarea>
                     </div>
 
-                    <div class="actions-toolbar mt-4">
-                        <button type="submit" title="שלח" class="action submit primary contact-submit-button bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700">
+                    <div class="mt-4">
+                        <button type="submit" title="שלח" class="bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700">
                             <span>שלח</span>
                         </button>
                     </div>
-                </form>
-            </div>
-
-            <!-- Contact Details -->
-            <div class="col-l w-full lg:w-1/3 p-4 bg-white rounded-lg shadow-md">
-                <div class="field note no-label mb-4">אנא מלאו פרטים ונחזור אליכם בהקדם:</div>
-                <ul class="contact-dev mb-4">
-                    <li><a class="tel text-blue-600 hover:underline" href="tel:073-2120151">073-2120151</a></li>
-                    <li><a class="email text-blue-600 hover:underline" href="mailto:cr2@teva-naot.co.il">cr2@teva-naot.co.il</a></li>
-                    <li><a class="wize text-blue-600 hover:underline" href="#">לפנייה בצ׳אט</a></li>
-                </ul>
-                <div class="work-time">
-                    <p class="text-gray-700">מענה טלפוני בין 9:00-16:00</p>
                 </div>
+            </form>
+        </div>
+
+        <!-- Contact Details -->
+        <div class="mt-5 w-full lg:w-1/3 p-4 bg-white rounded-lg shadow-md">
+            <div class="mb-4">אנא מלאו פרטים ונחזור אליכם בהקדם:</div>
+            <ul class="mb-4">
+                <li><a class="text-blue-600 hover:underline" href="tel:073-2120151">073-2120151</a></li>
+                <li><a class="text-blue-600 hover:underline" href="mailto:cr2@teva-naot.co.il">cr2@teva-naot.co.il</a></li>
+                <li><a class="text-blue-600 hover:underline" href="#">לפנייה בצ׳אט</a></li>
+            </ul>
+            <div>
+                <p class="text-gray-700">מענה טלפוני בין 9:00-16:00</p>
             </div>
         </div>
     </div>
-</main>
+</section>
+
 `
 
   }

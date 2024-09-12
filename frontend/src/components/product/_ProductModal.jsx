@@ -7,6 +7,8 @@ import { Modal } from 'flowbite-react';
 
 import StarComponent from './subComponents/_StarComponent';
 import ProductGallery from './subComponents/_ProductGallery';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { slugify } from '../../utils/slugify';
 
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
@@ -66,9 +68,18 @@ export default function ProductModal({ productModalId, setProductModalId }) {
       _id: '3',
     },
   ];
+
+/** Paging Navigation Handling (onClick of <h3> below)*/
+const navigate = useNavigate();
+const location = useLocation();
+const goToProductPage = () =>
+    navigate(`/products/product/${slugify(products[0].name)}`, { state: {...location.state||{}, _id:products[0]._id } });
+
   const [currentProduct, setCurrentProduct] = useState(products[0]);
   const [currentSize, setCurrentSize] = useState('');
   const [activeImg, setActiveImg] = useState(products[0].images[0]);
+
+
 
   return (
     <Modal
@@ -96,7 +107,7 @@ export default function ProductModal({ productModalId, setProductModalId }) {
               <p className="text-xs font-medium   text-gray-400">כפכפים לנשים</p>
               <StarComponent rating={5} reveiws={50} />
             </div>
-            <h3 className="text-right text-xl font-medium">שחר נשים</h3>
+            <h3  className="hover:underline hover:text-blue-800 text-right text-xl font-medium" onClick={goToProductPage}>{currentProduct.name}</h3>
             <p className="text-sm mt-1">
               דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של
               כף הרגל. עשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של
