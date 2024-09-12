@@ -33,6 +33,6 @@ router.route('/changePassword').patch(changePassword);
 router.route('/getMe').get(getMe);
 router.route('/updateMe').patch(updateMe);
 router.route('/:id').get(getUsertById);
-router.route('/:id').get(editUserById);
+router.route('/:id').patch(editUserById);
 
 export default router;
