@@ -11,13 +11,17 @@ export default function ShopFilter() {
   const [filterObj, setFilterObj] = useState({});
   const [categories, setCategories] = useState([]);
 
-  const setValueInFilter = (name) => (value) =>
-    setFilterObj((prev) => ({ ...prev, [name]: value }));
+  const setValueInFilter = (name) => (value) =>{
+        setFilterObj((prev) => ({ ...prev, [name]: value }))
+        console.log(filterObj);
+        
+  }
 
-  const setValueInCategory = ({ target: { name } }) =>
+  const setValueInCategory = ({ target: { name } }) =>{
     setCategories((prev) =>
-      prev.includes(name) ? prev.filter((ele) => ele !== name) : [...prev, name]
+      prev.includes(name) ? prev.filter((ele) => ele !== name) : [...prev, name]    
     );
+    console.log(categories);}
 
   return (
     <Sidebar className="p-3 w-auto max-w-[250px]">
