@@ -8,7 +8,7 @@ import {
   getMany,
   getOneById,
   createOne,
-  oneDocApiReponse,
+  oneDocApiResponse,
 } from '../utils/handlerFactory.js';
 
 //export const createOrder = createOne(Order);
@@ -34,7 +34,7 @@ export const changeOrderStatusById = expressAsyncHandler(async (req, res, next) 
     return next(new AppError(404, 'Order not found'));
   }
 
-  oneDocApiReponse(res, 200, { doc: updatedOrder });
+  oneDocApiResponse(res, 200, { doc: updatedOrder });
 });
 
 export const createOrder = async (req, res, next) => {

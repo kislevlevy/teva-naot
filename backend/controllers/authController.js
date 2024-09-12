@@ -122,7 +122,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   //handling the email message and link(a reset password form) to the user
   const resetURL = `${process.env.FRONT_END}/resetPassword/${resetToken}`;
   try {
-    await sendEmail('TODO:', user, resetURL); // MUL DANA
+    await sendEmail('passwordReset', user, resetURL); // MUL DANA
     res.status(200).json({
       status: 'success',
       message: 'The password reset link has been sent to your email',

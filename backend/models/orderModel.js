@@ -60,8 +60,9 @@ const orderSchema = new mongoose.Schema({
         minLength: [2, 'City name must be at least 2 character long'],
         maxlength: [20, 'City name must no exceed 20 character long'],
         validate: {
-          validator: (val) =>
-            validator.isAlpha(val, ['en-US', 'he'], { ignore: ' -' }),
+          validator: function (val) {
+            return /^[a-zA-Z\u0590-\u05FF -]+$/.test(val); // Allows English, Hebrew, spaces, and hyphens
+          },
           message: 'City must only contain characters',
         },
       },

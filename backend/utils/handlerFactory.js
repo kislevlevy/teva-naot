@@ -6,7 +6,7 @@ import ApiFeatures from './apiFeatures.js';
 import mongoose from 'mongoose';
 
 // Helper functions:
-export const oneDocApiReponse = (res, statusCode, data) =>
+export const oneDocApiResponse = (res, statusCode, data) =>
   res.status(statusCode).json({
     status: 'success',
     data,
@@ -57,7 +57,7 @@ export const getOneById = (Model) =>
     if (!doc) return next(new AppError(404, 'No document found with that ID.'));
 
     // API response:
-    oneDocApiReponse(res, 200, { doc });
+    oneDocApiResponse(res, 200, { doc });
   });
 
 export const editOneById = (Model) =>
@@ -79,7 +79,7 @@ export const editOneById = (Model) =>
     });
 
     // API response:
-    oneDocApiReponse(res, 200, { doc: updatedDoc });
+    oneDocApiResponse(res, 200, { doc: updatedDoc });
   });
 
 export const createOne = (Model) =>
@@ -94,7 +94,7 @@ export const createOne = (Model) =>
     const newDoc = await Model.create(body);
 
     // API response:
-    oneDocApiReponse(res, 201, { doc: newDoc });
+    oneDocApiResponse(res, 201, { doc: newDoc });
   });
 
 export const deleteOneById = (Model) =>
@@ -109,5 +109,5 @@ export const deleteOneById = (Model) =>
     await Model.findByIdAndDelete(id);
 
     // API response:
-    oneDocApiReponse(res, 204, { doc: null });
+    oneDocApiResponse(res, 204, { doc: null });
   });

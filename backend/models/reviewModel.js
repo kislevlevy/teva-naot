@@ -66,8 +66,8 @@ reviewSchema.pre('save', function (next) {
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: '',
-  }).populate({ path: 'productGroup', select: '' });
+    select: '_id',
+  }).populate({ path: 'productGroup', select: '_id' });
   next();
 });
 

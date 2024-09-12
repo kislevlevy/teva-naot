@@ -9,7 +9,7 @@ import {
   editOneById,
   getMany,
   getOneById,
-  oneDocApiReponse,
+  oneDocApiResponse,
   validIdCheck,
 } from '../utils/handlerFactory.js';
 import AppError from '../utils/appError.js';
@@ -47,7 +47,7 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
   });
 
   // updatedProduct
-  oneDocApiReponse(res, 200, { doc: updatedProduct });
+  oneDocApiResponse(res, 200, { doc: updatedProduct });
 });
 
 // Product Group:

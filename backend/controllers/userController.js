@@ -6,7 +6,7 @@ import {
   editOneById,
   getMany,
   getOneById,
-  oneDocApiReponse,
+  oneDocApiResponse,
 } from '../utils/handlerFactory.js';
 
 export const getUsers = getMany(User);
@@ -21,7 +21,7 @@ const getMe = asyncHandler(async (req, res, next) => {
     return next(new AppError(404, 'User not found'));
   }
 
-  oneDocApiReponse(res, 200, { doc: user });
+  oneDocApiResponse(res, 200, { doc: user });
 });
 
 const updateMe = asyncHandler(async (req, res, next) => {
@@ -48,7 +48,7 @@ const updateMe = asyncHandler(async (req, res, next) => {
 
   // Update user using findByIdAndUpdate
   const user = await User.findByIdAndUpdate(req.user.id, updateData);
-  oneDocApiReponse(res, 200, { doc: updatedProduct });
+  oneDocApiResponse(res, 200, { doc: updatedProduct });
 
   if (!user) {
     return next(new AppError(404, 'User not found'));

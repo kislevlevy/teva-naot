@@ -39,6 +39,8 @@ const emailConfirmationMessage = (token) => ({
 });
 //need to add to env: EMAIL_HOST, EMAIL_USER, EMAIL_PORT, EMAIL_PASSWORD
 const sendEmail = async (type, user, token) => {
+  console.log(user);
+
   let options;
   if (type === 'passwordReset') {
     options = passwordResetMessage(token);
@@ -60,7 +62,7 @@ const sendEmail = async (type, user, token) => {
   });
 
   const mailOptions = {
-    from: options.from,
+    from: '<info@teva-naot.com> - Teva Naot',
     to: user.email,
     subject: options.subject,
     html: `

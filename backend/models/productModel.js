@@ -1,6 +1,7 @@
 // Module Imports:
 import mongoose from 'mongoose';
 import validator from 'validator';
+import ProductGroup from './productGroupModel.js';
 
 // DB Schema:
 const productSchema = new mongoose.Schema({
@@ -69,30 +70,29 @@ const productSchema = new mongoose.Schema({
       message:
         '{VALUE}- Sizes must be a map of numeric size values with non-negative quantities.',
     },
-    select: false,
   },
   priceBeforeDiscount: {
     type: Number,
     min: 1,
   },
-  sizesAvailability: {
-    type: Map,
-    of: {
-      type: Number,
-      enum: [0, 1],
-    },
-    required: [true, 'Available sizes are required'],
-    validate: {
-      validator: function (map) {
-        return Array.from(map.entries()).every(
-          ([size, availability]) =>
-            validator.isNumeric(size) && (availability === 0 || availability === 1)
-        );
-      },
-      message:
-        '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
-    },
-  },
+  // sizesAvailability: {
+  //   type: Map,
+  //   of: {
+  //     type: Number,
+  //     enum: [0, 1],
+  //   },
+  //   required: [true, 'Available sizes are required'],
+  //   validate: {
+  //     validator: function (map) {
+  //       return Array.from(map.entries()).every(
+  //         ([size, availability]) =>
+  //           validator.isNumeric(size) && (availability === 0 || availability === 1)
+  //       );
+  //     },
+  //     message:
+  //       '{VALUE}- Available sizes must be a map of numeric size values with 0 (not available) or 1 (available).',
+  //   },
+  // },
   price: {
     type: Number,
     min: 1,
@@ -110,24 +110,30 @@ productSchema.index({ price: -1 });
 
 // Middlewares:
 // Populate product group:
-productSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'productGroup',
-    fields: 'name category ratingsAvg ratingsQuantity baseBarcode',
-    select: '-__v',
-  });
-  next();
-});
 
 // update product group price + image, when new product is created
 productSchema.post('save', async function () {
-  const productGroup = await productGroup.findById(this.productGroup);
-
-  productGroup.image = this.images[0];
-  if (productGroup.price === 0 || this.price < productGroup.price)
-    productGroup.price = this.price;
-
-  await productGroup.save();
+  if (this.isNew) {
+    const productGroup = await ProductGroup.findById(this.productGroup);
+    productGroup.image = this.images[0];
+    if (productGroup.price === 0 || this.price < productGroup.price)
+      productGroup.price = this.price;
+    await productGroup.save();
+  }
+});
+productSchema.set('toJSON', {
+  transform: (doc, ret) =>
+    ret.sizes
+      ? {
+          ...ret,
+          sizes: Object.fromEntries(
+            Object.entries(ret.sizes).map(([size, stock]) => [
+              size,
+              stock > 0 ? 1 : 0,
+            ])
+          ),
+        }
+      : ret,
 });
 // Export schema:
 const Product = mongoose.model('Product', productSchema);
