@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   'Popular Products': [
@@ -82,16 +82,15 @@ const initialState = {
 };
 
 const popularProductsSlice = createSlice({
- name:'popularProducts',
- initialState,
- reducers:{
- updatePopularProducts(state,action){
-    return{...state,...action.payload}
+  name: 'popularProducts',
+  initialState,
+  reducers: {
+    updatePopularProducts(state, action) {
+      return { ...state, ...action.payload };
+    },
+  },
+});
 
- }
- }
-})
+export default popularProductsSlice.reducer;
 
-export default popularProductsSlice.reducer
-
-export const {updatePopularProducts} = popularProductsSlice.actions
+export const { updatePopularProducts } = popularProductsSlice.actions;

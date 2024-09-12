@@ -48,7 +48,7 @@ const updateMe = asyncHandler(async (req, res, next) => {
 
   // Update user using findByIdAndUpdate
   const user = await User.findByIdAndUpdate(req.user.id, updateData);
-  oneDocApiResponse(res, 200, { doc: updatedProduct });
+  oneDocApiResponse(res, 200, { doc: user });
 
   if (!user) {
     return next(new AppError(404, 'User not found'));

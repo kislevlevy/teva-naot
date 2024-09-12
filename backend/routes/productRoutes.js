@@ -3,19 +3,19 @@ import express from 'express';
 
 import {
   createProduct,
-  createProductGroup,
+  createProductColor,
   deleteProductById,
-  deleteProductGroupById,
-  deleteProductGroupItems,
+  deleteProductColorById,
   editProductById,
-  editProductGroupById,
+  editProductColorById,
   editProductStockById,
   getProductById,
-  getProductGroupById,
+  getProductColorById,
+  getProductColors,
   getProducts,
-  getProductsGroups,
 } from '../controllers/productController.js';
-import { getProductsStockStats } from '../controllers/statsController.js';
+import { protect } from '../controllers/authController.js';
+// import { getProductsStockStats } from '../controllers/statsController.js';
 
 // Initiation for router:
 const router = express.Router({ mergeParams: true });
@@ -24,21 +24,21 @@ const router = express.Router({ mergeParams: true });
 router.patch('/:id/stock', editProductStockById);
 // router.route('/stats').get('/stock', getProductsStockStats);
 
-// Product Groups:
+// Product colors:
+router.route('/colors').get(getProductColors).post(protect, createProductColor);
 router
-  .route('/group/:id')
-  .get(getProductGroupById)
-  .patch(editProductGroupById)
-  .delete(deleteProductGroupItems, deleteProductGroupById);
-router.route('/group').get(getProductsGroups).post(createProductGroup);
+  .route('/colors/:id')
+  .get(getProductColorById)
+  .delete(protect, deleteProductColorById)
+  .patch(protect, editProductColorById);
 
-// Products:
+// Product:
+router.route('/').get(getProducts).post(protect, createProduct);
 router
   .route('/:id')
   .get(getProductById)
-  .delete(deleteProductById)
-  .patch(editProductById);
-router.route('/').get(getProducts).post(createProduct);
+  .patch(protect, editProductById)
+  .delete(deleteProductById);
 
 // Export module:
 export default router;

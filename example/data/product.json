@@ -1,0 +1,37 @@
+{
+  "_id": "5c88fa8cf4afda39709c2955",
+  "name": "שחר נשים",
+  "slug": "שחר-נשים",
+  "description": "דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של כף הרגל.\nעשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של טבע נאות המקנה תחושת גמישות ורכות מלטפת בכל צעד,\nבולמת זעזועים ותומכת בכל חלקי כף הרגל מהבוהן ועד העקב, וסוליית EVA עשויה גומי מוקצף לבלימת זעזועים ולמניעת החלקה. מיוצר בישראל בעבודת יד.",
+  "category": ["נשים", "כפכפים לנשים"],
+  "ratingsAvg": 7,
+  "ratingsQuantity": 2,
+  "baseBarcode": "101101",
+  "colors": ["66e2ac0f5690b0f058557404"],
+  "lastProductPrice": 450,
+  "lastProductImage": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg",
+  "reviews": [
+    {
+      "_id": "5c8a34ed14eb5c17645c9108",
+      "user": {
+        "_id": "5c8a1d5b0190b214360dc057",
+        "fullName": "Kislev Levy",
+        "profileImg": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg"
+      },
+      "product": "5c88fa8cf4afda39709c2955",
+      "review": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore recusandae modi, aliquid provident atque nemo mollitia asperiores commodi quis quia amet aut iure animi voluptatibus distinctio voluptatem itaque autem vitae!",
+      "rating": 5
+    },
+    {
+      "_id": "5c8a34ed14eb5c17645c9108",
+      "user": {
+        "_id": "5c8a1d5b0190b214360dc056",
+        "fullName": "Tomer Amitay",
+        "profileImg": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg"
+      },
+      "product": "5c88fa8cf4afda39709c2955",
+      "review": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore recusandae modi, aliquid provident atque nemo mollitia asperiores commodi quis quia amet aut iure animi voluptatibus distinctio voluptatem itaque autem vitae!",
+      "rating": 10
+    }
+  ]
+}

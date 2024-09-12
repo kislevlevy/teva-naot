@@ -8,17 +8,25 @@ import { Card } from 'flowbite-react';
 import hoverFunc from '../../utils/hover';
 import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { slugify } from '../../utils/slugify';
 
 // Component:
 export default function ProductCardSimple({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
-
+  
   const hoverEffect = useCallback(() => {
     hoverFunc();
   }, []);
-  useEffect(() => {
+  useEffect(() => {    
     hoverEffect();
   }, [hoverEffect]);
+
+/** Paging Navigation Handling (onClick of <h3> below)*/
+  const navigate = useNavigate();
+  const location = useLocation();
+  const goToProductPage = () =>
+      navigate(`/products/product/${slugify(product.name)}`, { state: {...location.state||{}, _id:product._id } });
 
   return (
     <Card className="m-1 max-w-xs">
@@ -33,7 +41,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
             className="dslc-lightbox-image img_producto"
             target="_self"
             style={{
-              backgroundImage:product.image,
+              backgroundImage: product.image,
             }}
           ></a>
         </div>
@@ -72,8 +80,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
           reveiws={product.ratingsQuantity}
         />
 
-        <h3 className="text-center text-lg font-medium">{product.name}</h3>
-
+        <h3 className="hover:underline hover:text-blue-800 text-center text-lg font-medium" onClick={goToProductPage}>{product.name}</h3>
         <div className="text-center">
           <span className="mr-1 font-bold text-emerald-500">
             {product.lastProductPrice}₪

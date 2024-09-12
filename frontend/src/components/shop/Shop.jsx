@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Pagination } from 'flowbite-react';
 import Grid from '@mui/material/Grid2';
 
-import { useGetProductsGroupQuery } from '../../slices/api/apiProductsGroupSlices';
+import { useGetProductsQuery } from '../../slices/api/apiProductsSlices';
 
 import ProductList from '../product/ProductList';
 import ShopFilter from './_ShopFilter';
@@ -15,7 +15,7 @@ import Error from '../../pages/Error';
 export default function Shop() {
   const [isDetailed, setIsDetailed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isSuccess, isLoading, isError } = useGetProductsGroupQuery();
+  const { data, isSuccess, isLoading, isError } = useGetProductsQuery();
 
   if (isError) return <Error />;
   if (isLoading) return <h2>Loading...</h2>;

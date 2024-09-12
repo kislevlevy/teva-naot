@@ -37,7 +37,7 @@ export default function ShopTooltip({ isDetailed, setIsDetailed, results }) {
       </div>
       <div>
         <Select
-          data={['מחיר', 'דירוג', 'פופלאריות']}
+          data={['מחיר', 'דירוג', 'פופולאריות']}
           placeholder="מיין לפי"
           className="w-24 rtl"
           size="xs"

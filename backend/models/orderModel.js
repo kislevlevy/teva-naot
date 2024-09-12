@@ -9,33 +9,17 @@ const orderSchema = new mongoose.Schema({
   },
   products: [
     {
-      product: {
+      productColor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true,
-      },
-      sizes: {
-        type: Map,
-        of: {
-          type: Number,
-          min: 0,
-        },
-        required: [true, 'Sizes are required.'],
-        validate: {
-          validator: function (map) {
-            return Array.from(map.entries()).every(
-              ([size, quantity]) => validator.isNumeric(size) && quantity >= 0
-            );
-          },
-          message:
-            'Sizes must be a map of numeric size values with non-negative quantities.',
-        },
       },
       price: {
         type: Number,
         required: [true, 'Price is required.'],
         min: [0, 'Price must be a positive number'],
       },
+      sizes: [[String, Number]],
     },
   ],
   shippingAddress: {

@@ -11,7 +11,7 @@ export const oneDocApiResponse = (res, statusCode, data) =>
     status: 'success',
     data,
   });
-export const manyDocsApiReponse = (res, statusCode, data) =>
+export const manyDocsApiResponse = (res, statusCode, data) =>
   res.status(statusCode).json({
     status: 'success',
     results: data.docs.length,
@@ -40,7 +40,7 @@ export const getMany = (Model) =>
       return next(new AppError(404, 'No documents exiest for your query in DB'));
 
     // API response:
-    manyDocsApiReponse(res, 200, { docs });
+    manyDocsApiResponse(res, 200, { docs });
   });
 
 export const getOneById = (Model) =>

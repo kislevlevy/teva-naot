@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ProductGroup from './productGroupModel.js';
+import Product from './productModel.js';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -9,10 +9,9 @@ const reviewSchema = new mongoose.Schema(
       required: [true, 'Review must belong to a user'],
       //create middleware to check only 1 user for feedback for groupProduct
     },
-
-    productGroup: {
+    product: {
       type: mongoose.Schema.ObjectId,
-      ref: 'ProductGroup',
+      ref: 'Product',
       required: [true, 'Review must belong to a product group'],
     },
     review: {
@@ -66,22 +65,21 @@ reviewSchema.pre('save', function (next) {
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: '_id',
-  }).populate({ path: 'productGroup', select: '_id' });
+    select: '_id fullName profileImg',
+  });
   next();
 });
 
 const calcAvgRating = (num) =>
   async function () {
-    const productGroup = await ProductGroup.findById(this.productGroup);
-    productGroup.ratingsQuantity + num;
-    const { ratingsAvg, ratingsQuantity } = productGroup;
-
-    productGroup.ratingsAvg = Math.round(
+    const product = await Product.findById(this.product);
+    product.ratingsQuantity += num;
+    const { ratingsAvg, ratingsQuantity } = product;
+    product.ratingsAvg = Math.round(
       (ratingsAvg * (ratingsQuantity - num) + this.rating) / ratingsQuantity
     );
-
-    await productGroup.save();
+    console.log(ratingsAvg, ratingsQuantity, num);
+    await product.save();
   };
 
 // Calculate new average rating and quantity in case of create/edit review
