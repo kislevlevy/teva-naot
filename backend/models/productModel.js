@@ -48,7 +48,6 @@ const ProductSchema = new mongoose.Schema(
       ],
       required: [true, 'Product category is required.'],
     },
-
     ratingsAvg: {
       type: Number,
       default: 1,

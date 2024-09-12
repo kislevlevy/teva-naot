@@ -1,38 +1,15 @@
-[
-    {
-      "name": "שפאלט לבן",
-	  "thumbnail": ["hex","#ded9d9"],
-      "images": ["https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-H50-01_1_2.jpg"],
-      "colorBarcode": "H5036",
-      "sizes": {
-        "35": 10,
-      },
-      "price": 450,
-	  "productGroup":"5c88fa8cf4afda39709c2955",
-	  "_id":"1"
-    },
-    {
-      "name": "ר שפאלט ורוד פלמינגו",
-	  "thumbnail": ["hex","#b69088"],
-      "img": "./img/products/5c88fa8cf4afda39709c2955/CAP36.jpg",
-      "colorBarcode": "CAP36",
-      "sizes": {
-        "35": 10,
-      },
-      "price": 450,
-	  "productGroup":"5c88fa8cf4afda39709c2955",
-	  "_id":"2"
-    },
-    {
-      "name": "אביב מוזהב",
-	  "thumbnail": ["img","https://www.tevanaot.co.il/media/attribute/swatch/swatch_image/30x20/e/e/ee2.jpg"],
-      "img": "https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-EE2-01_1.jpg",
-      "colorBarcode": "EE236",
-      "sizes": {
-        "35": 10,
-      },
-      "price": 429,
-	  "productGroup":"5c88fa8cf4afda39709c2955",
-	  "_id":"3"
-    }
-	]
+{
+  "_id": "66e2ac0f5690b0f058557404",
+  "name": "שפאלט לבן",
+  "thumbnail": ["hex", "#ded9d9"],
+  "images": [
+    "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg"
+  ],
+  "colorBarcode": "H5036",
+  "sizes": {
+    "35": 10
+  },
+  "priceBeforeDiscount": 499,
+  "price": 450,
+  "product": "5c88fa8cf4afda39709c2955"
+}
