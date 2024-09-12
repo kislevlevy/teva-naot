@@ -119,7 +119,7 @@ ProductSchema.pre('save', function (next) {
 ProductSchema.pre(/^findOne/, function (next) {
   this.populate({
     path: 'reviews',
-    select: '-__v',
+    select: '_id user -product',
   });
   next();
 });

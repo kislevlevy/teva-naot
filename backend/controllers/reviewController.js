@@ -19,16 +19,16 @@ export const getReviewsByProductGroupId = asyncHandler(async (req, res, next) =>
 });
 
 export const createReview = asyncHandler(async (req, res, next) => {
-  const { productGroupId, review, rating } = req.body;
+  const { productId, review, rating } = req.body;
 
   const existingReview = await Review.findOne({
     user: req.user.id,
-    productGroup: productGroupId,
+    product: productId,
   });
 
   const newReview = await Review.create({
     user: req.user.id,
-    productGroup: productGroupId,
+    product: productId,
     review,
     rating,
     createdAt: Date.now(),
