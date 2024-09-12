@@ -15,13 +15,14 @@ import { Provider } from 'react-redux';
 import store from './slices/store';
 import Root from './layout/Root';
 import Error from './pages/Error';
+import { StateProvider } from './slices/stateContext';
 
 // Lazy imports:
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./components/shop/Shop'));
 const Cart = lazy(() => import('./components/product/ProductList'));
 const SingleProduct = lazy(() => import('./pages/Product'));
-const Info = lazy(() => import('./pages/Info'))
+const Info = lazy(() => import('./pages/Info'));
 
 // Component:
 export default function App() {
@@ -33,12 +34,11 @@ export default function App() {
           <Route index element={<Shop />} />
           <Route path="product/:slug" element={<SingleProduct />} />
           <Route path="category/:slug" element={<Shop />} />
-        </Route> 
+        </Route>
         <Route path="cart" element={<Cart />} />
         <Route path="policy">
           <Route index element={<Navigate to="משלוחים" />} />
-          <Route path=":slug" element=
-          {<Info />} />
+          <Route path=":slug" element={<Info />} />
         </Route>
         <Route path="company">
           <Route index element={<Navigate to="אודות" />} />
@@ -51,9 +51,11 @@ export default function App() {
 
   return (
     <MantineProvider>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <StateProvider>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </StateProvider>
     </MantineProvider>
   );
 }

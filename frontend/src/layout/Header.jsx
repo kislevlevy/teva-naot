@@ -1,5 +1,5 @@
 // Imports:
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MegaMenu, Navbar } from 'flowbite-react';
@@ -7,20 +7,27 @@ import Icon from '@mdi/react';
 import { mdiAccount, mdiArrowLeft, mdiCartVariant, mdiMagnify } from '@mdi/js';
 import { TextInput, ActionIcon } from '@mantine/core';
 
+import StateContext from '../slices/stateContext';
 import { categories, subCategories } from '../utils/config';
 import { slugify } from '../utils/slugify';
+import CartDrawer from '../components/cart/CartDrawer';
 
 // Component
 export default function Header() {
-  const [isCollappsed, setIsCollappsed] = useState(false);
+  const { setIsCartOpen, isCartOpen } = useContext(StateContext);
+
   return (
     <MegaMenu dir="rtl">
+      <CartDrawer />
       <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between p-4 ">
         <Navbar.Brand href="/">
           <img alt="Teva Naot" src="/img/logoMain.svg" className="mr-3 h-9" />
         </Navbar.Brand>
         <div className="order-2 hidden items-center md:flex space-x-1">
-          <div className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer">
+          <div
+            onClick={() => setIsCartOpen(true)}
+            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer"
+          >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           <a
@@ -37,7 +44,10 @@ export default function Header() {
           </a>
         </div>
         <div className="flex space-x-1">
-          <div className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer">
+          <div
+            onClick={() => setIsCartOpen(true)}
+            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer"
+          >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           <div className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer">

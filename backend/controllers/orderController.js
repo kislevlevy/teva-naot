@@ -1,7 +1,7 @@
 //import asyncHandler from "express-async-handler";
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
-import Product from '../models/productModel.js';
+import ProductColor from '../models/productColorModel.js';
 import AppError from '../utils/appError.js';
 import {
   editOneById,
@@ -54,14 +54,16 @@ export const createOrder = async (req, res, next) => {
 export const validateAndUpdateStock = async (req, res, next) => {
   try {
     for (const item of req.body.products) {
-      const product = await Product.findById(item.product);
+      const productColor = await ProductColor.findById(item.productColor);
 
-      if (!product) {
-        return next(new AppError(404, `Product with ID ${item.product} not found`));
+      if (!productColor) {
+        return next(
+          new AppError(404, `productColor with ID ${item.productColor} not found`)
+        );
       }
 
-      if (!(product.sizes instanceof Map)) {
-        product.sizes = new Map(Object.entries(product.sizes));
+      if (!(productColor.sizes instanceof Map)) {
+        productColor.sizes = new Map(Object.entries(productColor.sizes));
       }
 
       let sizesMap;
@@ -80,13 +82,16 @@ export const validateAndUpdateStock = async (req, res, next) => {
           );
         }
 
-        if (!product.sizes.has(size)) {
+        if (!productColor.sizes.has(size)) {
           return next(
-            new AppError(404, `Size ${size} not found in Product ID ${item.product}`)
+            new AppError(
+              404,
+              `Size ${size} not found in Product ID ${item.productColor}`
+            )
           );
         }
 
-        if (product.sizes.get(size) < quantity) {
+        if (productColor.sizes.get(size) < quantity) {
           return next(
             new AppError(400, `Product does not have enough stock for size ${size}`)
           );
@@ -95,10 +100,10 @@ export const validateAndUpdateStock = async (req, res, next) => {
     }
 
     for (const item of req.body.products) {
-      const product = await Product.findById(item.product);
+      const productColor = await ProductColor.findById(item.productColor);
 
-      if (!(product.sizes instanceof Map)) {
-        product.sizes = new Map(Object.entries(product.sizes));
+      if (!(productColor.sizes instanceof Map)) {
+        productColor.sizes = new Map(Object.entries(productColor.sizes));
       }
 
       let sizesMap;
@@ -109,10 +114,10 @@ export const validateAndUpdateStock = async (req, res, next) => {
       }
 
       for (const [size, quantity] of sizesMap) {
-        product.sizes.set(size, product.sizes.get(size) - quantity);
+        productColor.sizes.set(size, productColor.sizes.get(size) - quantity);
       }
 
-      await product.save();
+      await productColor.save();
     }
 
     next();

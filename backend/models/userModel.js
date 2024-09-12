@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema(
         validator: (val) => validator.isEmail(val),
         message: '{VALUE}- Please provide a valid email',
       },
+      select: false,
     },
     password: {
       type: String,
@@ -78,7 +79,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['client', 'employee', 'manager', 'admin'],
       default: 'client',
-      select: 'false',
+      select: false,
     },
     permissions: {
       type: [String],
@@ -138,20 +139,24 @@ const userSchema = new mongoose.Schema(
           },
         },
       },
+      select: false,
     },
-    favoriteCategories: [
-      {
-        category: {
-          type: String,
-          validate: {
-            validator: (val) =>
-              validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
-            message: '{VALUE}- Category must only contain characters',
+    favoriteCategories: {
+      type: [
+        {
+          category: {
+            type: String,
+            validate: {
+              validator: (val) =>
+                validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
+              message: '{VALUE}- Category must only contain characters',
+            },
           },
+          clicks: Number,
         },
-        clicks: Number,
-      },
-    ],
+      ],
+      select: false,
+    },
   },
   {
     toJSON: {

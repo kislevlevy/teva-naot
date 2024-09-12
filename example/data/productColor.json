@@ -1,0 +1,15 @@
+{
+  "_id": "66e2ac0f5690b0f058557404",
+  "name": "שפאלט לבן",
+  "thumbnail": ["hex", "#ded9d9"],
+  "images": [
+    "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg"
+  ],
+  "colorBarcode": "H5036",
+  "sizes": {
+    "35": 10
+  },
+  "priceBeforeDiscount": 499,
+  "price": 450,
+  "product": "5c88fa8cf4afda39709c2955"
+}
