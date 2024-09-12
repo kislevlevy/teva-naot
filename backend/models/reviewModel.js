@@ -74,13 +74,12 @@ reviewSchema.pre(/^find/, function (next) {
 const calcAvgRating = (num) =>
   async function () {
     const productGroup = await ProductGroup.findById(this.productGroup);
-    productGroup.ratingsQuantity + num;
+    productGroup.ratingsQuantity += num;
     const { ratingsAvg, ratingsQuantity } = productGroup;
-
     productGroup.ratingsAvg = Math.round(
       (ratingsAvg * (ratingsQuantity - num) + this.rating) / ratingsQuantity
     );
-
+    console.log(ratingsAvg, ratingsQuantity, num);
     await productGroup.save();
   };
 
