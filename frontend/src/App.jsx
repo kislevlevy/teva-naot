@@ -5,6 +5,7 @@ import {
   RouterProvider,
   Route,
   createRoutesFromElements,
+  Navigate,
 } from 'react-router-dom';
 
 import { MantineProvider } from '@mantine/core';
@@ -12,13 +13,15 @@ import './App.css';
 import '@mantine/core/styles.css';
 import { Provider } from 'react-redux';
 import store from './slices/store';
-import Shop from './components/shop/Shop';
+import Root from './layout/Root';
+import Error from './pages/Error';
 
 // Lazy imports:
-const Root = lazy(() => import('./layout/Root'));
-const Error = lazy(() => import('./pages/Error'));
 const Home = lazy(() => import('./pages/Home'));
-const Product = lazy(() => import('./pages/Product'));
+const Shop = lazy(() => import('./components/shop/Shop'));
+const Cart = lazy(() => import('./components/product/ProductList'));
+const SingleProduct = lazy(() => import('./pages/Product'));
+const Info = lazy(() => import('./pages/Info'))
 
 // Component:
 export default function App() {
@@ -26,8 +29,22 @@ export default function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />} errorElement={<Error />}>
         <Route index element={<Home />} />
-        <Route path="product/:slug" element={<Product />} />
-        <Route path="product" element={<Shop />} />
+        <Route path="products">
+          <Route index element={<Shop />} />
+          <Route path="product/:slug" element={<SingleProduct />} />
+          <Route path="category/:slug" element={<Shop />} />
+        </Route> 
+        <Route path="cart" element={<Cart />} />
+        <Route path="policy">
+          <Route index element={<Navigate to="משלוחים" />} />
+          <Route path=":slug" element=
+          {<Info />} />
+        </Route>
+        <Route path="company">
+          <Route index element={<Navigate to="אודות" />} />
+          <Route path=":slug" element={<Info />} />
+        </Route>
+        {/* <Route path="dashbord" element={<Login />} /> */}
       </Route>,
     ),
   );

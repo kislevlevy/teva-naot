@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiEyeOutline, mdiHeartOutline } from '@mdi/js';
@@ -13,9 +13,12 @@ import StarComponent from './subComponents/_StarComponent';
 export default function ProductCardSimple({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
 
-  useEffect(() => {
+  const hoverEffect = useCallback(() => {
     hoverFunc();
   }, []);
+  useEffect(() => {
+    hoverEffect();
+  }, [hoverEffect]);
 
   return (
     <Card className="m-1 max-w-xs">

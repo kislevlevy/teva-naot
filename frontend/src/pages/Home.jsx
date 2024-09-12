@@ -1,13 +1,13 @@
 // Imports:
-import FooterMainComp from '../components/footer/FooterMainComp';
-import PopularProductsSection from '../components/productsShow/PopularProductsMain';
+import Shop from '../components/shop/Shop';
+import PopularProductsSection from '../components/popularProducts/PopularProductsMain';
 
 // Component:
 export default function Home() {
   return (
     <>
       <PopularProductsSection />
-      <FooterMainComp />
+      <Shop />
     </>
   );
 }
