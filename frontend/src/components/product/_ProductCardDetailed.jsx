@@ -31,7 +31,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
               className="dslc-lightbox-image img_producto"
               target="_self"
               style={{
-                backgroundImage: `url(${product.image})`,
+                backgroundImage:product.image,
               }}
             ></a>
           </div>

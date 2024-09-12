@@ -33,13 +33,16 @@ export default function ProductCardSimple({ setProductModalId, product }) {
             className="dslc-lightbox-image img_producto"
             target="_self"
             style={{
-              backgroundImage: `url(${product.image})`,
+              backgroundImage:product.image,
             }}
           ></a>
         </div>
         <div
           className="w-fit h-fit bottom-0 absolute justify-center translate-x-[70px] translate-y-4"
-          onClick={() => setProductModalId(product._id)}
+          onClick={() =>{
+            setProductModalId(product._id)
+          }
+          }
         >
           <Icon
             className="hover:bg-zinc-200 hover:cursor-pointer rounded-full border-[1px] border-slate-300 bg-zinc-100 p-2"

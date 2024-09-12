@@ -3,7 +3,6 @@ export default class ApiFeatures {
     this.req = req;
     this.find = find;
   }
-
   filter() {
     // Set fillter abbilaties:
     const nonFilterFields = ['sort', 'page', 'limit', 'fields', 'q'];

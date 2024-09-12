@@ -4,7 +4,7 @@ import 'aos/dist/aos.css'; // Import AOS CSS
 import PopularProductsItemContainer from './PopularProductsItemContainer';
 import PopularProductsSidebar from './PopularProductsSidebar';
 import PopularProductsButtonsGroup from './PopularProductsButtonGroup';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 export default function PopularProducts() {

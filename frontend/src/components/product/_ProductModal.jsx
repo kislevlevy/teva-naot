@@ -8,8 +8,18 @@ import { Modal } from 'flowbite-react';
 import StarComponent from './subComponents/_StarComponent';
 import ProductGallery from './subComponents/_ProductGallery';
 
+import { useGetProductGroupQuery } from '../../slices/api/apiProductsGroupSlices';
+import { useEffect } from 'react';
+
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
+  const {data,isSuccess,isError} = useGetProductGroupQuery(productModalId)
+  let product;
+  if(isSuccess){
+product = data.data.doc;
+console.log(product)
+  }
+
   const products = [
     {
       name: 'שפאלט לבן',

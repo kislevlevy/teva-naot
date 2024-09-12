@@ -10,6 +10,10 @@ export const apiProductsGroup = createApi({
       query: () => '/products/group',
       providesTags: ['ProductsGroup'],
     }),
+    getProductsGroupByFilter:builder.query({
+      query: (filter) => `/products/group${filter}`,
+      providesTags: ['ProductsGroup'],
+    }),
 
     getProductGroup: builder.query({
       query: (productId) => `/products/group/${productId}`,
@@ -43,6 +47,7 @@ export const apiProductsGroup = createApi({
 
 export const {
   useGetProductsGroupQuery,
+  useGetProductsGroupByFilterQuery,
   useGetProductGroupQuery,
   useAddNewProductGroupMutation,
   useEditProductGroupMutation,

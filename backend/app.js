@@ -47,12 +47,12 @@ app.use(cookieParser()); // cookieParser
 app.use(helmet()); // HTTP secure setup:
 
 // Limit api req from one client:
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 3600000,
-  message: 'Too many requests from this IP, please try again later.',
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 3600000,
+//   message: 'Too many requests from this IP, please try again later.',
+// });
+// app.use('/api', limiter);
 
 // body parcer:
 app.use(express.json({ limit: '10kb' }));
