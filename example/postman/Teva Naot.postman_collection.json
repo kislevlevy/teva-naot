@@ -1,0 +1,889 @@
+{
+	"info": {
+		"_postman_id": "49c4b910-ae99-48f2-848f-55959c1c82a1",
+		"name": "Teva Naot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32737315"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "getProdcuts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createProduct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('productId', pm.response.json().data.doc._id); "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"שחר נשים\",\r\n    \"description\": \"דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של כף הרגל.\\nעשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של טבע נאות המקנה תחושת גמישות ורכות מלטפת בכל צעד,\\nבולמת זעזועים ותומכת בכל חלקי כף הרגל מהבוהן ועד העקב, וסוליית EVA עשויה גומי מוקצף לבלימת זעזועים ולמניעת החלקה. מיוצר בישראל בעבודת יד.\",\r\n    \"category\": [\r\n        \"נשים\",\r\n        \"כפכפים לנשים\"\r\n    ],\r\n    \"baseBarcode\": \"101101\",\r\n    \"availableSizes\": [\r\n        \"35\",\r\n        \"40\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getProductById/:id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/66e2df459a6e24467aa676bc",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"66e2df459a6e24467aa676bc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteProductById/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/66e2df459a6e24467aa676bc",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"66e2df459a6e24467aa676bc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "editProductById/:id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"שחר נשים\",\r\n    \"description\": \"דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של כף הרגל.\\nעשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של טבע נאות המקנה תחושת גמישות ורכות מלטפת בכל צעד,\\nבולמת זעזועים ותומכת בכל חלקי כף הרגל מהבוהן ועד העקב, וסוליית EVA עשויה גומי מוקצף לבלימת זעזועים ולמניעת החלקה. מיוצר בישראל בעבודת יד.\",\r\n    \"category\": [\r\n        \"נשים\",\r\n        \"כפכפים לנשים\"\r\n    ],\r\n    \"baseBarcode\": \"101101\",\r\n    \"availableSizes\": [\r\n        \"35\",\r\n        \"40\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/66e2dfac9a6e24467aa676c9",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"66e2dfac9a6e24467aa676c9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ProductColor",
+					"item": [
+						{
+							"name": "getProductsColor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createProductColor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('productColorId', pm.response.json().data.doc._id); "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"שפאלט לבן\",\r\n    \"thumbnail\": [\r\n        \"hex\",\r\n        \"#ded9d9\"\r\n    ],\r\n    \"images\": [\r\n        \"https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg\"\r\n    ],\r\n    \"colorBarcode\": \"H5036\",\r\n    \"sizes\": {\r\n        \"35\": 10\r\n    },\r\n    \"priceBeforeDiscount\": 499,\r\n    \"price\": 449,\r\n    \"product\": \"66e2dfac9a6e24467aa676c9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getProductColorById/:id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors/{{productColorId}}",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors",
+										"{{productColorId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteProductColorById/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors/{{productColorId}}",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors",
+										"{{productColorId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "editProductById/:id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"שפאלט לבן\",\r\n    \"thumbnail\": [\r\n        \"hex\",\r\n        \"#ded9d9\"\r\n    ],\r\n    \"images\": [\r\n        \"https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg\"\r\n    ],\r\n    \"colorBarcode\": \"H5036\",\r\n    \"sizes\": {\r\n        \"35\": 10\r\n    },\r\n    \"priceBeforeDiscount\": 499,\r\n    \"price\": 449,\r\n    \"product\": \"66e2dfac9a6e24467aa676c9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors/{{productColorId}}",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors",
+										"{{productColorId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Stock",
+					"item": [
+						{
+							"name": "editProductColorStockById/:id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sizes\": {\r\n        \"35\": 40,\r\n        \"36\": 40\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/products/colors/{{productColorId}}/stock",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"products",
+										"colors",
+										"{{productColorId}}",
+										"stock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kislev@gmail.com\",\r\n    \"password\": \"Pass1234?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/login",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/logout",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullName\": \"Kislev Levy\",\r\n    \"email\": \"Kislev@gmail.com\",\r\n    \"password\": \"Pass1234?\",\r\n    \"passwordConfirm\": \"Pass1234?\",\r\n    \"profileImg\": \"https://res.cloudinary.com/demo/image/upload/v123456789/sample.jpg\",\r\n    \"shippingAddress\": {\r\n        \"address\": \"סנונית 8\",\r\n        \"city\": \"ערד\",\r\n        \"postalCode\": \"8533500\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/signup",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "forgotPassword",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('resetPasswordToken', pm.response.json().token); "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"kislev@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/forgotPassword",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"forgotPassword"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "resetPassword/:resetToken",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"Pass12345?\",\r\n    \"passwordConfirm\": \"Pass12345?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/resetPassword/{{resetPasswordToken}}",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"resetPassword",
+										"{{resetPasswordToken}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "changePassword",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currentPassword\": \"Pass12345?\", \r\n    \"password\": \"Pass12345?\",\r\n    \"passwordConfirm\": \"Pass12345?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/changePassword",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"changePassword"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "getMe",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/getMe",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"getMe"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateMe",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"fullName\": \"Kislev Levy\",\r\n    \"email\": \"Kislev@gmail.com\",\r\n    \"profileImg\": \"https://res.cloudinary.com/demo/image/upload/v123456789/sample.jpg\",\r\n    \"shippingAddress\": {\r\n        \"address\": \"סנונית 8\",\r\n        \"city\": \"ערד\",\r\n        \"postalCode\": \"8533500\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/updateMe",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"updateMe"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/66e2df6e9a6e24467aa676c0",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"66e2df6e9a6e24467aa676c0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "editUserById",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOSTNAME}}/api/v1/users/66e2df6e9a6e24467aa676c0",
+									"host": [
+										"{{HOSTNAME}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"66e2df6e9a6e24467aa676c0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "getReviewsByProductGroupId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/reviews/{{productId}}",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createReview",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('reviewId', pm.response.json().data.doc._id); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"66dff1156475363d37c31db3\",\r\n    \"product\": \"66e00b19d002fca416b259e7\",\r\n    \"review\": \"Amazing product! The quality is top-notch.\",\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/reviews",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editReviewById/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"66dff1156475363d37c31db3\",\r\n    \"product\": \"66e00b19d002fca416b259e7\",\r\n    \"review\": \"Amazing product! The quality is top-notch.\",\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/reviews/{{reviewId}}",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteReviewById/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/reviews/{{reviewId}}",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"{{reviewId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": ":id/changeOrderStatusById",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"shipped\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/orders/{{orderId}}/changeStatus",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"{{orderId}}",
+								"changeStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createOrder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set('orderId', pm.response.json().data.doc._id); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/orders",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/orders",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderById/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/orders/{{orderId}}",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editOrderById/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOSTNAME}}/api/v1/orders/{{orderId}}",
+							"host": [
+								"{{HOSTNAME}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

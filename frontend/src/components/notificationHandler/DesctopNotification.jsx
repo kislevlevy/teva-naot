@@ -1,9 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-const DesctopNotification = () => {
-  return (
-    <div>DesctopNotification</div>
-  )
+export default function DesctopNotification() {
+  return <div>DesctopNotification</div>;
 }
-
-export default DesctopNotification

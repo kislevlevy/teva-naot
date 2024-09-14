@@ -1,4 +1,5 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
+
 import {
   login,
   forgotPassword,
@@ -7,9 +8,8 @@ import {
   changePassword,
   logout,
   signup,
-  restrictByRole,
+  sentResAndToken,
 } from '../controllers/authController.js';
-
 import {
   getMe,
   updateMe,
@@ -17,12 +17,15 @@ import {
   getUsertById,
   editUserById,
 } from '../controllers/userController.js';
+import { upload, uploadProfileImage } from '../utils/storage.js';
 
 const router = Router();
 
 router.route('/login').post(login);
 router.route('/logout').get(logout);
-router.route('/signup').post(signup);
+router
+  .route('/signup')
+  .post(upload.single('image'), signup, uploadProfileImage, sentResAndToken);
 router.route('/resetPassword/:resetToken').patch(resetPassword);
 
 router.use(protect);

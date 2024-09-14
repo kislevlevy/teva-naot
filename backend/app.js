@@ -18,6 +18,7 @@ import reviewRouter from './routes/reviewRoutes.js';
 
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
+import multer from 'multer';
 
 ////////////////////////////////////////////////
 // App init:
@@ -79,8 +80,6 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/reviews', reviewRouter);
-// app.use("/api/v1/stats", statsRouter);
-// app.use("/api/v1/stats", statsRouter);
 
 // Error handeling:
 app.all('*', (req, res, next) => {
@@ -91,7 +90,6 @@ app.all('*', (req, res, next) => {
     )
   );
 });
-
 app.use(errorController);
 
 ////////////////////////////////////////////////

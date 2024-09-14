@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import store from './slices/store';
 import Root from './layout/Root';
 import Error from './pages/Error';
-import { StateProvider } from './slices/stateContext';
+import Signup from './pages/Signup';
 
 // Lazy imports:
 const Home = lazy(() => import('./pages/Home'));
@@ -30,6 +30,7 @@ export default function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />} errorElement={<Error />}>
         <Route index element={<Home />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="products">
           <Route index element={<Shop />} />
           <Route path="product/:slug" element={<SingleProduct />} />
@@ -51,11 +52,9 @@ export default function App() {
 
   return (
     <MantineProvider>
-      <StateProvider>
-        <Provider store={store}>
-          <RouterProvider router={router} />
-        </Provider>
-      </StateProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </MantineProvider>
   );
 }

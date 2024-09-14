@@ -9,8 +9,7 @@ const passwordResetMessage = (token) => ({
           <a href="${token}" style="background-color: #64b496; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
             Reset Password
           </a>
-        </div>
-  `,
+        </div>`,
   buttonText: 'Reset Password',
 });
 const verificationMessage = (token) => ({
@@ -20,8 +19,7 @@ const verificationMessage = (token) => ({
   html: `
     <div style="text-align: center; margin: 20px 0;">
       <h3 style="color: #333;">${token}</h3> <!-- Verification Code -->
-    </div>
-  `,
+    </div>`,
 });
 
 // Email template for email confirmation
@@ -34,13 +32,10 @@ const emailConfirmationMessage = (token) => ({
           <a href="${token}" style="background-color: #64b496; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
             Confirm Email
           </a>
-    </div>
-  `,
+    </div>`,
 });
 //need to add to env: EMAIL_HOST, EMAIL_USER, EMAIL_PORT, EMAIL_PASSWORD
 const sendEmail = async (type, user, token) => {
-  console.log(user);
-
   let options;
   if (type === 'passwordReset') {
     options = passwordResetMessage(token);
@@ -57,7 +52,7 @@ const sendEmail = async (type, user, token) => {
     port: process.env.EMAIL_PORT,
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -73,8 +68,7 @@ const sendEmail = async (type, user, token) => {
         <div style="text-align: center; margin-top: 20px;">
           <p style="color: #555; font-size: 12px;">Teva Naot, Address Line 1, City, State, ZIP</p>
         </div>
-      </div>
-    `,
+      </div>`,
   };
 
   await transport.sendMail(mailOptions);

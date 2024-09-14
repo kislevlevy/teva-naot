@@ -1,7 +1,7 @@
 // Module Imports:
 import mongoose from 'mongoose';
 import validator from 'validator';
-import slugify from 'slugify';
+import { slugify } from '../utils/slugify.js';
 
 // DB Schema:
 const ProductSchema = new mongoose.Schema(
@@ -67,16 +67,26 @@ const ProductSchema = new mongoose.Schema(
     colors: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'Product',
+        ref: 'ProductColor',
       },
     ],
-    lastProductPrice: {
+    price: {
       type: Number,
       default: 0,
     },
-    lastProductImage: {
+    image: {
       type: String,
       default: '',
+    },
+    availableSizes: {
+      type: [String],
+      validate: {
+        validator: (arr) =>
+          arr.length === 2 && arr.every((ele) => ele > 1 && ele < 50),
+        message:
+          '{VALUE}- available sizes is an array built in this form [min, max] all sizes are has to be 1 < size < 50',
+      },
+      required: [true, 'availableSizes is a required field'],
     },
   },
   {
@@ -112,7 +122,7 @@ ProductSchema.virtual('reviews', {
 // Middleware:
 // Add slug to product:
 ProductSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = slugify(this.name);
   next();
 });
 

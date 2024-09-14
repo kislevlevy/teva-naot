@@ -10,6 +10,12 @@ img {
 .rtl {
   direction: rtl;
 }
+.ltr {
+  direction: ltr;
+}
 .heb-font {
   font-family: 'RagSans', sans-serif;
+}
+.width-transition {
+  transition: width 300ms ease;
 }

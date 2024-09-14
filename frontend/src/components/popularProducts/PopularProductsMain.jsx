@@ -6,16 +6,15 @@ import PopularProductsSidebar from './PopularProductsSidebar';
 import PopularProductsButtonsGroup from './PopularProductsButtonGroup';
 import { useSelector } from 'react-redux';
 
-
 export default function PopularProducts() {
-  const popularProducts = useSelector(state=>state.popularProducts)
+  const popularProducts = useSelector((state) => state.popularProducts);
   useEffect(() => {
     AOS.init();
   }, []);
   const [selectedCategory, setSelectedCategory] = useState('');
-useEffect(()=>{
-  // console.log(popularProducts[selectedCategory]);
-},[selectedCategory])
+  useEffect(() => {
+    // console.log(popularProducts[selectedCategory]);
+  }, [selectedCategory]);
   return (
     <section className="relative pb-24 md:pb-16">
       <div

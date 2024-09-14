@@ -23,7 +23,9 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
   const navigate = useNavigate();
   const location = useLocation();
   const goToProductPage = () =>
-      navigate(`/products/product/${slugify(product.name)}`, { state: {...location.state||{}, _id:product._id } });
+    navigate(`/products/product/${slugify(product.name)}`, {
+      state: { ...(location.state || {}), _id: product._id },
+    });
 
   return (
     <Card className="m-1 w-full">
@@ -39,7 +41,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
               className="dslc-lightbox-image img_producto"
               target="_self"
               style={{
-                backgroundImage:product.image,
+                backgroundImage: `url(${product.image})`,
               }}
             ></a>
           </div>
@@ -75,7 +77,12 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
             />
           </div>
 
-          <h3 className="hover:underline hover:text-blue-800 text-right text-xl font-medium" onClick={goToProductPage}>{product.name}</h3>
+          <h3
+            className="hover:underline hover:text-blue-800 text-right text-xl font-medium"
+            onClick={goToProductPage}
+          >
+            {product.name}
+          </h3>
 
           <p className="text-sm mt-1">{product.description}</p>
 

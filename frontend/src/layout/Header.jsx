@@ -1,24 +1,26 @@
 // Imports:
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { MegaMenu, Navbar } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiAccount, mdiArrowLeft, mdiCartVariant, mdiMagnify } from '@mdi/js';
 import { TextInput, ActionIcon } from '@mantine/core';
 
-import StateContext from '../slices/stateContext';
 import { categories, subCategories } from '../utils/config';
 import { slugify } from '../utils/slugify';
 import CartDrawer from '../components/cart/CartDrawer';
+import LoginPopover from '../components/auth/LoginPopover';
 
 // Component
 export default function Header() {
-  const { setIsCartOpen, isCartOpen } = useContext(StateContext);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <MegaMenu dir="rtl">
-      <CartDrawer />
+      <CartDrawer {...{ isCartOpen, setIsCartOpen }} />
       <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between p-4 ">
         <Navbar.Brand href="/">
           <img alt="Teva Naot" src="/img/logoMain.svg" className="mr-3 h-9" />
@@ -30,18 +32,19 @@ export default function Header() {
           >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
-          <a
-            href="#"
-            className="mr-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5"
-          >
-            התחברות
-          </a>
-          <a
-            href="#"
-            className="mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:brightness-[110%] focus:outline-none focus:ring-4 focus:ring-gray-300 bg-[#64b496] dark:text-white  dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5"
-          >
-            הרשמה
-          </a>
+          <LoginPopover {...{ isLoginOpen, setIsLoginOpen }}>
+            <div
+              onClick={() => setIsLoginOpen((prev) => !!prev)}
+              className="cursor-pointer mr-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5"
+            >
+              התחברות
+            </div>
+          </LoginPopover>
+          <Link to="/signup">
+            <div className="cursor-pointer mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:brightness-[110%] focus:outline-none focus:ring-4 focus:ring-gray-300 bg-[#64b496] dark:text-white  dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5">
+              הרשמה
+            </div>
+          </Link>
         </div>
         <div className="flex space-x-1">
           <div
@@ -50,7 +53,10 @@ export default function Header() {
           >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
-          <div className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer">
+          <div
+            onClick={() => navigate('/signup')}
+            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer"
+          >
             <Icon path={mdiAccount} size={1} color="#6b7280" />
           </div>
           <Navbar.Toggle />

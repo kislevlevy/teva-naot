@@ -7,10 +7,10 @@ export const apiProductsGroup = createApi({
 
   endpoints: (builder) => ({
     getProductsGroup: builder.query({
-      query: () => '/products/group',
+      query: () => '/products',
       providesTags: ['ProductsGroup'],
     }),
-    getProductsGroupByFilter:builder.query({
+    getProductsGroupByFilter: builder.query({
       query: (filter) => `/products/group${filter}`,
       providesTags: ['ProductsGroup'],
     }),

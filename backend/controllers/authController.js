@@ -21,15 +21,19 @@ const sendJwtCookie = (id, res) => {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 86_400_000),
   });
 };
-const sendRes = (user, statusCode, token, res) => {
+const sendRes = (user, statusCode, res) => {
   const { email, fullName, _id, profileImg } = user;
   res.status(statusCode).json({
     status: 'success',
     data: {
       user: { email, fullName, _id, profileImg },
-      token,
     },
   });
+};
+export const sentResAndToken = (req, res, next) => {
+  // return cookie:
+  sendJwtCookie(req.user._id, res);
+  return sendRes(req.user, req.isNew ? 201 : 200, res);
 };
 
 //front parameters: email, password
@@ -48,39 +52,37 @@ export const login = asyncHandler(async (req, res, next) => {
     return next(new AppError(401, 'Invalid email or password'));
 
   // create token:
-  const token = sendJwtCookie(user._id, res);
+  sendJwtCookie(user._id, res);
 
   // return cookie:
-  sendRes(user, 200, token, res);
+  sendRes(user, 200, res);
 });
 
-//front parameters: fullName, email, password, confirmPassword, profileImg
+//front parameters: fullName, email, password, passwordConfirm, profileImg
 export const signup = asyncHandler(async (req, res, next) => {
   // Veriables:
-  const { fullName, email, password, passwordConfirm, profileImg } = req.body;
-  let user;
-  let isNew = false;
+  const { fullName, email, password, passwordConfirm } = req.body;
+  req.isNew = false;
 
   // Guard:
-  if (!email || !password || !passwordConfirm || !fullName)
-    return next(new AppError(403, 'Missing details'));
+  if (!fullName || !email || !password || !passwordConfirm)
+    return next(new AppError(400, 'Missing details'));
   if (password !== passwordConfirm)
-    return next(new AppError(403, 'Passwords are not matched!'));
+    return next(new AppError(400, 'Passwords are not matched!'));
 
   // If the user exists but is disabled, reactivate their account
-  const existingUser = await User.findOne({ email }).select('+isActive');
-  if (existingUser) {
-    if (!existingUser.isActive) {
+  let user = await User.findOne({ email }).select('+isActive');
+
+  if (user) {
+    if (!user.isActive) {
       user = {
-        ...existingUser,
+        ...user,
         isActive: true,
         password,
-        confirmPassword,
+        passwordConfirm,
         fullName,
-        profileImg,
       };
-      existingUser = user;
-      await existingUser.save({ validateBeforeSave: true });
+      await user.save({ validateBeforeSave: true });
     } else return next(new AppError(403, 'User already exist please login'));
   } else {
     //If the user does not exist or is active - create a new account
@@ -88,15 +90,17 @@ export const signup = asyncHandler(async (req, res, next) => {
       email,
       password,
       passwordConfirm,
-      profileImg,
       fullName,
     });
-    isNew = true;
+    req.isNew = true;
   }
 
+  req.user = user;
+  if (req.file) return next();
+
   // return cookie:
-  const token = sendJwtCookie(user._id, res);
-  sendRes(user, isNew ? 201 : 200, token, res);
+  sendJwtCookie(user._id, res);
+  sendRes(user, req.isNew ? 201 : 200, res);
 });
 
 //front parameters: email
@@ -106,7 +110,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   if (!email) return next(new AppError(401, 'Bad request - email is missing'));
 
   // fetch user from DB:
-  const user = await User.findOne({ email }).select('+isActive');
+  const user = await User.findOne({ email }).select('+isActive email');
   if (!user || !user.isActive)
     return next(
       new AppError(
@@ -126,6 +130,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'The password reset link has been sent to your email',
+      token: resetToken,
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -165,10 +170,10 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: true });
 
   // create token:
-  const token = sendJwtCookie(user._id, res);
+  sendJwtCookie(user._id, res);
 
   // return cookie:
-  sendRes(user, 200, token, res);
+  sendRes(user, 200, res);
 });
 
 export const protect = asyncHandler(async (req, res, next) => {
@@ -241,7 +246,7 @@ export const changePassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   // create token:
-  const token = sendJwtCookie(user._id, res);
+  sendJwtCookie(user._id, res);
 
   // return cookie:
   sendRes(user, 200, token, res);

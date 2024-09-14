@@ -8,8 +8,9 @@
   "ratingsQuantity": 2,
   "baseBarcode": "101101",
   "colors": ["66e2ac0f5690b0f058557404"],
-  "lastProductPrice": 450,
-  "lastProductImage": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg",
+  "price": 450,
+  "image": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg",
+  "availableSizes": ["35", "40"],
   "reviews": [
     {
       "_id": "5c8a34ed14eb5c17645c9108",

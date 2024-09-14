@@ -1,15 +1,52 @@
 // Imports:
 import React, { useContext } from 'react';
 
-import { Drawer } from 'flowbite-react';
+import { Button, Drawer } from 'flowbite-react';
 
-import StateContext from '../../slices/stateContext';
 import Icon from '@mdi/react';
 import { mdiCartVariant } from '@mdi/js';
+import CartProductCard from './_CartItem';
+import { Link } from 'react-router-dom';
 
 // Component:
-export default function CartDrawer() {
-  const { isCartOpen, setIsCartOpen } = useContext(StateContext);
+export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
+  const products = [
+    {
+      name: 'שחר נשים',
+      price: 429,
+      discountPrice: 499,
+      sizes: {
+        37: 1,
+        39: 2,
+      },
+      color: 'חום',
+      images: [
+        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726133788/101101-413-01_1_11_1_gdkvcd.jpg',
+      ],
+    },
+    {
+      name: 'רותם נשים',
+      price: 449,
+      sizes: {
+        35: 1,
+      },
+      color: 'לבן',
+      images: [
+        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726133788/101101-413-01_1_11_1_gdkvcd.jpg',
+      ],
+    },
+  ];
+  let sum = 0;
+  const items = products.reduce(
+    (acc, ele) =>
+      acc +
+      Object.entries(ele.sizes).reduce((prev, [key, value]) => {
+        sum += ele.price * value;
+        return prev + value;
+      }, 0),
+    0,
+  );
+
   const handleClose = () => setIsCartOpen(false);
 
   return (
@@ -21,47 +58,37 @@ export default function CartDrawer() {
         )}
       />
       <Drawer.Items>
-        <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-          Supercharge your hiring by taking advantage of our&nbsp;
-          <a
-            href="#"
-            className="text-cyan-600 underline hover:no-underline dark:text-cyan-500"
-          >
-            limited-time sale
-          </a>
-          &nbsp;for Flowbite Docs + Job Board. Unlimited access to over 190K
-          top-ranked candidates and the #1 design job board.
-        </p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <a
-            href="#"
-            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-cyan-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-          >
-            Learn more
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center rounded-lg bg-cyan-700 px-4 py-2 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-          >
-            Get access&nbsp;
-            <svg
-              className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </a>
-        </div>
+        {products.map((product, i) => (
+          <CartProductCard key={'product-cart-' + i} product={product} />
+        ))}
       </Drawer.Items>
+      <div className="sticky bottom-0 w-full bg-white p-3 rounded-md shadow-md">
+        <div>
+          <div className="flex justify-between p-2 bg-gray-200 rounded-md">
+            <div className="font-bold">
+              {'פריטים: '}
+              {items}
+            </div>
+            <div className="font-bold">
+              {'סה"כ: '}
+              {sum}₪
+            </div>
+          </div>
+          <div className="flex justify-between my-2">
+            <Button
+              onClick={handleClose}
+              className="w-2/4 m-1"
+              outline
+              gradientDuoTone="greenToBlue"
+            >
+              המשך בקניות
+            </Button>
+            <Link className="w-2/4 m-1" to={'TODO:'}>
+              <Button gradientDuoTone="greenToBlue">לתשלום בקופה</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </Drawer>
   );
 }
