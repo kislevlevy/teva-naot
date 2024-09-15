@@ -91,11 +91,6 @@ const ProductSchema = new mongoose.Schema(
     sold: {
       type: Number,
       default: 0,
-      validate: {
-        validator: (val) => val >= 0,
-        message: '{VALUE} must be a positive number',
-      },
-      select: false,
     },
   },
   {

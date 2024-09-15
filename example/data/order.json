@@ -2,14 +2,11 @@
   "user": "66e68ae1b892cdaaf4d5dc22",
   "products": [
     {
-      "productColor": "66e68c95b892cdaaf4d5dc2e",
+      "productColor": "66e70d2c89631c3a0f9c12c8",
       "price": 150,
-      "sizes": [["35", 2]]
-    },
-    {
-      "productColor": "66e68d10b892cdaaf4d5dc35",
-      "price": 200,
-      "sizes": [["40", 1]]
+      "sizes": {
+        "35": 1
+      }
     }
   ],
   "shippingAddress": {
