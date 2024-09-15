@@ -69,7 +69,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
 
             <div className="text-sm ">
               {'שכחת סיסמה? '}
-              <Link to={'TODO:'} className="text-sm text-green-500 hover:underline">
+              <Link to={'TODO:'} className="text-sm text-green-500 hover:underline" state={{...location.state, from: location.pathname}}>
                 לחץ כאן
               </Link>
             </div>

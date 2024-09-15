@@ -83,7 +83,8 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
             >
               המשך בקניות
             </Button>
-            <Link className="w-2/4 m-1" to={'TODO:'}>
+            <Link className="w-2/4 m-1" to={'TODO:'} state={{...location.state, from: location.pathname}}
+            >
               <Button gradientDuoTone="greenToBlue">לתשלום בקופה</Button>
             </Link>
           </div>
