@@ -9,6 +9,7 @@ import {
   logout,
   signup,
   sentResAndToken,
+  getLoggedInUserDetails,
 } from '../controllers/authController.js';
 import {
   getMe,
@@ -32,6 +33,7 @@ router.use(protect);
 router.route('/').get(getUsers);
 router.route('/forgotPassword').post(forgotPassword);
 router.route('/changePassword').patch(changePassword);
+router.route('loggedIn').get(getLoggedInUserDetails);
 
 router.route('/getMe').get(getMe);
 router.route('/updateMe').patch(updateMe);
