@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema({
     {
       productColor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'ProductColor',
         required: true,
       },
       price: {
