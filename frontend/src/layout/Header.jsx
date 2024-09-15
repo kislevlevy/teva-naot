@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { MegaMenu, Navbar } from 'flowbite-react';
+import { Button, MegaMenu, Navbar } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiAccount, mdiArrowLeft, mdiCartVariant, mdiMagnify } from '@mdi/js';
 import { TextInput, ActionIcon } from '@mantine/core';
@@ -41,9 +41,7 @@ export default function Header() {
             </div>
           </LoginPopover>
           <Link to="/signup">
-            <div className="cursor-pointer mr-1 rounded-lg px-4 py-2 text-sm font-medium text-white hover:brightness-[110%] focus:outline-none focus:ring-4 focus:ring-gray-300 bg-[#64b496] dark:text-white  dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5">
-              הרשמה
-            </div>
+            <Button gradientDuoTone="greenToBlue">הרשמה</Button>
           </Link>
         </div>
         <div className="flex space-x-1">

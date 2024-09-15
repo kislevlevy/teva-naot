@@ -6,7 +6,7 @@ import RootFallback from './RootFallback';
 
 export default function Root() {
   return (
-    <>
+    <div className="space-y-3">
       <Header />
       <Suspense fallback={<RootFallback />}>
         <div className="root-elememt">
@@ -14,6 +14,6 @@ export default function Root() {
         </div>
       </Suspense>
       <Footer />
-    </>
+    </div>
   );
 }

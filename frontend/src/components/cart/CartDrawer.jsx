@@ -21,7 +21,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
       },
       color: 'חום',
       images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726133788/101101-413-01_1_11_1_gdkvcd.jpg',
+        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
       ],
     },
     {
@@ -32,10 +32,11 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
       },
       color: 'לבן',
       images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726133788/101101-413-01_1_11_1_gdkvcd.jpg',
+        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
       ],
     },
   ];
+
   let sum = 0;
   const items = products.reduce(
     (acc, ele) =>
@@ -83,8 +84,10 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
             >
               המשך בקניות
             </Button>
-            <Link className="w-2/4 m-1" to={'TODO:'}>
-              <Button gradientDuoTone="greenToBlue">לתשלום בקופה</Button>
+            <Link className="w-2/4 m-1" to="/checkout">
+              <Button onClick={handleClose} gradientDuoTone="greenToBlue">
+                לתשלום בקופה
+              </Button>
             </Link>
           </div>
         </div>

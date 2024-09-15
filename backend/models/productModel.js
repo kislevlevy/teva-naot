@@ -135,6 +135,9 @@ ProductSchema.pre(/^findOne/, function (next) {
     path: 'reviews',
     select: '_id user -product',
   });
+  this.populate({
+    path: 'colors',
+  });
   next();
 });
 
