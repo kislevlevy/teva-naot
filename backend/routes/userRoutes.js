@@ -26,7 +26,7 @@ router.route('/login').post(login);
 router.route('/logout').get(logout);
 router
   .route('/signup')
-  .post(upload.single('image'), signup, uploadProfileImage, sentResAndToken);
+  .post(upload.single('profileImage'), signup, uploadProfileImage, sentResAndToken);
 router.route('/resetPassword/:resetToken').patch(resetPassword);
 
 router.use(protect);

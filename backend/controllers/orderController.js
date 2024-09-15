@@ -1,8 +1,7 @@
 //import asyncHandler from "express-async-handler";
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
-import Product from '../models/productModel.js'; // Adjust the path as necessary
-
+import Product from '../models/productModel.js';
 import ProductColor from '../models/productColorModel.js';
 import AppError from '../utils/appError.js';
 import {
@@ -54,7 +53,7 @@ export const createOrder = expressAsyncHandler(async (req, res, next) => {
     const order = await Order.create(req.body);
 
     // Update the sold count for the products
-    //await updateSoldCount(products);
+    await updateSoldCount(products);
 
     res.status(201).json({
       status: 'success',
@@ -79,7 +78,6 @@ export const validateAndUpdateStock = async (req, res, next) => {
         );
       }
 
-      // Convert sizes object to Map if it isn't already
       if (!(productColor.sizes instanceof Map)) {
         productColor.sizes = new Map(Object.entries(productColor.sizes));
       }
@@ -90,11 +88,11 @@ export const validateAndUpdateStock = async (req, res, next) => {
       } else if (item.sizes instanceof Map) {
         sizesMap = item.sizes;
       } else {
-        // Convert sizes object to Map if it isn't already
         sizesMap = new Map(Object.entries(item.sizes));
       }
 
-      // Validate sizes and quantities
+      console.log('Before stock update:', productColor.sizes);
+
       for (const [size, quantity] of sizesMap) {
         if (quantity <= 0) {
           return next(
@@ -116,30 +114,11 @@ export const validateAndUpdateStock = async (req, res, next) => {
             new AppError(400, `Product does not have enough stock for size ${size}`)
           );
         }
-      }
-    }
 
-    // Update stock quantities
-    for (const item of req.body.products) {
-      const productColor = await ProductColor.findById(item.productColor);
-
-      if (!(productColor.sizes instanceof Map)) {
-        productColor.sizes = new Map(Object.entries(productColor.sizes));
-      }
-
-      let sizesMap;
-      if (Array.isArray(item.sizes)) {
-        sizesMap = new Map(item.sizes);
-      } else if (item.sizes instanceof Map) {
-        sizesMap = item.sizes;
-      } else {
-        sizesMap = new Map(Object.entries(item.sizes));
-      }
-
-      for (const [size, quantity] of sizesMap) {
         productColor.sizes.set(size, productColor.sizes.get(size) - quantity);
       }
 
+      console.log('After stock update:', productColor.sizes);
       await productColor.save();
     }
 
@@ -148,5 +127,62 @@ export const validateAndUpdateStock = async (req, res, next) => {
     return next(
       new AppError(500, 'Server error while validating and updating stock')
     );
+  }
+};
+
+const updateSoldCount = async (products) => {
+  try {
+    for (const item of products) {
+      const { productColor, sizes } = item;
+
+      if (!productColor || !sizes) {
+        console.error('Missing productColor or sizes in the product item');
+        continue;
+      }
+
+      const productColorDoc = await ProductColor.findById(productColor).populate(
+        'product'
+      );
+
+      if (!productColorDoc) {
+        console.error(`ProductColor with ID ${productColor} not found`);
+        continue;
+      }
+
+      const product = productColorDoc.product;
+      if (!product) {
+        console.error(`Product not found for ProductColor with ID ${productColor}`);
+        continue;
+      }
+
+      let sizesMap;
+      if (Array.isArray(sizes)) {
+        sizesMap = new Map(sizes);
+      } else if (sizes instanceof Map) {
+        sizesMap = sizes;
+      } else {
+        sizesMap = new Map(Object.entries(sizes));
+      }
+
+      // Calculate total sold quantity from sizes
+      const totalSold = Array.from(sizesMap.values()).reduce(
+        (acc, quantity) => acc + quantity,
+        0
+      );
+
+      if (totalSold <= 0) {
+        console.error('Total sold quantity must be greater than 0');
+        continue; // Skip this product
+      }
+
+      // Increment the sold count in the Product
+      product.sold = (product.sold || 0) + totalSold;
+
+      // Save the updated Product
+      await product.save();
+    }
+  } catch (err) {
+    console.error('Error updating sold count:', err);
+    throw new Error('Error updating sold count');
   }
 };

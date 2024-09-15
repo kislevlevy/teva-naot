@@ -91,11 +91,6 @@ const ProductSchema = new mongoose.Schema(
     sold: {
       type: Number,
       default: 0,
-      validate: {
-        validator: (val) => val >= 0,
-        message: '{VALUE} must be a positive number',
-      },
-      select: false,
     },
   },
   {
@@ -139,6 +134,9 @@ ProductSchema.pre(/^findOne/, function (next) {
   this.populate({
     path: 'reviews',
     select: '_id user -product',
+  });
+  this.populate({
+    path: 'colors',
   });
   next();
 });

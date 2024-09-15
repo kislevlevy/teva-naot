@@ -7,7 +7,7 @@ import BackButton from './BackButton';
 
 export default function Root() {
   return (
-    <>
+    <div className="space-y-3">
       <Header />
       <BackButton/>
       <Suspense fallback={<RootFallback />}>
@@ -16,6 +16,6 @@ export default function Root() {
         </div>
       </Suspense>
       <Footer />
-    </>
+    </div>
   );
 }

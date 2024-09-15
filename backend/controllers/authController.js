@@ -105,7 +105,7 @@ export const signup = asyncHandler(async (req, res, next) => {
   }
 
   req.user = user;
-  if (req.file) return next();
+  if (req.profileImage) return next();
 
   // return cookie:
   sendJwtCookie(user._id, res);
