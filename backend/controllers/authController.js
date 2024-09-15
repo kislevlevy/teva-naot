@@ -11,14 +11,14 @@ import sendEmail from '../utils/email.js';
 // JWT utils:
 const sendJwtCookie = (id, res) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+    expiresIn: process.env.JWT_EXPIRES + 'd',
   });
 
   res.cookie('jwt', token, {
     httpOnly: true,
     secure: true,
     sameSite: 'None',
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 86_400_000),
+    expires: new Date(Date.now() + process.env.JWT_EXPIRES * 86_400_000),
   });
 };
 const sendRes = (user, statusCode, res) => {

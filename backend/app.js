@@ -14,11 +14,9 @@ import userRouter from './routes/userRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import reviewRouter from './routes/reviewRoutes.js';
-// import statsRouter from "./routes/statsRoutes";
 
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
-import multer from 'multer';
 
 ////////////////////////////////////////////////
 // App init:
