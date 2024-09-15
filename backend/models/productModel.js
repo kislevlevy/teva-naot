@@ -88,6 +88,15 @@ const ProductSchema = new mongoose.Schema(
       },
       required: [true, 'availableSizes is a required field'],
     },
+    sold: {
+      type: Number,
+      default: 0,
+      validate: {
+        validator: (val) => val >= 0,
+        message: '{VALUE} must be a positive number',
+      },
+      select: false,
+    },
   },
   {
     toJSON: {

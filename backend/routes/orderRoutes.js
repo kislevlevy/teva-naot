@@ -13,12 +13,6 @@ const router = express.Router({ mergeParams: true });
 
 router.patch('/:id/changeStatus', changeOrderStatusById);
 
-//router.route('/').post(createOrder).get(getOrders);
-router
-  .route('/')
-  .post(validateAndUpdateStock, createOrder) // Middleware and route handler
-  .get(getOrders);
-
-router.route('/:id').get(getOrderById).patch(editOrderById);
+router.route('/').get(getOrders).post(validateAndUpdateStock, createOrder);
 
 export default router;

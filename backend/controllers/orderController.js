@@ -1,6 +1,8 @@
 //import asyncHandler from "express-async-handler";
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js'; // Adjust the path as necessary
+
 import ProductColor from '../models/productColorModel.js';
 import AppError from '../utils/appError.js';
 import {
@@ -37,9 +39,23 @@ export const changeOrderStatusById = expressAsyncHandler(async (req, res, next) 
   oneDocApiResponse(res, 200, { doc: updatedOrder });
 });
 
-export const createOrder = async (req, res, next) => {
+export const createOrder = expressAsyncHandler(async (req, res, next) => {
   try {
+    const { products } = req.body; // Extract products from the request body
+
+    if (!products || products.length === 0) {
+      return next(new AppError(400, 'Products are required for creating an order'));
+    }
+
+    // Debugging: Log the products to see the value
+    console.dir(products, { depth: null });
+
+    // Create the order
     const order = await Order.create(req.body);
+
+    // Update the sold count for the products
+    //await updateSoldCount(products);
+
     res.status(201).json({
       status: 'success',
       data: {
@@ -47,9 +63,10 @@ export const createOrder = async (req, res, next) => {
       },
     });
   } catch (err) {
+    console.error('Error creating order:', err);
     next(err);
   }
-};
+});
 
 export const validateAndUpdateStock = async (req, res, next) => {
   try {
@@ -58,10 +75,11 @@ export const validateAndUpdateStock = async (req, res, next) => {
 
       if (!productColor) {
         return next(
-          new AppError(404, `productColor with ID ${item.productColor} not found`)
+          new AppError(404, `ProductColor with ID ${item.productColor} not found`)
         );
       }
 
+      // Convert sizes object to Map if it isn't already
       if (!(productColor.sizes instanceof Map)) {
         productColor.sizes = new Map(Object.entries(productColor.sizes));
       }
@@ -72,9 +90,11 @@ export const validateAndUpdateStock = async (req, res, next) => {
       } else if (item.sizes instanceof Map) {
         sizesMap = item.sizes;
       } else {
-        return next(new AppError(400, 'Invalid sizes format'));
+        // Convert sizes object to Map if it isn't already
+        sizesMap = new Map(Object.entries(item.sizes));
       }
 
+      // Validate sizes and quantities
       for (const [size, quantity] of sizesMap) {
         if (quantity <= 0) {
           return next(
@@ -86,7 +106,7 @@ export const validateAndUpdateStock = async (req, res, next) => {
           return next(
             new AppError(
               404,
-              `Size ${size} not found in Product ID ${item.productColor}`
+              `Size ${size} not found in ProductColor ID ${item.productColor}`
             )
           );
         }
@@ -99,6 +119,7 @@ export const validateAndUpdateStock = async (req, res, next) => {
       }
     }
 
+    // Update stock quantities
     for (const item of req.body.products) {
       const productColor = await ProductColor.findById(item.productColor);
 
@@ -111,6 +132,8 @@ export const validateAndUpdateStock = async (req, res, next) => {
         sizesMap = new Map(item.sizes);
       } else if (item.sizes instanceof Map) {
         sizesMap = item.sizes;
+      } else {
+        sizesMap = new Map(Object.entries(item.sizes));
       }
 
       for (const [size, quantity] of sizesMap) {
