@@ -1,45 +1,53 @@
 import { Footer, Blockquote, Accordion } from 'flowbite-react';
 import FooterLogo from './FooterLogo';
-import FooterCompanyLinks from './FooterCompanyLinks';
+import FooterLinks from './FooterLinks';
 import FooterCategoryLinks from './FooterCategoryLinks';
 import FooterSocialIcons from './FooterSocialIcons';
 import FooterContacts from './FooterContacts';
-import FooterSearch from './FooterSearch';
+import { Link } from 'react-router-dom';
 
 export default function FooterComp() {
+  const scrollToTop = (event) => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", 
+      });
+  };
+
   return (
     <Footer container>
-      <div className="w-full">
+      <div className="w-full" onClick={scrollToTop}>
         {/* Normal Footer for md and larger screens */}
         <div className="hidden md:block">
-          <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-            <div className="flex flex-col justify-evenly items-center mx-5 group">
+          <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:flex-row-reverse md:grid-cols-1">
+            <div className="flex flex-col justify-start
+             items-center mx-5 group">
               <FooterLogo />
-              <p className="m-2 text-wrap text-center text-lg hidden group-hover:block transition-opacity duration-300">
-                Shoes are our professionality.
-                <br /> Walk with us!
-              </p>
               <div>
-                <Footer.Title title="שמרו על קשר" />
-                <Footer.LinkGroup col>
+                <Footer.Title title="שמרו על קשר" className='text-center' />
+                <Footer.LinkGroup col className='flex flex-col justify-start rtl'>
                   <FooterContacts />
                 </Footer.LinkGroup>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-2 sm:gap-6">
+            <div className="grid text-center grid-cols-3 gap-8">
               <div>
-                <Footer.Title title="החברה" />
-                <FooterCompanyLinks />
+                <Link to="/company"><Footer.Title title="החברה"  className='mb-3 mx-auto text-center' /></Link>
+                <FooterLinks section="company" />
               </div>
               <div>
-                <Footer.Title title="קטגוריות" />
+                <Link to="/policy"><Footer.Title title="מדיניות" className='w-3/6 mb-3 mx-auto text-center'/></Link>
+                <FooterLinks section="policy" />
+              </div>
+              <div>
+              <Link to="/category"><Footer.Title title="קטגוריות"  className='mb-3 mx-auto text-center'  /></Link>
                 <FooterCategoryLinks />
               </div>
             </div>
-            <div className="mx-2 p-3 max-w-md flex flex-col justify-around">
-              <FooterSearch />
+            <div className="mx-2 p-3 max-w-md flex flex-col justify-start
+            ">
               <FooterSocialIcons />
-              <div className="grid grid-cols-1 gap-4 sm:mt-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2">
                 <Blockquote className="p-4 text-sm text-center bg-teal-100 text-teal-900 rounded-md">
                   "Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                   Voluptatem, eveniet corrupti laborum eos quibusdam accusantium."
@@ -60,19 +68,25 @@ export default function FooterComp() {
           <FooterLogo />
           <Accordion>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">שמרו על קשר</Accordion.Title>
+              <Accordion.Title className="py-4 px-5 rtl">שמרו על קשר</Accordion.Title>
               <Accordion.Content className="list-none py-4 px-5">
                 <FooterContacts />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">החברה</Accordion.Title>
+              <Accordion.Title className="py-4 px-5 rtl">החברה</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
-                <FooterCompanyLinks />
+                <FooterLinks section="company"/>
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5">קטגוריות</Accordion.Title>
+              <Accordion.Title className="py-4 px-5 rtl">מדיניות</Accordion.Title>
+              <Accordion.Content className="py-4 px-5">
+                <FooterLinks section="policy"/>
+              </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+              <Accordion.Title className="py-4 px-5 rtl">קטגוריות</Accordion.Title>
               <Accordion.Content className="py-4 px-5">
                 <FooterCategoryLinks />
               </Accordion.Content>

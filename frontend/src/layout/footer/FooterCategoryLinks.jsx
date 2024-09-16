@@ -7,13 +7,13 @@ import { slugify } from '../../utils/slugify';
 export default function FooterCategoryLinks() {
   const location = useLocation()
   return (
-    <Footer.LinkGroup col className="md:mr-5">
+    <Footer.LinkGroup col >
       {categories.map((cat) => (
         <Link
           key={cat}
           to={`/products/category/${slugify(cat)}`}
           state={{...location.state, from: location.pathname}}
-          className="footer-link"
+          className="footer-link rtl"
         >
           {cat}
         </Link>

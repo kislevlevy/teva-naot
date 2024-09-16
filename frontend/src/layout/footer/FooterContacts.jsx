@@ -6,14 +6,14 @@ import { BsFillPhoneFill } from 'react-icons/bs';
 export default function FooterContacts() {
   return (
     <>
-      <Footer.Link href="#">
-        <div className="flex justify-start pb-3">
-          <BsFillPhoneFill size={'1.5rem'} className="mr-2" /> 073-2120151
+      <Footer.Link href="/" className='m-0'>
+        <div className="flex justify-start pb-3 rtl">
+          <BsFillPhoneFill size={'1.5rem'} className="ml-2" /> 073-2120151
         </div>
       </Footer.Link>
-      <Footer.Link href="#">
-        <div className="flex justify-start">
-          <TfiEmail size={'1.5rem'} className="mr-2" /> cr2@teva-naot.co.il
+      <Footer.Link href="/" className='m-0'>
+        <div className="flex justify-start rtl">
+          <TfiEmail size={'1.5rem'} className="ml-2" /> cr2@teva-naot.co.il
         </div>
       </Footer.Link>
     </>

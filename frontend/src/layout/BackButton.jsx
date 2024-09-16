@@ -9,7 +9,6 @@ const BackButton = () => {
 
 
   const goBack = () => {
-    if(location.state)
       navigate(-1); // Go back to the previous page   
   };
 
