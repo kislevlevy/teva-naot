@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs } from 'flowbite-react';
+
 import DataDashboard from '../components/dashboard/DataDashboard';
 import ProductDashboard from '../components/dashboard/ProductDashboard';
 import ShipmentDashboard from '../components/dashboard/ShipmentDashboard';
@@ -8,13 +9,15 @@ import SupplyDashboard from '../components/dashboard/SupplyDashboard';
 import CsDashboard from '../components/dashboard/CsDashboard';
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const allowedRoles = ['employee', 'manager', 'admin'];
-
   const user = {
-    role: 'admin',
+    role: 'manager',
     permissions: ['product'],
   };
+
+  const navigate = useNavigate();
+  const allowedRoles = ['employee', 'manager', 'admin'];
+  const isAllowed = (permission) =>
+    user.role === 'admin' ? true : user.permissions.includes(permission);
 
   useEffect(() => {
     if (!allowedRoles.includes(user.role) || user.permissions.length < 1)
@@ -41,50 +44,50 @@ export default function Dashboard() {
         },
       }}
     >
-      <TabItem title="נתונים" bool={['manager', 'admin'].includes(user.role)}>
+      <Tabs.Item
+        disabled={!['manager', 'admin'].includes(user.role)}
+        active={['manager', 'admin'].includes(user.role)}
+        title={'נתונים'}
+        className="text-emerald-100"
+      >
         <DataDashboard />
-      </TabItem>
+      </Tabs.Item>
 
-      <TabItem
-        title="ניהול מוצרים"
-        bool={user.role === 'admin' || user.permissions.includes('product')}
+      <Tabs.Item
+        disabled={!isAllowed('product')}
+        active={isAllowed('product')}
+        title={'ניהול מוצרים'}
+        className="text-emerald-100"
       >
         <ProductDashboard />
-      </TabItem>
+      </Tabs.Item>
 
-      <TabItem
-        title="ניהול שילוח"
-        bool={user.role === 'admin' || user.permissions.includes('shipping')}
+      <Tabs.Item
+        disabled={!isAllowed('shipping')}
+        active={isAllowed('shipping')}
+        title={'ניהול שילוח'}
+        className="text-emerald-100"
       >
         <ShipmentDashboard />
-      </TabItem>
+      </Tabs.Item>
 
-      <TabItem
-        title="ניהול מלאי"
-        bool={user.role === 'admin' || user.permissions.includes('supply')}
+      <Tabs.Item
+        disabled={!isAllowed('supply')}
+        active={isAllowed('supply')}
+        title={'ניהול מלאי'}
+        className="text-emerald-100"
       >
         <SupplyDashboard />
-      </TabItem>
+      </Tabs.Item>
 
-      <TabItem
-        title="שירות לקוחות"
-        bool={user.role === 'admin' || user.permissions.includes('cs')}
+      <Tabs.Item
+        disabled={!isAllowed('cs')}
+        active={isAllowed('cs')}
+        title={'שירות לקוחות'}
+        className="text-emerald-100"
       >
         <CsDashboard />
-      </TabItem>
+      </Tabs.Item>
     </Tabs>
-  );
-}
-
-function TabItem(title, bool, children) {
-  return (
-    <Tabs.Item
-      disabled={!bool}
-      active={bool}
-      title={title}
-      className="text-emerald-100"
-    >
-      {children}
-    </Tabs.Item>
   );
 }

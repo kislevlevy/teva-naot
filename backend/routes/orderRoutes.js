@@ -2,14 +2,15 @@ import express from 'express';
 import {
   createOrder,
   getOrders,
-  getOrderById,
-  editOrderById,
   changeOrderStatusById,
-  validateAndUpdateStock,
+  validateOrder,
 } from '../controllers/orderController.js';
+import { protect } from '../controllers/authController.js';
 
 // Initiation for router:
 const router = express.Router({ mergeParams: true });
+
+router.use(protect);
 
 // Route to change the status of an order by its ID
 router.patch('/:id/changeStatus', changeOrderStatusById);
@@ -18,6 +19,6 @@ router.patch('/:id/changeStatus', changeOrderStatusById);
 router
   .route('/')
   .get(getOrders) // GET request to retrieve orders
-  .post(validateAndUpdateStock, createOrder); // POST request with middleware and route handler
+  .post(validateOrder, createOrder); // POST request with middleware and route handler
 
 export default router;
