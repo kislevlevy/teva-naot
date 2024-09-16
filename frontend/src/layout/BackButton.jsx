@@ -1,8 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {FaArrowAltCircleLeft} from 'react-icons/fa'
-import Draggable from 'react-draggable'; // The default
-import notifyUser from '../components/notificationHandler/NotificationComp'
+import Draggable from 'react-draggable';
 
 const BackButton = () => {
   const navigate = useNavigate();
@@ -11,9 +10,7 @@ const BackButton = () => {
 
   const goBack = () => {
     if(location.state)
-      navigate(-1); // Go back to the previous page
-    console.log(location);
-    notifyUser("going Back")    
+      navigate(-1); // Go back to the previous page   
   };
 
   return (
