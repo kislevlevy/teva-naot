@@ -5,91 +5,60 @@ import { Button, RangeSlider, Slider } from '@mantine/core';
 import { Checkbox, Label, Sidebar } from 'flowbite-react';
 
 import classes from '../../styles/modules/rangeLable.module.css';
-// import { useGetProductsGroupByFilterQuery } from '../../slices/api/apiProductsGroupSlices';
-import { useGetProductsByFilterQuery } from '../../slices/api/apiProductsSlices';
+import { categories, subCategories } from '../../utils/config';
+
 // Component:
-export default function ShopFilter() {
-  const [filterObj, setFilterObj] = useState({price:[400,500],size:40});
-  const [categories, setCategories] = useState([]);
-  const [filter, setFilter] = useState('');
-   const {data,isError} = useGetProductsByFilterQuery(filter)
-// console.log(isError,data)
-// price[gt]=400&price[lt]=500
-  const setValueInFilter = (name) => (value) =>
-    setFilterObj((prev) => ({ ...prev, [name]: value }));
-  
-  const setValueInCategory = ({ target: { name } }) =>
-    setCategories((prev) =>
-      prev.includes(name) ? prev.filter((ele) => ele !== name) : [...prev, name]    
-    );
-  
-  const handleFilter = ()=>{
-      console.log(categories)
-      if(categories.length===0){
-        setFilter((prev) => {
-    prev = `?category=נעליים${`&price[gt]=${filterObj.price[0] + `&price[lt]=${filterObj.price[1]}` + `&size=${filterObj.size}`}`}`;
-        return prev;
-        });    
-      }else{
-        setFilter((prev) => {
-      prev = `?category=${categories.join(',') + `&price[gt]=${filterObj.price[0] + `&price[lt]=${filterObj.price[1]}`+`&size=${filterObj.size}`}`}`;
-          return prev;
-        }); 
-      }
-  }
+export default function ShopFilter({ setMinMaxObj, setCategoriesArr, data }) {
+  const [priceRange, setPriceRange] = useState([]);
+  const [sizeRange, setSizeRange] = useState([]);
 
-  useEffect(() => {
-    setFilter((prev) => {
-    prev = `?category=נעליים${`&price[gt]=${filterObj.price[0] + `&price[lt]=${filterObj.price[1]}`+ `&size=${filterObj.size}`}`}`;
-      return prev;
+  const setCategoriesVal = (e) =>
+    setCategoriesArr((prev) => {
+      const cat = e.target.name;
+      if (prev.includes(cat)) return prev.filter((ele) => ele !== cat);
+      return [...prev, cat];
     });
-  }, []);
 
-// console.log(categories)
   return (
     <Sidebar className="p-3 w-auto max-w-[250px]">
       <Sidebar.Items>
-        <Sidebar.ItemGroup className="mb-4">
-          <h3 className="text-right">קטגוריות</h3>
-          <Sidebar.Item className="h-[30px] text-right">
-            <Label className="mr-2">כפכפים</Label>
-            <Checkbox
-              name="כפכפים"
-              // name="sandals"
-              onChange={setValueInCategory}
-              className="text-[#64b496]"
-            />
-          </Sidebar.Item>
-          <Sidebar.Item className="h-[30px] text-right">
-            <Label className="mr-2">נעליים</Label>
-            <Checkbox
-              name="נעליים"
-              // name="shooe"
-              onChange={setValueInCategory}
-              className="text-[#64b496]"
-            />
-          </Sidebar.Item>
-          <Sidebar.Item className="h-[30px] text-right">
-            <Label className="mr-2">מגפיים</Label>
-            <Checkbox
-              name="מגפיים"
-              // name="boots"
-              onChange={setValueInCategory}
-              className="text-[#64b496]"
-            />
-          </Sidebar.Item>
+        <h3 className="text-right">קטגוריות</h3>
+        <Sidebar.ItemGroup className="max-h-72 mb-4 overflow-y-scroll">
+          {categories.map((category, i) => (
+            <Sidebar.Item className="text-right" key={`category-${i}`}>
+              <Label className="mr-2 font-bold">{category}</Label>
+              <Checkbox
+                name={category}
+                onChange={setCategoriesVal}
+                className="text-[#64b496]"
+              />
+              <div>
+                {subCategories[i].map((subCategory, j) => (
+                  <div className="mr-4 my-1 h-fit" key={`category-${i}-sub-${j}`}>
+                    <Label className="mr-2">{subCategory}</Label>
+                    <Checkbox
+                      value={true}
+                      name={subCategory}
+                      onChange={setCategoriesVal}
+                      className="text-[#64b496]"
+                    />
+                  </div>
+                ))}
+              </div>
+            </Sidebar.Item>
+          ))}
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup className="mb-4">
           <h3 className="text-right">מחיר</h3>
           <Sidebar.Item>
             <RangeSlider
-              min={300}
-              max={500}
-              step={20}
+              min={data.price[0]}
+              max={data.price[1]}
+              step={10}
               labelAlwaysOn
               classNames={classes}
               color="#64b496"
-              onChange={setValueInFilter('price')}
+              onChange={setPriceRange}
             />
           </Sidebar.Item>
         </Sidebar.ItemGroup>
@@ -98,17 +67,21 @@ export default function ShopFilter() {
           <Sidebar.Item>
             <Slider
               labelAlwaysOn
-              min={35}
-              max={46}
+              min={data.size[0]}
+              max={data.size[1]}
               classNames={classes}
               color="#e8ecef"
-              onChange={setValueInFilter('size')}
+              onChange={setSizeRange}
             />
           </Sidebar.Item>
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
           <Sidebar.Item>
-            <Button onClick={handleFilter} color="#64b496" className="mt-2 h-6 w-full">
+            <Button
+              color="#64b496"
+              className="mt-2 h-6 w-full"
+              onClick={() => setMinMaxObj({ price: priceRange, size: sizeRange })}
+            >
               סינון
             </Button>
           </Sidebar.Item>

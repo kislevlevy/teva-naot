@@ -30,11 +30,13 @@ const sendRes = (user, statusCode, res) => {
     },
   });
 };
+
 export const sentResAndToken = (req, res, next) => {
   // return cookie:
   sendJwtCookie(req.user._id, res);
   return sendRes(req.user, req.isNew ? 201 : 200, res);
 };
+
 export const getLoggedInUserDetails = asyncHandler(async (req, res, next) => {
   const user = req.user;
   const token = req.token;
@@ -70,11 +72,11 @@ export const login = asyncHandler(async (req, res, next) => {
 //front parameters: fullName, email, password, passwordConfirm, profileImg
 export const signup = asyncHandler(async (req, res, next) => {
   // Veriables:
-  const { fullName, email, password, passwordConfirm } = req.body;
+  const { fullName, email, password, passwordConfirm, phoneNumber } = req.body;
   req.isNew = false;
 
   // Guard:
-  if (!fullName || !email || !password || !passwordConfirm)
+  if (!fullName || !email || !password || !passwordConfirm || !phoneNumber)
     return next(new AppError(400, 'Missing details'));
   if (password !== passwordConfirm)
     return next(new AppError(400, 'Passwords are not matched!'));
@@ -90,6 +92,7 @@ export const signup = asyncHandler(async (req, res, next) => {
         password,
         passwordConfirm,
         fullName,
+        phoneNumber,
       };
       await user.save({ validateBeforeSave: true });
     } else return next(new AppError(403, 'User already exist please login'));
@@ -100,12 +103,13 @@ export const signup = asyncHandler(async (req, res, next) => {
       password,
       passwordConfirm,
       fullName,
+      phoneNumber,
     });
     req.isNew = true;
   }
 
   req.user = user;
-  if (req.profileImage) return next();
+  if (req.file) return next();
 
   // return cookie:
   sendJwtCookie(user._id, res);

@@ -5,8 +5,15 @@ export default class ApiFeatures {
   }
   filter() {
     // Set fillter abbilaties:
-    const nonFilterFields = ['sort', 'page', 'limit', 'fields', 'q'];
-    const { q = '' } = this.req.query;
+    const nonFilterFields = [
+      'sort',
+      'page',
+      'limit',
+      'fields',
+      'q',
+      'availableSizes',
+    ];
+    const { q = '', availableSizes = '' } = this.req.query;
 
     // Create filter query object:
     this.filterQuery = JSON.parse(
@@ -22,6 +29,14 @@ export default class ApiFeatures {
 
     // return:
     this.find.find(this.filterQuery);
+    if (availableSizes)
+      this.find.find({
+        $and: [
+          { 'availableSizes.0': { $lte: availableSizes } },
+          { 'availableSizes.1': { $gte: availableSizes } },
+        ],
+      });
+
     return this;
   }
 

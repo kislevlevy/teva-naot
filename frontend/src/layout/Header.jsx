@@ -25,24 +25,27 @@ export default function Header() {
         <Navbar.Brand href="/">
           <img alt="Teva Naot" src="/img/logoMain.svg" className="mr-3 h-9" />
         </Navbar.Brand>
-        <div className="order-2 hidden items-center md:flex space-x-1">
+        <div className="order-2 hidden items-center md:flex ">
           <div
             onClick={() => setIsCartOpen(true)}
-            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer"
+            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer ml-2"
           >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           <LoginPopover {...{ isLoginOpen, setIsLoginOpen }}>
-            <div
+            <Button
+              className="w-24 ml-2"
+              gradientDuoTone="greenToBlue"
+              outline
               onClick={() => setIsLoginOpen((prev) => !!prev)}
-              className="cursor-pointer mr-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-800 md:mr-2 md:px-5 md:py-2.5"
             >
               התחברות
-            </div>
+            </Button>
           </LoginPopover>
-          <Link to="/signup" state={{...location.state, from: location.pathname}}
-          >
-            <Button gradientDuoTone="greenToBlue">הרשמה</Button>
+          <Link to="/signup" state={{ ...location.state, from: location.pathname }}>
+            <Button className="w-24 ml-2" gradientDuoTone="greenToBlue">
+              הרשמה
+            </Button>
           </Link>
         </div>
         <div className="flex space-x-1">
@@ -53,7 +56,9 @@ export default function Header() {
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           <div
-            onClick={() => navigate('/signup', {state:{...state, from: pathname}})}
+            onClick={() =>
+              navigate('/signup', { state: { ...state, from: pathname } })
+            }
             className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer"
           >
             <Icon path={mdiAccount} size={1} color="#6b7280" />
@@ -76,7 +81,9 @@ export default function Header() {
               {categories.map((category, i) =>
                 subCategories[i].length < 1 ? (
                   <MegaMenu.Dropdown key={'category-nav-' + i}>
-                    <Link to={`/product/category/${slugify(category)}`} state={{...location.state, from: location.pathname}}
+                    <Link
+                      to={`/product/category/${slugify(category)}`}
+                      state={{ ...location.state, from: location.pathname }}
                     >
                       <div className="mr-5 ml-1 hover:text-[#64b496]">
                         {category}

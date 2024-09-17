@@ -19,3 +19,11 @@ img {
 .width-transition {
   transition: width 300ms ease;
 }
+.diagonalCross {
+  background: linear-gradient(
+    to top right,
+    #fff calc(50% - 1px),
+    rgb(156 163 175),
+    #fff calc(50% + 1px)
+  );
+}

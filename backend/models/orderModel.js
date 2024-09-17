@@ -89,19 +89,29 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Total price is a required field'],
   },
-  paymentConfirmation: String,
+  paypalOrderId: String,
   orderDate: {
     type: Date,
     default: Date.now(),
   },
 });
 
-orderSchema.post('save', function () {
-  this.products.forEach(async (ele) => {
-    const sold = [...ele.sizes.values()].reduce((acc, val) => acc + val, 0);
+orderSchema.pre('save', function (next) {
+  this.wasNew = this.isNew;
+  next();
+});
 
-    await Product.findOneAndUpdate({ colors: ele.productColor }, { sold });
-  });
+orderSchema.post('save', function () {
+  if (this.wasNew) {
+    this.products.forEach(async (ele) => {
+      const product = await Product.findOne({ colors: ele.productColor });
+      const sold = [...ele.sizes.values()].reduce((acc, val) => acc + val, 0);
+      console.log(sold);
+
+      product.sold += sold;
+      product.save();
+    });
+  }
 });
 
 const Order = mongoose.model('Order', orderSchema);

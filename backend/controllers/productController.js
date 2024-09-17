@@ -126,7 +126,12 @@ export const getProductsForUser = async (req, res, next) => {
 
     // Fetch products from favorite categories
     const favoriteCategoryProducts = await Product.aggregate([
-      { $match: { category: { $in: favoriteCategories }, sold: { $gt: 0 } } },
+      {
+        $match: {
+          category: { $in: favoriteCategories },
+          sold: { $gt: 0 },
+        },
+      },
       { $sample: { size: 5 } },
     ]);
 

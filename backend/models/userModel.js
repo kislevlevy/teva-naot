@@ -79,10 +79,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide a phone number'],
       validate: {
-        validator: function (val) {
-          return /^0(5\d{1}|[2-9])-\d{7}$/.test(val);
-        },
-        message: 'Please use a valid phone number',
+        validator: (val) => /^05\d-\d{3}-\d{4}$/.test(val),
+        message: '{VALUE}- Please use a valid phone number',
       },
     },
     role: {

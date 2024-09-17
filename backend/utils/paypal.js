@@ -41,7 +41,7 @@ export const createPaypalOrder = async (order) => {
     const items = [];
     for (const product of order.products) items.push(await createItem(product));
 
-    const response = await axios({
+    const { data } = await axios({
       url: process.env.PAYPAL_URL + '/v2/checkout/orders',
       method: 'post',
       headers: {
@@ -63,6 +63,17 @@ export const createPaypalOrder = async (order) => {
                 },
               },
             },
+            shipping: {
+              address: {
+                address_line_1: order.shippingAddress.address,
+                admin_area_2: order.shippingAddress.city,
+                postal_code: order.shippingAddress.postalCode,
+                country_code: 'IL',
+              },
+              name: {
+                full_name: order.user.fullName,
+              },
+            },
           },
         ],
         application_context: {
@@ -73,7 +84,10 @@ export const createPaypalOrder = async (order) => {
         },
       }),
     });
-    return response.data.links.find((link) => link.rel === 'approve').href;
+    order.paypalOrderId = data._id;
+    await order.save();
+
+    return data.links.find((link) => link.rel === 'approve').href;
   } catch (err) {
     throw err;
   }
