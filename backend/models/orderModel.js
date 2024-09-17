@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import Product from './productModel.js';
 
 const orderSchema = new mongoose.Schema({
   user: {
@@ -19,7 +20,23 @@ const orderSchema = new mongoose.Schema({
         required: [true, 'Price is required.'],
         min: [0, 'Price must be a positive number'],
       },
-      sizes: [[String, Number]],
+      sizes: {
+        type: Map,
+        of: {
+          type: Number,
+          min: 0,
+        },
+        required: [true, 'Sizes are required.'],
+        validate: {
+          validator: function (map) {
+            return Array.from(map.entries()).every(
+              ([size, quantity]) => validator.isNumeric(size) && quantity >= 0
+            );
+          },
+          message:
+            '{VALUE}- Sizes must be a map of numeric size values with non-negative quantities.',
+        },
+      },
     },
   ],
   shippingAddress: {
@@ -60,32 +77,31 @@ const orderSchema = new mongoose.Schema({
       },
     },
   },
-  paymentMethod: {
-    type: {
-      type: String,
-      enum: ['credit_card', 'paypal', 'bank_transfer', 'cash_on_delivery'],
-      required: [true, 'Payment type is required'],
-    },
-    details: {
-      type: Object,
-    },
-  },
   status: {
     type: String,
     enum: {
-      values: ['pending', 'shipped', 'delivered', 'canceled'],
+      values: ['pending', 'procceing', 'shipped', 'delivered', 'canceled'],
       message: '{VALUE} is not a valid status',
     },
     default: 'pending',
   },
-  trackingNumber: {
-    type: String,
-    required: [true, 'Tracking number is required'],
+  total: {
+    type: Number,
+    required: [true, 'Total price is a required field'],
   },
+  paymentConfirmation: String,
   orderDate: {
     type: Date,
-    required: [true, 'Order date is required'],
+    default: Date.now(),
   },
+});
+
+orderSchema.post('save', function () {
+  this.products.forEach(async (ele) => {
+    const sold = [...ele.sizes.values()].reduce((acc, val) => acc + val, 0);
+
+    await Product.findOneAndUpdate({ colors: ele.productColor }, { sold });
+  });
 });
 
 const Order = mongoose.model('Order', orderSchema);

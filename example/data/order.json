@@ -1,0 +1,27 @@
+{
+  "user": "66e68ae1b892cdaaf4d5dc22",
+  "products": [
+    {
+      "productColor": "66e70d2c89631c3a0f9c12c8",
+      "price": 150,
+      "sizes": {
+        "35": 1
+      }
+    }
+  ],
+  "shippingAddress": {
+    "address": "123 Main St, Apartment 4B",
+    "city": "Tel Aviv",
+    "postalCode": "61000"
+  },
+  "paymentMethod": {
+    "type": "credit_card",
+    "details": {
+      "cardNumber": "4111111111111111",
+      "expirationDate": "09/24",
+      "cvv": "123"
+    }
+  },
+  "trackingNumber": "TRK1234567890",
+  "orderDate": "2024-09-15T10:00:00.000Z"
+}

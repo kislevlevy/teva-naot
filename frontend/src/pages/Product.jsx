@@ -17,7 +17,7 @@ import { Grid, Container } from '@mantine/core';
 import StarComponent from '../components/product/subComponents/_StarComponent';
 import ProductGallery from '../components/product/subComponents/_ProductGallery';
 import ReviewCard from '../components/reviews/_ReviewCard';
-import { useGetProductQuery } from '../slices/api/apiProductsSlices';
+import {useGetProductQuery} from '../slices/api/apiProductsSlices'
 
 // Component:
 export default function ProductPage() {
@@ -90,20 +90,12 @@ export default function ProductPage() {
   };
 
   /**paging: location.state._id - the id to fetch data for */
-  const location = useLocation();
+  const location = useLocation()
   console.log(location.state);
-  const { data, isLoading, isSuccess } = useGetProductQuery(location.state._id);
-  const product = !isLoading && isSuccess ? data.data.doc : products[0];
+  const {data, isLoading, isSuccess} = useGetProductQuery(location.state._id)
+  const product = !isLoading&& isSuccess ? data.data.doc : products[0]
   console.log(product);
-
-  function componentDidMount() {
-    if (!('Notification' in window)) {
-      console.log('Browser does not support desktop notification');
-    } else {
-      Notification.requestPermission();
-    }
-  }
-  componentDidMount();
+  
 
   const navigate = useNavigate();
   const [currentProduct, setCurrentProduct] = useState(products[0]);
@@ -126,7 +118,7 @@ export default function ProductPage() {
                 separator={<Icon path={mdiChevronLeft} size={1} />}
                 maxItems={4}
               >
-                <div className="hover:text-[#64b496]" onClick={() => navigate('/')}>
+                <div className="hover:text-[#64b496]" onClick={() => navigate('/' , { state: {...state}})}>
                   <BreadcrumbsLink color="inherit">
                     <Icon
                       path={mdiHome}

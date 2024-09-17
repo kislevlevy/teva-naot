@@ -53,7 +53,8 @@ export default function CarouselContainer() {
 
 function SlideCard({ data }) {
   return (
-    <Link to={data.link}>
+    <Link to={data.link} state={{...location.state, from: location.pathname}}
+>
       <img src={data.image} alt={data.name} />
     </Link>
   );

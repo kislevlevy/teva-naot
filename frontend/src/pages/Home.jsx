@@ -5,6 +5,7 @@ import CarouselContainer from '../components/carousel/CarouselContainer';
 
 // Component:
 export default function Home() {
+ 
   return (
     <>
       <CarouselContainer />

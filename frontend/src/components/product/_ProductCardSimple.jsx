@@ -82,7 +82,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
         />
 
         <h3
-          className="hover:underline hover:text-blue-800 text-center text-lg font-medium"
+          className="hover:underline cursor-pointer  text-center text-lg font-medium"
           onClick={goToProductPage}
         >
           {product.name}

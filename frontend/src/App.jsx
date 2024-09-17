@@ -16,6 +16,8 @@ import store from './slices/store';
 import Root from './layout/Root';
 import Error from './pages/Error';
 import Signup from './pages/Signup';
+import Checkout from './pages/Checkout';
+import Dashboard from './pages/Dashboard';
 
 // Lazy imports:
 const Home = lazy(() => import('./pages/Home'));
@@ -31,6 +33,8 @@ export default function App() {
       <Route path="/" element={<Root />} errorElement={<Error />}>
         <Route index element={<Home />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="products">
           <Route index element={<Shop />} />
           <Route path="product/:slug" element={<SingleProduct />} />

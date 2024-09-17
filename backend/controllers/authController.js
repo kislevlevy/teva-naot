@@ -35,7 +35,16 @@ export const sentResAndToken = (req, res, next) => {
   sendJwtCookie(req.user._id, res);
   return sendRes(req.user, req.isNew ? 201 : 200, res);
 };
+export const getLoggedInUserDetails = asyncHandler(async (req, res, next) => {
+  const user = req.user;
+  const token = req.token;
 
+  if (!user) {
+    return next(new AppError(401, 'User is not loggen in'));
+  }
+
+  sendRes(user, 200, token, res);
+});
 //front parameters: email, password
 export const login = asyncHandler(async (req, res, next) => {
   // Veriables:
@@ -96,7 +105,7 @@ export const signup = asyncHandler(async (req, res, next) => {
   }
 
   req.user = user;
-  if (req.file) return next();
+  if (req.profileImage) return next();
 
   // return cookie:
   sendJwtCookie(user._id, res);
@@ -195,6 +204,7 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   // Set user and proseed to next function:
   req.user = user;
+  req.token = token;
   next();
 });
 

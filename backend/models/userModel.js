@@ -75,6 +75,16 @@ const userSchema = new mongoose.Schema(
         message: 'Password are not the same!',
       },
     },
+    phoneNumber: {
+      type: String,
+      required: [true, 'Please provide a phone number'],
+      validate: {
+        validator: function (val) {
+          return /^0(5\d{1}|[2-9])-\d{7}$/.test(val);
+        },
+        message: 'Please use a valid phone number',
+      },
+    },
     role: {
       type: String,
       enum: ['client', 'employee', 'manager', 'admin'],

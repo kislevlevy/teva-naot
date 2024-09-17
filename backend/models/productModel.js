@@ -88,6 +88,10 @@ const ProductSchema = new mongoose.Schema(
       },
       required: [true, 'availableSizes is a required field'],
     },
+    sold: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: {
@@ -131,7 +135,9 @@ ProductSchema.pre(/^findOne/, function (next) {
     path: 'reviews',
     select: '_id user -product',
   });
-  this.populate({path:'colors'})
+  this.populate({
+    path: 'colors',
+  });
   next();
 });
 

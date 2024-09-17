@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+
 const passwordResetMessage = (token) => ({
   subject: 'Password Reset',
   heading: 'Reset Your Password',
