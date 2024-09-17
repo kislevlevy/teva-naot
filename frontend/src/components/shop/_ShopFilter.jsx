@@ -5,13 +5,14 @@ import { Button, RangeSlider, Slider } from '@mantine/core';
 import { Checkbox, Label, Sidebar } from 'flowbite-react';
 
 import classes from '../../styles/modules/rangeLable.module.css';
-import { useGetProductsGroupByFilterQuery } from '../../slices/api/apiProductsGroupSlices';
+// import { useGetProductsGroupByFilterQuery } from '../../slices/api/apiProductsGroupSlices';
+import { useGetProductsByFilterQuery } from '../../slices/api/apiProductsSlices';
 // Component:
 export default function ShopFilter() {
   const [filterObj, setFilterObj] = useState({price:[400,500],size:40});
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('');
-   const {data,isError} = useGetProductsGroupByFilterQuery(filter)
+   const {data,isError} = useGetProductsByFilterQuery(filter)
 // console.log(isError,data)
 // price[gt]=400&price[lt]=500
   const setValueInFilter = (name) => (value) =>

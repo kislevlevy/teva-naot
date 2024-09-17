@@ -1,5 +1,5 @@
 // Imports:
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiCloseThick, mdiHeartOutline, mdiShoppingOutline } from '@mdi/js';
@@ -10,16 +10,23 @@ import ProductGallery from './subComponents/_ProductGallery';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { slugify } from '../../utils/slugify';
 
-import { useGetProductGroupQuery } from '../../slices/api/apiProductsGroupSlices';
+import { useGetProductQuery } from '../../slices/api/apiProductsSlices';
 import { useEffect } from 'react';
 
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
-  const {data,isSuccess,isError} = useGetProductGroupQuery(productModalId)
+  const { data, isSuccess, isError } = useGetProductQuery(productModalId);
+    const [activeImg, setActiveImg] = useState(null);
+  let initImage;
   let product;
-  if(isSuccess){
-product = data.data.doc;
-console.log(product)
+  let imagesArr=[];
+  if (isSuccess) {
+    product = data.data.doc;
+    product.colors.map((colorObj) =>{
+  colorObj.images.map(img=>imagesArr.push(img))
+    });
+    initImage = product.colors[0].images[0]
+    console.log(product)
   }
 
   const products = [
@@ -79,17 +86,17 @@ console.log(product)
     },
   ];
 
-/** Paging Navigation Handling (onClick of <h3> below)*/
-const navigate = useNavigate();
-const location = useLocation();
-const goToProductPage = () =>
-    navigate(`/products/product/${slugify(products[0].name)}`, { state: {...location.state||{}, _id:products[0]._id } });
+  /** Paging Navigation Handling (onClick of <h3> below)*/
+  const navigate = useNavigate();
+  const location = useLocation();
+  const goToProductPage = () =>
+    navigate(`/products/product/${slugify(products[0].name)}`, {
+      state: { ...(location.state || {}), _id: products[0]._id },
+    });
 
-  const [currentProduct, setCurrentProduct] = useState(products[0]);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const [currentSize, setCurrentSize] = useState('');
-  const [activeImg, setActiveImg] = useState(products[0].images[0]);
-
-
+  // const [activeImg, setActiveImg] = useState(products[0].images[0]);
 
   return (
     <Modal
@@ -107,35 +114,44 @@ const goToProductPage = () =>
         </div>
         <div className="flex justify-between">
           <div className="my-2 w-full h-full flex rounded-md">
-            <ProductGallery
-              classNames=" w-[250px]"
-              {...{ setActiveImg, activeImg, images: currentProduct.images }}
-            />
+            {isSuccess && (
+              <ProductGallery
+                classNames=" w-[250px]"
+                imagesArr={imagesArr.length > 0 ? imagesArr : []}
+                {...{ setActiveImg, activeImg, initImage }}
+              />
+            )}
           </div>
           <div className="p-2 rtl flex flex-col ml-5">
             <div className="flex items-center">
-              <p className="text-xs font-medium   text-gray-400">כפכפים לנשים</p>
-              <StarComponent rating={5} reveiws={50} />
+              <p className="text-xs font-medium   text-gray-400">
+                {product?.category[product.category.length - 1]}
+              </p>
+              {isSuccess && (
+                <StarComponent
+                  rating={product?.ratingsAvg}
+                  reveiws={product?.ratingsQuantity}
+                />
+              )}
             </div>
-            <h3  className="hover:underline hover:text-blue-800 text-right text-xl font-medium" onClick={goToProductPage}>{currentProduct.name}</h3>
-            <p className="text-sm mt-1">
-              דגם אייקוני בעל שתי רצועות קדמיות ושני אבזמים להתאמה ולאחיזה מושלמת של
-              כף הרגל. עשוי עור איטלקי איכותי, נושם וכולל את רפידת הנוחות האנטומית של
-              טבע נאות המקנה תחושת גמישות ורכות מלטפת בכל צעד, בולמת זעזועים ותומכת
-              בכל חלקי כף הרגל מהבוהן ועד העקב, וסוליית EVA עשויה גומי מוקצף לבלימת
-              זעזועים ולמניעת החלקה. מיוצר בישראל בעבודת יד.
-            </p>
+            <h3
+              className="hover:underline hover:text-blue-800 text-right text-xl font-medium"
+              onClick={goToProductPage}
+            >
+              {product?.name}
+            </h3>
+            <p className="text-sm mt-1">{product?.description}</p>
             <div className="mt-2">
               <h4>צבעים:</h4>
               <div className="flex flex-wrap">
-                {products.map((ele, i) => (
+                {product?.colors.map((ele, i) => (
                   <div
                     onClick={() => {
-                      setCurrentProduct(products[i]);
-                      setActiveImg(products[i].images[0]);
+                      setCurrentProduct((prev) => (prev = product.colors[i]));
+                      setActiveImg(product?.colors[i].images[0]);
                     }}
                     key={`thumbnail-${i}`}
-                    className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${currentProduct._id === ele._id ? 'border-gray-600' : 'border-gray-300'}`}
+                    className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${currentProduct && currentProduct._id === ele._id ? 'border-gray-600' : 'border-gray-300'}`}
                     style={
                       ele.thumbnail[0] === 'hex'
                         ? { backgroundColor: ele.thumbnail[1] }
@@ -146,15 +162,16 @@ const goToProductPage = () =>
               </div>
               <h4>מידות:</h4>
               <div className="flex flex-wrap">
-                {Object.keys(currentProduct.sizes).map((key, i) => (
-                  <div
-                    key={`size-${i}`}
-                    className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}`}
-                    onClick={() => setCurrentSize(key)}
-                  >
-                    {key}
-                  </div>
-                ))}
+                {currentProduct &&
+                  Object.keys(currentProduct.sizes).map((key, i) => (
+                    <div
+                      key={`size-${i}`}
+                      className={`w-6 h-6  border-2 text-center mx-0.5 hover:border-gray-400 cursor-pointer ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}`}
+                      onClick={() => setCurrentSize(key)}
+                    >
+                      {key}
+                    </div>
+                  ))}
               </div>
             </div>
             <div className="w-full flex justify-between mt-10 items-center">
@@ -169,12 +186,12 @@ const goToProductPage = () =>
               </div>
               <div>
                 <span className="mr-1 font-bold text-emerald-500 text-xl">
-                  {currentProduct.price}₪
+                  {currentProduct && currentProduct.price}₪
                 </span>
 
-                {currentProduct.discountPrice && (
+                {currentProduct && (
                   <span className="ml-1 text-md text-gray-500 line-through">
-                    {currentProduct.discountPrice}₪
+                    {currentProduct.priceBeforeDiscount} ₪
                   </span>
                 )}
               </div>

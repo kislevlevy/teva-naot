@@ -22,7 +22,7 @@ export default function Shop() {
 
   if (isSuccess)
     return (
-      <Grid container rowSpacing={1} columnSpacing={1}>
+      <Grid container rowSpacing={1} columnSpacing={1} style={{border:'4px solid red'}}>
         <Grid width="250px">
           <ShopFilter />
         </Grid>

@@ -31,7 +31,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
     });
 
   return (
-    <Card className="m-1 max-w-xs">
+    <Card className="m-1 max-w-xs" >
       <div className="relative">
         <div
           className="img_producto_container rounded-xl border-2 border-slate-200"
@@ -89,7 +89,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
         </h3>
         <div className="text-center">
           <span className="mr-1 font-bold text-emerald-500">
-            {product.lastProductPrice}₪
+            {product.price}{ ' '}₪
           </span>
         </div>
       </div>

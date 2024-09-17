@@ -6,15 +6,16 @@ import '../../../styles/modules/hover.css';
 
 // Component:
 export default function ProductGallery({
-  images,
+  imagesArr,
   setActiveImg,
   activeImg,
   classNames,
+  initImage
 }) {
   useEffect(() => {
     hoverFunc();
+    setActiveImg(initImage)
   }, []);
-
   return (
     <div className="w-full">
       <div
@@ -32,8 +33,8 @@ export default function ProductGallery({
         ></a>
       </div>
       <div className="flex h-12 my-2 overflow-hidden">
-        {images.map((img, i) => {
-          // const isScroll = e.target.parentElement.clientWidth / 48;
+        {imagesArr.map((img, i) => {
+         // const isScroll = e.target.parentElement.clientWidth / 48;
           return (
             <img
               key={i}

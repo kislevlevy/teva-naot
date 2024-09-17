@@ -12,7 +12,7 @@ export default function ProductList({ isDetailed = false, productsGroupArr }) {
   return (
     <>
       {productModalId && <ProductModal {...{ productModalId, setProductModalId }} />}
-      <div className="flex flex-wrap w-full justify-center md:justify-auto">
+      <div className="flex flex-wrap w-full justify-center md:justify-auto" >
         {productsGroupArr.map((product, i) =>
           isDetailed ? (
             <ProductCardDetailed {...{ setProductModalId, product }} key={i} />
