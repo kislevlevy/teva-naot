@@ -194,7 +194,7 @@ export const protect = asyncHandler(async (req, res, next) => {
   if (!decoded || decoded.exp < Date.now() / 1000)
     return next(new AppError(403, 'Please login, token has expired!'));
 
-  const user = await User.findById(decoded.id);
+  const user = await User.findById(decoded.id).select('+favoriteCategories');
   if (!user) return next(new AppError(403, 'Please login, user no longer exist!'));
 
   // convert passwordChangedAt to seconds, then check if user changed password, if he did, tell him to log in

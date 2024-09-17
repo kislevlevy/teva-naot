@@ -66,3 +66,96 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
   // updatedProduct
   oneDocApiResponse(res, 200, { doc: updatedProduct });
 });
+
+//getProductsForU- work
+
+// export const getProductsForU = async (req, res, next) => {
+//   try {
+//     if (!req.user) {
+//       console.log('User is not logged in or req.user is missing');
+//       return res.status(401).json({
+//         status: 'fail',
+//         message: 'Unauthorized: User is not logged in',
+//       });
+//     }
+
+//     // Extract favoriteCategories from the logged-in user's data
+//     const { favoriteCategories } = req.user;
+
+//     if (!favoriteCategories || favoriteCategories.length === 0) {
+//       console.log('No favorite categories found for the user');
+//       return res.status(400).json({
+//         status: 'fail',
+//         message: 'No favorite categories found for the user',
+//       });
+//     }
+
+//     const categoryNames = favoriteCategories.map((cat) => cat.category);
+
+//     // Fetch products from these categories
+//     const products = await Product.aggregate([
+//       {
+//         $match: { category: { $in: categoryNames } },
+//       },
+//       { $sample: { size: 5 } },
+//     ]);
+
+//     res.status(200).json({
+//       status: 'success',
+//       results: products.length,
+//       data: {
+//         products,
+//       },
+//     });
+//   } catch (err) {
+//     console.error('Error fetching products for user:', err);
+//     next(err);
+//   }
+// };
+// controllers/productController.js
+
+// controllers/productController.js
+
+export const getProductsForUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    if (!user || !user.favoriteCategories || user.favoriteCategories.length === 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'No favorite categories found for the user',
+      });
+    }
+
+    const favoriteCategories = user.favoriteCategories.map((cat) => cat.category);
+
+    // Fetch products from favorite categories
+    const favoriteCategoryProducts = await Product.aggregate([
+      { $match: { category: { $in: favoriteCategories }, sold: { $gt: 0 } } },
+      { $sample: { size: 5 } },
+    ]);
+
+    const topSoldProducts = await Product.aggregate([
+      { $match: { sold: { $gt: 0 } } },
+      { $sort: { sold: -1 } }, // Sort by the 'sold' field in descending order
+      { $limit: 5 },
+    ]);
+
+    const combinedProducts = [...favoriteCategoryProducts, ...topSoldProducts];
+    const uniqueProducts = Array.from(
+      new Map(
+        combinedProducts.map((product) => [product._id.toString(), product])
+      ).values()
+    );
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        products: uniqueProducts,
+      },
+    });
+  } catch (err) {
+    console.error('Error fetching products for user:', err);
+    next(err);
+  }
+};
