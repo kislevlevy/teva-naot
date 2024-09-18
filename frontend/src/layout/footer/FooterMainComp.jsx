@@ -16,42 +16,38 @@ export default function FooterComp() {
   };
 
   return (
-    <Footer container>
-      <div className="w-full" onClick={scrollToTop}>
+    <Footer container >
+      <div className="w-full  m-0 mx-auto">
         {/* Normal Footer for md and larger screens */}
         <div className="hidden md:block">
           <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:flex-row-reverse md:grid-cols-1">
             <div className="flex flex-col justify-start
-             items-center mx-5 group">
+             items-center mx-5">
               <FooterLogo />
               <div>
                 <Footer.Title title="שמרו על קשר" className='text-center' />
-                <Footer.LinkGroup col className='flex flex-col justify-start rtl'>
+                <Footer.LinkGroup col className='flex flex-col justify-start rtl pb-3'>
                   <FooterContacts />
-                </Footer.LinkGroup>
+                </Footer.LinkGroup >
+                <FooterSocialIcons />
               </div>
             </div>
-            <div className="grid text-center grid-cols-3 gap-8">
+            <div className="grid text-center grid-cols-3 gap-[7rem] mx-3" >
               <div>
                 <Link to="/company"><Footer.Title title="החברה"  className='mb-3 mx-auto text-center' /></Link>
-                <FooterLinks section="company" />
+                <FooterLinks section="company" scrollToTop={scrollToTop} />
               </div>
               <div>
                 <Link to="/policy"><Footer.Title title="מדיניות" className='w-3/6 mb-3 mx-auto text-center'/></Link>
-                <FooterLinks section="policy" />
+                <FooterLinks section="policy" scrollToTop={scrollToTop} />
               </div>
               <div>
               <Link to="/category"><Footer.Title title="קטגוריות"  className='mb-3 mx-auto text-center'  /></Link>
-                <FooterCategoryLinks />
+                <FooterCategoryLinks scrollToTop={scrollToTop} />
               </div>
             </div>
-            <div className="mx-2 p-3 max-w-md flex flex-col justify-start">
-              <FooterSocialIcons />
-              {/* <div className="w-auto grid grid-cols-2 gap-4 mt-4 md:grid-cols-3"> */}
-               
-                  <FooterInstagramSection />
-         
-              {/* </div> */}
+            <div className="mx-2 p-3 max-w-md flex flex-col justify-center items-center">
+              <FooterInstagramSection />
             </div>
           </div>
         </div>
