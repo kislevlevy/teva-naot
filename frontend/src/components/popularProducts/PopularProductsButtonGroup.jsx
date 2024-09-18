@@ -20,7 +20,7 @@ export default function PopularProductsButtonsGroup({ setSelectedCategory }) {
         <BsTag size={"1.5rem"} className="self-center ml-2" />
         הנמכרים ביותר
       </Button> 
-      <Button
+        <Button
         className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
         onClick={() => setSelectedCategory('Special 4 U')}
       >
