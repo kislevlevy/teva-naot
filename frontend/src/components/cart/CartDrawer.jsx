@@ -7,9 +7,10 @@ import Icon from '@mdi/react';
 import { mdiCartVariant } from '@mdi/js';
 import CartProductCard from './_CartItem';
 import { Link } from 'react-router-dom';
-
+import { retrieveFromLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
+  const {cartArr,cacheArr} = retrieveFromLocalStorage();
   const products = [
     {
       name: 'שחר נשים',
@@ -38,7 +39,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   ];
 
   let sum = 0;
-  const items = products.reduce(
+  const items = cacheArr?.reduce(
     (acc, ele) =>
       acc +
       Object.entries(ele.sizes).reduce((prev, [key, value]) => {
@@ -59,7 +60,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
         )}
       />
       <Drawer.Items>
-        {products.map((product, i) => (
+        {cacheArr?.length>0&&cacheArr.map((product, i) => (
           <CartProductCard key={'product-cart-' + i} product={product} />
         ))}
       </Drawer.Items>

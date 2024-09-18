@@ -12,6 +12,7 @@ import { Card } from 'flowbite-react';
 
 // Component:
 export default function CartProductCard({ product }) {
+  console.log(product)
   const sizesArr = Object.keys(product.sizes);
 
   return (
@@ -21,22 +22,23 @@ export default function CartProductCard({ product }) {
       renderImage={() => (
         <img
           className="w-1/3 object-cover"
-          src={product.images[0]}
-          alt={product.name}
+          src={product.image[0]}
+          alt={product.productName}
         />
       )}
     >
       <div className="relative w-36">
         <div className="flex flex-col rtl">
-          <h4 className="font-bold text-[#64b496]">{product.name}</h4>
+          <h4 className="font-bold text-[#64b496]">{product.productName}</h4>
           <div>
             {'צבע: '}
-            {product.color}
+            {/* {product.color} */}
           </div>
-          <div>
+          {/* <div>
             {sizesArr.length > 1 ? 'מידות: ' : 'מידה: '}
             {sizesArr.join(', ')}
-          </div>
+          </div> */}
+         
 
           <div>
             {'כמות: '}
@@ -44,11 +46,11 @@ export default function CartProductCard({ product }) {
           </div>
           <div>
             {'מחיר: '}
-            {product.discountPrice && (
+            {/* {product.discountPrice && (
               <span className="mr-1 text-sm text-gray-500 line-through">
                 {product.discountPrice}₪
               </span>
-            )}
+            )} */}
             <span className="mr-1 font-bold text-emerald-500 text-md">
               {product.price}₪
             </span>

@@ -11,12 +11,16 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { slugify } from '../../utils/slugify';
 
 import { useGetProductQuery } from '../../slices/api/apiProductsSlices';
-import { useEffect } from 'react';
-
+//local storage
+import { addProductsToLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
   const { data, isSuccess, isError } = useGetProductQuery(productModalId);
-    const [activeImg, setActiveImg] = useState(null);
+  const [activeImg, setActiveImg] = useState(null);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [currentSize, setCurrentSize] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
   let initImage;
   let product;
   let imagesArr=[];
@@ -26,76 +30,53 @@ export default function ProductModal({ productModalId, setProductModalId }) {
   colorObj.images.map(img=>imagesArr.push(img))
     });
     initImage = product.colors[0].images[0]
-    console.log(product)
   }
-
-  const products = [
-    {
-      name: 'שפאלט לבן',
-      thumbnail: ['hex', '#ded9d9'],
-      images: [
-        'https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-H50-01_1_2.jpg',
-      ],
-      colorBarcode: 'H5036',
-      sizes: {
-        35: 10,
-        36: 1,
-        37: 4,
-        38: 0,
-        39: 1,
-        40: 1,
-        41: 2,
-      },
-      price: 450,
-      discountPrice: 499,
-      productGroup: '5c88fa8cf4afda39709c2955',
-      _id: '1',
-    },
-    {
-      name: 'ר שפאלט ורוד פלמינגו',
-      thumbnail: ['hex', '#b69088'],
-      images: [
-        'https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-CAP-01_1_3.jpg',
-        'https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-CAP-02_1_3.jpg',
-      ],
-      colorBarcode: 'CAP36',
-      sizes: {
-        35: 10,
-      },
-      price: 450,
-      discountPrice: 499,
-      productGroup: '5c88fa8cf4afda39709c2955',
-      _id: '2',
-    },
-    {
-      name: 'אביב מוזהב',
-      thumbnail: [
-        'img',
-        'https://www.tevanaot.co.il/media/attribute/swatch/swatch_image/30x20/e/e/ee2.jpg',
-      ],
-      images: [
-        'https://www.tevanaot.co.il/media/catalog/product/cache/0d1eeda344e585470b8d983c25fb14e2/1/0/101101-EE2-01_1.jpg',
-      ],
-      colorBarcode: 'EE236',
-      sizes: {
-        35: 10,
-      },
-      price: 429,
-      productGroup: '5c88fa8cf4afda39709c2955',
-      _id: '3',
-    },
-  ];
-
+  
+const handleAddToLocalStorage = ()=>{
+if(product&&currentSize){
+  // console.log(product,currentProduct)
+// const cart = {
+//   productColor: currentProduct._id,
+//   sizes: { [currentSize]: 1 },
+  
+// };
+const cart = {
+  productColor: currentProduct._id,
+  sizes: { [currentProduct._id]: currentSize },
+};
+const cache = {
+  image: currentProduct.images,
+  price: currentProduct.price,
+  productName: currentProduct.name,
+  productColorName: currentProduct.thumbnail[1],
+  sizes: {[currentSize]:1},
+};
+  // const checkObj={[currentProduct._id]:currentSize}
+addProductsToLocalStorage(cart,cache)
+}
+}
+  // "cart": [
+  //   {
+  //     "productColor": "66e70d2c89631c3a0f9c12c8",
+  //     "sizes": {
+  //       "35": 1
+  //     }
+  //   }
+  // ],
+  // "cache": [
+  //   {
+  //     "image": "https://res.cloudinary.com/drxtaxnkr/image/upload/v1726490020/5c88fa8cf4afda39709c2955_k6hyzg.jpg",
+  //     "price": "429",
+  //     "productName": "שחר נשים",
+  //     "productColorName": "חום עץ"
+  //   }
+  // ]
   /** Paging Navigation Handling (onClick of <h3> below)*/
-  const navigate = useNavigate();
-  const location = useLocation();
   const goToProductPage = () =>
     navigate(`/products/product/${slugify(products[0].name)}`, {
       state: { ...(location.state || {}), _id: products[0]._id },
     });
 
-  const [currentProduct, setCurrentProduct] = useState(null);
-  const [currentSize, setCurrentSize] = useState('');
   // const [activeImg, setActiveImg] = useState(products[0].images[0]);
 
   return (
@@ -179,7 +160,9 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                 <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
                   <Icon path={mdiHeartOutline} size={1} color="green" />
                 </div>
-                <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
+                <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                onClick={handleAddToLocalStorage}
+                >
                   <Icon path={mdiShoppingOutline} size={1} color="green" />
                   <span className="mr-1 text-sm">הוסף לעגלה</span>
                 </div>
