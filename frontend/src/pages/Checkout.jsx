@@ -5,11 +5,13 @@ import { Container } from '@mui/material';
 
 import CheckoutTable from '../components/checkout/_CheckoutTable';
 import CheckoutSummery from '../components/checkout/_ChackoutSummery';
+import CheckoutShipping from '../components/checkout/_CheckoutShipping';
 
 export default function Checkout() {
   const products = [
     {
       name: 'שחר נשים',
+      _id: 1,
       price: 429,
       discountPrice: 499,
       sizes: {
@@ -23,6 +25,7 @@ export default function Checkout() {
     },
     {
       name: 'רותם נשים',
+      _id: 2,
       price: 449,
       sizes: {
         35: 1,
@@ -40,7 +43,8 @@ export default function Checkout() {
         <Grid size={{ xs: 12, md: 8 }}>
           <CheckoutTable {...{ products }} />
         </Grid>
-        <Grid size={{ xs: 12, md: 4 }} w>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <CheckoutShipping />
           <CheckoutSummery {...{ products }} />
         </Grid>
       </Grid>

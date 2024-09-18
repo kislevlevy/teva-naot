@@ -90,6 +90,6 @@ export const uploadProductColorImages = asyncHandler(async (req, res, next) => {
     { new: true }
   );
 
-  delete req.file;
+  delete req.files;
   next();
 });

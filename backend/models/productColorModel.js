@@ -91,13 +91,15 @@ const ProductColorSchema = new mongoose.Schema({
 ProductColorSchema.index({ price: -1 });
 
 // Middlewares:
-// Populate product group:
+ProductColorSchema.pre('save', function (next) {
+  this.wasNew = this.isNew;
+  next();
+});
 
 // update product group price + image, when new product is created
 ProductColorSchema.post('save', async function () {
   const product = await Product.findById(this.product);
-  product.colors.push(this._id);
-  product.image = this.images[0];
+  if (wasNew) product.colors.push(this._id);
 
   if (product.price === 0 || this.price < product.price) product.price = this.price;
   await product.save();

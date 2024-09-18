@@ -25,9 +25,7 @@ export default function ChackoutSummery({ products }) {
         </List.Item>
       </List>
 
-      <Button className="mt-10" gradientDuoTone="greenToBlue">
-        לתשלום
-      </Button>
+      <Button gradientDuoTone="greenToBlue">לתשלום</Button>
     </Card>
   );
 }

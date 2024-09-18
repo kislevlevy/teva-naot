@@ -13,6 +13,7 @@ import {
   getProductColorById,
   getProductColors,
   getProducts,
+  getProductsForUser,
 } from '../controllers/productController.js';
 import { protect } from '../controllers/authController.js';
 
@@ -30,6 +31,7 @@ router
 
 // Product:
 router.route('/').get(getProducts).post(protect, createProduct);
+router.route('/foru').get(protect, getProductsForUser);
 router
   .route('/:id')
   .get(getProductById)

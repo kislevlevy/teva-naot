@@ -26,7 +26,7 @@ export default function CheckoutTable({ products }) {
       </Table.Head>
       <Table.Body className="divide-y">
         {products.map((product) => (
-          <CheckoutItem key={product.id} product={product} />
+          <CheckoutItem key={product._id} product={product} />
         ))}
       </Table.Body>
     </Table>

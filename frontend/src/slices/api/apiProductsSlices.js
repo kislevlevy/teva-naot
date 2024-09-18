@@ -7,11 +7,7 @@ export const apiProducts = createApi({
 
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => '/products',
-      providesTags: ['Products'],
-    }),
-    getProductsByFilter: builder.query({
-      query: (filter) => `/products/${filter}`,
+      query: (filter) => '/products' + (filter ? filter : ''),
       providesTags: ['Products'],
     }),
     getProduct: builder.query({
@@ -55,7 +51,6 @@ export const apiProducts = createApi({
 
 export const {
   useGetProductsQuery,
-  useGetProductsByFilterQuery,
   useGetProductQuery,
   useAddNewProductMutation,
   useEditProductMutation,

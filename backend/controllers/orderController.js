@@ -41,10 +41,10 @@ export const createOrder = asyncHandler(async (req, res, next) => {
     total,
     user: req.user._id,
   });
+  await order.populate({ path: 'user', select: 'email phoneNumber fullName' });
 
   const url = await createPaypalOrder(order);
   res.send(url);
-  // next();
 });
 
 export const validateOrder = asyncHandler(async (req, res, next) => {

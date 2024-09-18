@@ -7,8 +7,8 @@ export default function CheckoutItem({ product }) {
   const sizesArr = Object.keys(product.sizes);
   return (
     <>
-      {sizesArr.map((size) => (
-        <Table.Row>
+      {sizesArr.map((size, i) => (
+        <Table.Row key={`${product._id}-${i}`}>
           <Table.Cell className="flex">
             <div className="flex flex-col justify-center items-center ml-1">
               <div

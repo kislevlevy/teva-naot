@@ -10,17 +10,16 @@ export default function ProductGallery({
   setActiveImg,
   activeImg,
   classNames,
-  initImage
 }) {
   useEffect(() => {
     hoverFunc();
-    setActiveImg(initImage)
   }, []);
+
   return (
-    <div className="w-full">
+    <div className={classNames}>
       <div
         className={
-          'img_producto_container rounded-xl border-2 border-slate-200' + classNames
+          'img_producto_container rounded-xl border-2 border-slate-200 w-full'
         }
         data-scale="1.6"
       >
@@ -34,7 +33,7 @@ export default function ProductGallery({
       </div>
       <div className="flex h-12 my-2 overflow-hidden">
         {imagesArr.map((img, i) => {
-         // const isScroll = e.target.parentElement.clientWidth / 48;
+          // const isScroll = e.target.parentElement.clientWidth / 48;
           return (
             <img
               key={i}

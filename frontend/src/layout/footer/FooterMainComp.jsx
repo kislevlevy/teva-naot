@@ -4,6 +4,7 @@ import FooterLinks from './FooterLinks';
 import FooterCategoryLinks from './FooterCategoryLinks';
 import FooterSocialIcons from './FooterSocialIcons';
 import FooterContacts from './FooterContacts';
+import FooterInstagramSection from './FooterInstagramSection';
 import { Link } from 'react-router-dom';
 
 export default function FooterComp() {
@@ -44,21 +45,13 @@ export default function FooterComp() {
                 <FooterCategoryLinks />
               </div>
             </div>
-            <div className="mx-2 p-3 max-w-md flex flex-col justify-start
-            ">
+            <div className="mx-2 p-3 max-w-md flex flex-col justify-start">
               <FooterSocialIcons />
-              <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2">
-                <Blockquote className="p-4 text-sm text-center bg-teal-100 text-teal-900 rounded-md">
-                  "Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatem, eveniet corrupti laborum eos quibusdam accusantium."
-                </Blockquote>
-                <div className="bg-gray-900 text-white p-4 rounded-lg shadow-lg">
-                  <p className="text-sm font-semibold">
-                    "Amazing quality and fast shipping!"
-                  </p>
-                  <span className="block mt-2 text-gray-400">— Customer Review</span>
-                </div>
-              </div>
+              {/* <div className="w-auto grid grid-cols-2 gap-4 mt-4 md:grid-cols-3"> */}
+               
+                  <FooterInstagramSection />
+         
+              {/* </div> */}
             </div>
           </div>
         </div>

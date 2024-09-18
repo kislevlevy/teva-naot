@@ -1,5 +1,8 @@
 import nodemailer from 'nodemailer';
 
+const logoUrl =
+  'https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg';
+
 const passwordResetMessage = (token) => ({
   subject: 'Password Reset',
   heading: 'Reset Your Password',
@@ -63,11 +66,14 @@ const sendEmail = async (type, user, token) => {
     subject: options.subject,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0;">
+      <div style="text-align: center;">
+          <img src="${logoUrl}" alt="Teva Naot" style="width: 150px; margin-bottom: 20px;" />
+        </div>
         <h2 style="color: #333; text-align: center;">${options.heading}</h2>
         <p style="color: #555; font-size: 16px; text-align: center;">${options.message}</p>
         ${options.html}
         <div style="text-align: center; margin-top: 20px;">
-          <p style="color: #555; font-size: 12px;">Teva Naot, Address Line 1, City, State, ZIP</p>
+          <p style="color: #555; font-size: 12px;">Teva Naot,Neve Tzedek 1,Tel-Aviv,Israel,100890</p>
         </div>
       </div>`,
   };
