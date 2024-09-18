@@ -29,6 +29,33 @@ export const validIdCheck = (id) => ({
 // Functions:
 export const getMany = (Model) =>
   asyncHandler(async (req, res, next) => {
+    const aggregationPipeline = [
+      {
+        $group: {
+          _id: null,
+          totalResults: { $sum: 1 },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+          minSize: { $min: { $arrayElemAt: ['$availableSizes', 0] } },
+          maxSize: { $max: { $arrayElemAt: ['$availableSizes', 1] } },
+        },
+      },
+    ];
+    req.query.category &&
+      aggregationPipeline.unshift({
+        $match: { category: req.query.category },
+      });
+    const aggregatedData = await Model.aggregate(aggregationPipeline);
+    console.log(aggregatedData);
+
+    const {
+      totalResults = 0,
+      minPrice = 0,
+      maxPrice = 0,
+      minSize = 0,
+      maxSize = 0,
+    } = aggregatedData[0] || {};
+
     // Execute query:
     const features = new ApiFeatures(req, Model.find());
     features.filter().sort().fields().pagination();
@@ -40,7 +67,15 @@ export const getMany = (Model) =>
       return next(new AppError(404, 'No documents exiest for your query in DB'));
 
     // API response:
-    manyDocsApiResponse(res, 200, { docs });
+    manyDocsApiResponse(res, 200, {
+      docs,
+      totalResults,
+      priceRange: { min: minPrice, max: maxPrice },
+      availableSize: {
+        min: minSize,
+        max: maxSize,
+      },
+    });
   });
 
 export const getOneById = (Model) =>
