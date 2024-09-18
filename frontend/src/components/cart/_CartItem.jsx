@@ -1,13 +1,9 @@
 // Imports:
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@mdi/react';
-import {
-  mdiClose,
-  mdiEyeOutline,
-  mdiHeartOutline,
-  mdiTrashCanOutline,
-} from '@mdi/js';
+import { mdiTrashCanOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
 
 // Component:

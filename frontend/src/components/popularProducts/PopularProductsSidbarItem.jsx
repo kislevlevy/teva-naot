@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Sidebar } from 'flowbite-react';
 import { HiArrowSmRight } from 'react-icons/hi';
 export default function PopularProductsSidbarItem({
@@ -14,13 +14,12 @@ export default function PopularProductsSidbarItem({
   return (
     <Sidebar.Item
       onClick={handleItemClick}
-      href="#"
-      icon={iconToShow}
-      className="flex items-center justify-between w-full bg-gray-200  shadow-md rounded-lg my-2 p-2"
+      className="text-emerald-500 flex items-center justify-between w-full bg-gray-200 hover:cursor-pointer shadow-md rounded-lg my-2 p-2"
     >
       <div className="flex flex-nowrap items-center justify-between w-full">
+        {iconToShow} 
         {textToShow}
-        <HiArrowSmRight className="ml-2 text-gray-400" />
+        <HiArrowSmRight className="ml-2 text-emerald-500" />
       </div>
     </Sidebar.Item>
   );

@@ -49,7 +49,6 @@ export default function App() {
           <Route index element={<Navigate to="אודות" />} />
           <Route path=":slug" element={<Info />} />
         </Route>
-        {/* <Route path="dashbord" element={<Login />} /> */}
       </Route>,
     ),
   );

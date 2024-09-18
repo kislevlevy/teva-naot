@@ -4,7 +4,7 @@ import FooterInstagramImageItem from './FooterInstagramImageItem';
 
 const FooterInstagramSection = () => {
   return (
-    <div className="flex flex-wrap justify-center p-5">
+    <div className="flex flex-wrap justify-center p-5 w-4/6">
       {instagramPosts.map((postEmbedCode, index) => (
         <FooterInstagramImageItem
           key={index}

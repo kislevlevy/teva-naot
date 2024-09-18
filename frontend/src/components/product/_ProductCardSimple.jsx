@@ -26,12 +26,12 @@ export default function ProductCardSimple({ setProductModalId, product }) {
   const navigate = useNavigate();
   const location = useLocation();
   const goToProductPage = () =>
-    navigate(`/products/product/${slugify(product.name)}`, {
+    navigate(`/products/product/${product.slug}`, {
       state: { ...(location.state || {}), _id: product._id },
     });
 
   return (
-    <Card className="m-1 max-w-xs" >
+    <Card className="m-1 max-w-xs">
       <div className="relative">
         <div
           className="img_producto_container rounded-xl border-2 border-slate-200"
@@ -82,15 +82,13 @@ export default function ProductCardSimple({ setProductModalId, product }) {
         />
 
         <h3
-          className="hover:underline cursor-pointer  text-center text-lg font-medium"
+          className="hover:underline cursor-pointer text-center text-lg font-medium"
           onClick={goToProductPage}
         >
           {product.name}
         </h3>
         <div className="text-center">
-          <span className="mr-1 font-bold text-emerald-500">
-            {product.price}{ ' '}₪
-          </span>
+          <span className="mr-1 font-bold text-emerald-500">{product.price} ₪</span>
         </div>
       </div>
     </Card>

@@ -82,7 +82,7 @@ export default function Header() {
                 subCategories[i].length < 1 ? (
                   <MegaMenu.Dropdown key={'category-nav-' + i}>
                     <Link
-                      to={`/product/category/${slugify(category)}`}
+                      to={`/products/category/${slugify(category)}`}
                       state={{ ...location.state, from: location.pathname }}
                     >
                       <div className="mr-5 ml-1 hover:text-[#64b496]">
@@ -108,7 +108,7 @@ export default function Header() {
                             i < 5 && (
                               <li key={'sub-category-nav-' + i}>
                                 <a
-                                  href={`/product/category/${slugify(subCategory)}`}
+                                  href={`/products/category/${slugify(subCategory)}`}
                                   className="hover:text-primary-600 dark:hover:text-primary-500 hover:text-[#64b496]"
                                 >
                                   {subCategory}
@@ -124,7 +124,7 @@ export default function Header() {
                               i > 5 && (
                                 <li key={'sub-category-nav-' + i}>
                                   <a
-                                    href={`/product/category/${slugify(subCategory)}`}
+                                    href={`/products/category/${slugify(subCategory)}`}
                                     className="hover:text-primary-600 dark:hover:text-primary-500"
                                   >
                                     {subCategory}

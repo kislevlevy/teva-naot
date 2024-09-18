@@ -16,12 +16,12 @@ const FooterInstagramImageItem = ({ postEmbedCode, index }) => {
   return (
     <div
       key={index}
-      className="relative w-[33%] h-[132px] px-1 mb-1 bg-white overflow-hidden"
+      className="relative w-[33%] h-[70px] px-1 mb-1 bg-white overflow-hidden"
     >
       <div
         className="instagram-post"
         style={{
-          transform: "scale(0.4) translate(0%, -40%) ",
+          transform: "scale(0.21) translate(0%, -70%) ",
           transformOrigin: "top left",
           width: '100%',
           height: '100%',
