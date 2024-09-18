@@ -52,8 +52,8 @@ export default function ShopFilter({ setMinMaxObj, setCategoriesArr, data }) {
           <h3 className="text-right">מחיר</h3>
           <Sidebar.Item>
             <RangeSlider
-              min={data.price[0]}
-              max={data.price[1]}
+              min={data.prices.min}
+              max={data.prices.max}
               step={10}
               labelAlwaysOn
               classNames={classes}
@@ -67,8 +67,8 @@ export default function ShopFilter({ setMinMaxObj, setCategoriesArr, data }) {
           <Sidebar.Item>
             <Slider
               labelAlwaysOn
-              min={data.size[0]}
-              max={data.size[1]}
+              min={+data.sizes.min}
+              max={+data.sizes.max}
               classNames={classes}
               color="#e8ecef"
               onChange={setSizeRange}

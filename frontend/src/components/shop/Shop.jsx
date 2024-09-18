@@ -20,11 +20,14 @@ export default function Shop() {
   const [filterStr, setFilterStr] = useState(null);
   const [categoriesArr, setCategoriesArr] = useState([]);
   const [minMaxObj, setMinMaxObj] = useState(null);
+  const [details, setDetails] = useState();
 
   const { data, isSuccess, isLoading, isError } = useGetProductsQuery(filterStr);
 
   useEffect(() => {
     let arr = [];
+    setMinMaxObj(null);
+    setCategoriesArr([]);
     if (categoriesArr.length > 0) arr.push(`category=${categoriesArr.join(',')}`);
     if (minMaxObj) {
       const { price, size } = minMaxObj;
@@ -33,38 +36,43 @@ export default function Shop() {
 
       if (size) arr.push(`availableSizes=${size}`);
     }
-    setMinMaxObj(null);
-    setCategoriesArr([]);
     if (arr.length > 0) setFilterStr(`?${arr.join('&')}`);
+    if (isSuccess) setDetails(data.data.data);
   }, [categoriesArr, minMaxObj]);
 
   return (
     <Grid container rowSpacing={1} columnSpacing={1}>
       <Grid width="250px">
-        <ShopFilter {...{ setMinMaxObj, setCategoriesArr, data: exampledata }} />
+        {details && (
+          <ShopFilter {...{ setMinMaxObj, setCategoriesArr, data: details }} />
+        )}
       </Grid>
       <Grid size="grow">
-        <ShopTooltip
-          isDetailed={isDetailed}
-          setIsDetailed={setIsDetailed}
-          results={data?.results}
-        />
+        {details && (
+          <ShopTooltip
+            isDetailed={isDetailed}
+            setIsDetailed={setIsDetailed}
+            results={details.results}
+          />
+        )}
 
         {isSuccess && (
           <ProductList isDetailed={isDetailed} productsGroupArr={data.data.docs} />
         )}
 
-        <div className="w-full flex flex-col items-center my-2">
-          <Pagination
-            layout="pagination"
-            currentPage={currentPage}
-            totalPages={10}
-            onPageChange={(val) => setCurrentPage(val)}
-            nextLabel=""
-            previousLabel=""
-            showIcons
-          />
-        </div>
+        {details && details.results > 5 && (
+          <div className="w-full flex flex-col items-center my-2">
+            <Pagination
+              layout="pagination"
+              currentPage={currentPage}
+              totalPages={details.results / 5}
+              onPageChange={(val) => setCurrentPage(val)}
+              nextLabel=""
+              previousLabel=""
+              showIcons
+            />
+          </div>
+        )}
       </Grid>
     </Grid>
   );

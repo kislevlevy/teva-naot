@@ -88,7 +88,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
 
           <div className="self-end mt-10">
             <span className="mr-1 font-bold text-lg text-emerald-500">
-              {product.lastProductPrice}₪
+              {product.price}₪
             </span>
           </div>
         </div>

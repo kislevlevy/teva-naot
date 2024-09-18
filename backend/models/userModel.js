@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Please provide your full name'],
       maxlength: [50, '{VALUE}- Full name cannot exceed 50 characters'],
       validate: {
-        validator: (val) => validator.isAlpha(val, ['en-US'], { ignore: ' -' }),
+        validator: (val) =>
+          validator.isAlpha(val, 'he', { ignore: /[A-Za-z,.\-]/g }),
         message: '{VALUE}- Full name must only contain english characters',
       },
     },

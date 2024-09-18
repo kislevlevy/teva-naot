@@ -19,7 +19,7 @@ export default function ProductGallery({
     <div className={classNames}>
       <div
         className={
-          'img_producto_container rounded-xl border-2 border-slate-200 w-full'
+          'img_producto_container rounded-xl border-2 border-slate-200 w-full h-full'
         }
         data-scale="1.6"
       >

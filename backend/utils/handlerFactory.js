@@ -14,7 +14,6 @@ export const oneDocApiResponse = (res, statusCode, data) =>
 export const manyDocsApiResponse = (res, statusCode, data) =>
   res.status(statusCode).json({
     status: 'success',
-    results: data.docs.length,
     data,
   });
 export const reqBodyCheck = (body) => ({
@@ -29,6 +28,16 @@ export const validIdCheck = (id) => ({
 // Functions:
 export const getMany = (Model) =>
   asyncHandler(async (req, res, next) => {
+    // Execute query:
+    const features = new ApiFeatures(req, Model.find());
+    features.filter().sort().fields().pagination();
+
+    // Awaiting for docs array:
+    const docs = await features.find;
+
+    if (!docs || docs.length < 1)
+      return next(new AppError(404, 'No documents exiest for your query in DB'));
+
     const aggregationPipeline = [
       {
         $group: {
@@ -41,41 +50,19 @@ export const getMany = (Model) =>
         },
       },
     ];
-    req.query.category &&
-      aggregationPipeline.unshift({
-        $match: { category: req.query.category },
-      });
+    if (req.query.category)
+      aggregationPipeline.unshift({ $match: { category: req.query.category } });
     const aggregatedData = await Model.aggregate(aggregationPipeline);
-    console.log(aggregatedData);
+    const { totalResults, minPrice, maxPrice, minSize, maxSize } = aggregatedData[0];
 
-    const {
-      totalResults = 0,
-      minPrice = 0,
-      maxPrice = 0,
-      minSize = 0,
-      maxSize = 0,
-    } = aggregatedData[0] || {};
-
-    // Execute query:
-    const features = new ApiFeatures(req, Model.find());
-    features.filter().sort().fields().pagination();
-
-    // Awaiting for docs array:
-    const docs = await features.find;
-
-    if (!docs || docs.length < 1)
-      return next(new AppError(404, 'No documents exiest for your query in DB'));
+    const data = {
+      results: totalResults,
+      prices: { min: minPrice, max: maxPrice },
+      sizes: { min: minSize, max: maxSize },
+    };
 
     // API response:
-    manyDocsApiResponse(res, 200, {
-      docs,
-      totalResults,
-      priceRange: { min: minPrice, max: maxPrice },
-      availableSize: {
-        min: minSize,
-        max: maxSize,
-      },
-    });
+    manyDocsApiResponse(res, 200, { docs, data });
   });
 
 export const getOneById = (Model) =>

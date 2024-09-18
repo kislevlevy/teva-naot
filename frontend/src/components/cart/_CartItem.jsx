@@ -1,18 +1,22 @@
 // Imports:
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@mdi/react';
-import {
-  mdiClose,
-  mdiEyeOutline,
-  mdiHeartOutline,
-  mdiTrashCanOutline,
-} from '@mdi/js';
+import { mdiTrashCanOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
 
 // Component:
 export default function CartProductCard({ product }) {
   const sizesArr = Object.keys(product.sizes);
+
+  /** Paging Navigation Handling (onClick of <h3> below)*/
+  const navigate = useNavigate();
+  const location = useLocation();
+  const goToProductPage = () =>
+    navigate(`/products/product/${product.slug}`, {
+      state: { ...(location.state || {}), _id: product._id },
+    });
 
   return (
     <Card
@@ -28,7 +32,12 @@ export default function CartProductCard({ product }) {
     >
       <div className="relative w-36">
         <div className="flex flex-col rtl">
-          <h4 className="font-bold text-[#64b496]">{product.name}</h4>
+          <h4
+            className="font-bold text-[#64b496] cursor-pointer hover:underline"
+            onClick={goToProductPage}
+          >
+            {product.name}
+          </h4>
           <div>
             {'צבע: '}
             {product.color}
