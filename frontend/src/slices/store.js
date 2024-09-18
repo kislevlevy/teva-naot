@@ -3,11 +3,11 @@ import { apiProducts } from './api/apiProductsSlices';
 import { apiReviews } from './api/apiReviewsSlices';
 import { apiOrders } from './api/apiOrdersSlices';
 import { apiUsers } from './api/apiUesrsSlices';
-import popularProductsReducer from './comp.Slices/popularProduct';
+import userSliceReducer from './comp.Slices/usersSlice'
 
 const store = configureStore({
   reducer: {
-    popularProducts: popularProductsReducer,
+   usersSlice: userSliceReducer,
     [apiProducts.reducerPath]: apiProducts.reducer,
 
     [apiReviews.reducerPath]: apiReviews.reducer,

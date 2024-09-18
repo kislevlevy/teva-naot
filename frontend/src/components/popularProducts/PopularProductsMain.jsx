@@ -7,7 +7,7 @@ import PopularProductsButtonsGroup from './PopularProductsButtonGroup';
 import { useSelector } from 'react-redux';
 
 export default function PopularProducts() {
-  const popularProducts = useSelector((state) => state.popularProducts);
+  // const popularProducts = useSelector((state) => state.popularProducts);
   useEffect(() => {
     AOS.init();
   }, []);
@@ -38,13 +38,13 @@ export default function PopularProducts() {
           <div className="flex justify-between align-top">
             <PopularProductsSidebar setSelectedCategory={setSelectedCategory} />
 
-            <PopularProductsItemContainer
+            {/* <PopularProductsItemContainer
               selectedCategory={
                 selectedCategory
                   ? popularProducts[selectedCategory]
                   : popularProducts['Popular Products']
               }
-            />
+            /> */}
           </div>
         </div>
       </div>

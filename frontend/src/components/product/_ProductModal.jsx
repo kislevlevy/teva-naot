@@ -10,7 +10,8 @@ import ProductGallery from './subComponents/_ProductGallery';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useGetProductQuery } from '../../slices/api/apiProductsSlices';
-
+//localstorage
+import { addProductsToLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
   const [product, setProduct] = useState(null);
@@ -34,7 +35,14 @@ export default function ProductModal({ productModalId, setProductModalId }) {
     navigate(`/products/product/${product.slug}`, {
       state: { ...(location.state || {}), _id: product._id },
     });
+const handleLocalstorage =()=>{
+  if(product&&currentProductColor&&currentSize){
+    // console.log(product)
+    // console.log(currentProductColor)
 
+addProductsToLocalStorage(product,currentProductColor,currentSize)
+}
+}
   if (product)
     return (
       <Modal
@@ -120,7 +128,9 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                   <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
                     <Icon path={mdiHeartOutline} size={1} color="green" />
                   </div>
-                  <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
+                  <div
+                  onClick={handleLocalstorage}
+                   className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
                     <Icon path={mdiShoppingOutline} size={1} color="green" />
                     <span className="mr-1 text-sm">הוסף לעגלה</span>
                   </div>

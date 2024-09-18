@@ -1,34 +1,80 @@
+export const addProductsToLocalStorage = (product,currentProductColor,currentSize) => {
+  let cart = JSON.parse(localStorage.getItem('productCart'));
+  if (!cart) {
+    localStorage.setItem('productCart', JSON.stringify(createNewCartProductObj()));
+  } else {
+    let productCartObj = JSON.parse(localStorage.getItem('productCart'));
+    const _product =  productCartObj.cart.find(obj=>obj.productColor===currentProductColor._id)
+    if(!_product){
+  addNewProduct(productCartObj)
+   }else{
+    const up = productCartObj.cart.find(obj=>obj.productColor===currentProductColor._id)
+    console.log(up.sizes)
+    let updateSizeObj ;
+    let sizesObj = up.sizes 
+    for(let key in sizesObj ){
+      updateSizeObj = {[key]:up.sizes[key]+1} 
+    }
+    productCartObj.cart = productCartObj.cart.map(obj=>{
+    if(obj.productColor===currentProductColor._id){
+     const newObj = {...obj,sizes:updateSizeObj}
+     return newObj
+    }else{
+      return obj
+    }
+    })
+    localStorage.setItem('productCart', JSON.stringify(productCartObj));
+   }
+  }
 
-export const addProductsToLocalStorage =(cart={},cache={})=>{
-let oldcart = JSON.parse(localStorage.getItem('cart'));
-let oldcache = JSON.parse(localStorage.getItem('cache'));
-if(!oldcart){
-    oldcart=[cart]
-    oldcache=[cache]
-    localStorage.setItem('cart', JSON.stringify(oldcart))
-    localStorage.setItem('cache', JSON.stringify(oldcache))
-}else{
-//     if(!oldcart.find(obj=>obj.productColor===cart.productColor)&&
-//         !oldcart.find(obj=>Object.keys(obj.sizes)[0]===Object.keys(cart.sizes)[0])
-// )
-if(!checkIfExist(cart,oldcart)){
-        oldcart.push(cart)
-        oldcache.push(cache)
-        localStorage.setItem('cart', JSON.stringify(oldcart))
-        localStorage.setItem('cache', JSON.stringify(oldcache))
+function createNewCartProductObj(){
+
+  const objTolocalStorage = {
+    cart: [
+      {
+        productColor:currentProductColor._id,
+        sizes: {
+          [currentSize]: 1,
+        },
+      },
+  
+  ],
+  cache: [
+    {
+      image:currentProductColor.images[0],
+      price:currentProductColor.price,
+      productName:product.name,
+      productColorName:currentProductColor.name,
+    },
+    
+  ],
+};
+return objTolocalStorage
 }
+function addNewProduct(productCart){
+  const cartProd =     {
+    productColor:currentProductColor._id,
+    sizes: {
+      [currentSize]: 1,
+    },
+  }
+  const cacheProduct=   {
+    image:currentProductColor.images[0],
+    price:currentProductColor.price,
+    productName:product.name,
+    productColorName:currentProductColor.name,
+  }
+
+productCart.cart.push(cartProd)
+productCart.cache.push(cacheProduct)
+localStorage.setItem('productCart', JSON.stringify(productCart))
+
 }
 }
 
-function checkIfExist(cart,oldcart){
-const productExist = oldcart.find(obj=>{
- return Object.entries(obj.sizes)[0][0] == Object.entries(cart.sizes)[0][0] &&
-Object.entries(obj.sizes)[0][1] == Object.entries(cart.sizes)[0][1];
-})
-return productExist
-}
-export const retrieveFromLocalStorage = ()=>{
- let cartArr = JSON.parse(localStorage.getItem('cart'));
- let cacheArr = JSON.parse(localStorage.getItem('cache'));
- return{cartArr,cacheArr}
-}
+
+
+export const retrieveFromLocalStorage = () => {
+  let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
+  return { productCartObj };
+};

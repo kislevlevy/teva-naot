@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import { retrieveFromLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
-  const {cartArr,cacheArr} = retrieveFromLocalStorage();
+  const {productCartObj} = retrieveFromLocalStorage();
+  const {cart,cache}=productCartObj
   const products = [
     {
       name: 'שחר נשים',
@@ -39,11 +40,11 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   ];
 
   let sum = 0;
-  const items = cacheArr?.reduce(
-    (acc, ele) =>
+  const items = cart?.reduce(
+    (acc, ele,i) =>
       acc +
       Object.entries(ele.sizes).reduce((prev, [key, value]) => {
-        sum += ele.price * value;
+        sum += cache[i].price * value;
         return prev + value;
       }, 0),
     0,
@@ -60,8 +61,8 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
         )}
       />
       <Drawer.Items>
-        {cacheArr?.length>0&&cacheArr.map((product, i) => (
-          <CartProductCard key={'product-cart-' + i} product={product} />
+        {cart?.length>0&&cache.map((product, i) => (
+          <CartProductCard key={'product-cart-' + i} {...productCartObj}i={i} />
         ))}
       </Drawer.Items>
       <div className="sticky bottom-0 w-full bg-white p-3 rounded-md shadow-md">

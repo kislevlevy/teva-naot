@@ -11,10 +11,12 @@ import {
 import { Card } from 'flowbite-react';
 
 // Component:
-export default function CartProductCard({ product }) {
-  console.log(product)
-  const sizesArr = Object.keys(product.sizes);
-
+export default function CartProductCard({ cart,cache,i }) {
+  console.log( cart,cache )
+  // const quntity = Object.values(cart[i].sizes);
+  // const size = Object.keys(cart[i].sizes);
+  const sizeANDquntity = Object.entries(cart[i].sizes);
+console.log( sizeANDquntity[0][0])
   return (
     <Card
       className="max-w-xs flex-row mb-1"
@@ -22,28 +24,35 @@ export default function CartProductCard({ product }) {
       renderImage={() => (
         <img
           className="w-1/3 object-cover"
-          src={product.image[0]}
-          alt={product.productName}
+          src={cache[i].image}
+          alt={cache[i].productName}
         />
       )}
     >
       <div className="relative w-36">
         <div className="flex flex-col rtl">
-          <h4 className="font-bold text-[#64b496]">{product.productName}</h4>
+          <h4 className="font-bold text-[#64b496]">{cache[i].productName}</h4>
           <div>
             {'צבע: '}
-            {/* {product.color} */}
+          {cache[i].productColorName}
           </div>
+
+          <div>
+            {'מידה:'}
+            {sizeANDquntity[0][0]}
+          </div>
+         
           {/* <div>
             {sizesArr.length > 1 ? 'מידות: ' : 'מידה: '}
             {sizesArr.join(', ')}
           </div> */}
          
-
+        {
           <div>
             {'כמות: '}
-            {Object.entries(product.sizes).reduce((prev, [_, val]) => prev + val, 0)}
-          </div>
+            {sizeANDquntity[0][1]}
+            {/* {Object.entries(product.sizes).reduce((prev, [_, val]) => prev + val, 0)} */}
+          </div> }
           <div>
             {'מחיר: '}
             {/* {product.discountPrice && (
@@ -52,7 +61,7 @@ export default function CartProductCard({ product }) {
               </span>
             )} */}
             <span className="mr-1 font-bold text-emerald-500 text-md">
-              {product.price}₪
+              {cache[i].price * sizeANDquntity[0][1]}{' '}₪
             </span>
           </div>
         </div>
