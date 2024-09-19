@@ -2,12 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { apiProducts } from './api/apiProductsSlices';
 import { apiReviews } from './api/apiReviewsSlices';
 import { apiOrders } from './api/apiOrdersSlices';
-import { apiUsers } from './api/apiUesrsSlices';
-import userSliceReducer from './comp.Slices/usersSlice'
+import { apiUsers } from './api/apiUsersSlices';
+import userSliceReducer from './comp.Slices/usersSlice';
+import usersSlice from './comp.Slices/usersSlice';
 
 const store = configureStore({
   reducer: {
-   usersSlice: userSliceReducer,
+    currentUser: userSliceReducer,
     [apiProducts.reducerPath]: apiProducts.reducer,
 
     [apiReviews.reducerPath]: apiReviews.reducer,

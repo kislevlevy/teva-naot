@@ -2,10 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiUsers = createApi({
   reducerPath: 'apiUsers',
-  baseQuery: fetchBaseQuery({ baseUrl: '/localhost:3000/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => '/Users',
+      query: () => '/users',
     }),
 
     getUserById: builder.query({
@@ -25,10 +25,10 @@ export const apiUsers = createApi({
     }),
 
     signupUser: builder.mutation({
-      query: (user) => ({
+      query: (formData) => ({
         url: '/users/signup',
         method: 'POST',
-        body: user,
+        body: formData,
       }),
     }),
 

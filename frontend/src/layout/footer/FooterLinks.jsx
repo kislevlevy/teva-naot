@@ -7,7 +7,7 @@ import { slugify } from '../../utils/slugify';
 export default function FooterLinks({section, scrollToTop} ) {
   const location = useLocation()
   return (
-    <Footer.LinkGroup col className='space-y-1'>
+    <Footer.LinkGroup col className='space-y-1 text-start'>
       {Object.keys(informationBank[section]).map((subject) => (
         <Link
           onClick={scrollToTop}

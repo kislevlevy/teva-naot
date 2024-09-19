@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../slices/comp.Slices/usersSlice';
 import { Link } from 'react-router-dom';
 import { useInputState } from '@mantine/hooks';
 
 import Icon from '@mdi/react';
 import { mdiAt, mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
 import { Button, Label, TextInput } from 'flowbite-react';
+import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
 
 export default function LoginPopover() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useInputState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [loginUser] = useLoginUserMutation();
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    ('TODO:');
+
+    try {
+      const result = await loginUser({ email, password });
+      const userData = result.data.data.user;
+
+      dispatch(
+        setCurrentUser({
+          _id: userData._id,
+        }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -66,7 +83,11 @@ export default function LoginPopover() {
 
         <div className="text-sm ">
           {'שכחת סיסמה? '}
-          <Link to={'TODO:'} className="text-sm text-green-500 hover:underline" state={{...location.state, from: location.pathname}}>
+          <Link
+            to={'TODO:'}
+            className="text-sm text-green-500 hover:underline"
+            state={{ ...location.state, from: location.pathname }}
+          >
             לחץ כאן
           </Link>
         </div>

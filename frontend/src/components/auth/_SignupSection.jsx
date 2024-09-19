@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useSignupUserMutation } from '../../slices/api/apiUsersSlices';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../slices/comp.Slices/usersSlice';
 import { useInputState } from '@mantine/hooks';
 import Icon from '@mdi/react';
 import {
@@ -16,15 +19,40 @@ import { Box, Progress, Group, Text, Center } from '@mantine/core';
 export default function SignupSection() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useInputState('');
-  const [confirmPassword, setConfirmPassword] = useInputState('');
+  const [passwordConfirm, setPasswordConfirm] = useInputState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [profileImage, setProfileImage] = useState('');
+  const [signupUser] = useSignupUserMutation();
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: Handle submit
+    const userFormData = new FormData();
+    userFormData.append('email', email);
+    userFormData.append('password', password);
+    userFormData.append('passwordConfirm', passwordConfirm);
+    userFormData.append('fullName', fullName);
+    userFormData.append('phoneNumber', phoneNumber);
+    if (profileImage) {
+      userFormData.append('profileImage', profileImage); // Append the file
+    }
+
+    try {
+      const result = await signupUser(userFormData);
+      const userData = result.data.data.user;
+
+      dispatch(
+        setCurrentUser({
+          _id: userData._id,
+        }),
+      );
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
   };
 
   const requirements = [
@@ -214,8 +242,8 @@ export default function SignupSection() {
             <TextInput
               size={5}
               type={isPasswordHidden ? 'password' : 'text'}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
               addon={
                 <div
                   className="h-fit w-fit cursor-pointer"
@@ -231,14 +259,14 @@ export default function SignupSection() {
               placeholder="••••••••"
               required
             />
-            {confirmPassword.length > 0 && (
+            {passwordConfirm.length > 0 && (
               <PasswordRequirement
                 label={
-                  password === confirmPassword
+                  password === passwordConfirm
                     ? 'הסיסמאות תואמות'
                     : 'הסיסמאות לא תואמות'
                 }
-                meets={password === confirmPassword}
+                meets={password === passwordConfirm}
               />
             )}
           </div>

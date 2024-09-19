@@ -1,20 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  username:'',
-  
+  _id: '',
 };
 
 const usersSlice = createSlice({
-  name: 'users',
+  name: 'currentUser',
   initialState,
   reducers: {
-    currentUser(state, action) {
+    setCurrentUser(state, action) {
       return { ...state, ...action.payload };
+    },
+
+    logoutUser(state) {
+      return initialState; // Reset to initial state when the user logs out
     },
   },
 });
 
 export default usersSlice.reducer;
 
-export const { currentUser } = usersSlice.actions;
+export const { setCurrentUser, logoutUser } = usersSlice.actions;
