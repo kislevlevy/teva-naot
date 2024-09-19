@@ -11,7 +11,12 @@ import { retrieveFromLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   const {productCartObj} = retrieveFromLocalStorage();
-  const {cart,cache}=productCartObj
+  let cart,cache,items,sum
+  if( productCartObj){
+    let {cart,cache}=productCartObj
+  }
+ 
+ 
   const products = [
     {
       name: 'שחר נשים',
@@ -39,16 +44,18 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
     },
   ];
 
-  let sum = 0;
-  const items = cart?.reduce(
-    (acc, ele,i) =>
-      acc +
-      Object.entries(ele.sizes).reduce((prev, [key, value]) => {
-        sum += cache[i].price * value;
-        return prev + value;
-      }, 0),
-    0,
-  );
+  if(cart&&cart.length>0){
+     sum = 0;
+    items = cart?.reduce(
+      (acc, ele,i) =>
+        acc +
+        Object.entries(ele.sizes).reduce((prev, [key, value]) => {
+          sum += cache[i].price * value;
+          return prev + value;
+        }, 0),
+      0,
+    );
+  }
 
   const handleClose = () => setIsCartOpen(false);
 
@@ -70,11 +77,11 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
           <div className="flex justify-between p-2 bg-gray-200 rounded-md">
             <div className="font-bold">
               {'פריטים: '}
-              {items}
+              {items&&items}
             </div>
             <div className="font-bold">
               {'סה"כ: '}
-              {sum}₪
+              {sum&&sum}₪
             </div>
           </div>
           <div className="flex justify-between my-2">
