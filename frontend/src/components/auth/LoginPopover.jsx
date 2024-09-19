@@ -17,7 +17,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
 
   const [loginUser] = useLoginUserMutation();
   const dispatch = useDispatch();
-  // const { _id } = useSelector((state) => state.currentUser);
+  // const { _id } = useSelector((state) => state.usersSlice);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

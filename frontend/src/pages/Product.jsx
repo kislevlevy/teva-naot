@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {
   mdiChevronLeft,
   mdiHeartOutline,
+  mdiHeart,
   mdiHome,
   mdiShoppingOutline,
 } from '@mdi/js';
@@ -17,6 +18,8 @@ import { Grid, Container } from '@mantine/core';
 import StarComponent from '../components/product/subComponents/_StarComponent';
 import ProductGallery from '../components/product/subComponents/_ProductGallery';
 import ReviewCard from '../components/reviews/_ReviewCard';
+import { useSelector, useDispatch } from 'react-redux';
+import { saveLikeItems } from '../slices/comp.Slices/usersSlice';
 import { useGetProductQuery } from '../slices/api/apiProductsSlices';
 import { slugify } from '../../../backend/utils/slugify';
 
@@ -26,6 +29,9 @@ export default function ProductPage() {
   const [currentProductColor, setCurrentProductColor] = useState(null);
   const [activeImg, setActiveImg] = useState(null);
   const [currentSize, setCurrentSize] = useState('');
+  const likedItems = useSelector((state) => state.usersSlice.likedItems) || [];
+  const isLiked = product ? likedItems.includes(product._id) : false;
+  const dispatch = useDispatch();
 
   // paging: location.state._id - the id to fetch data for
   const location = useLocation();
@@ -38,8 +44,25 @@ export default function ProductPage() {
       setActiveImg(data.data.doc.colors[0].images[0]);
       setCurrentProductColor(data.data.doc.colors[0]);
       console.log(data);
+      console.log(isLiked);
     }
   }, [isSuccess, data]);
+
+  const handleLikeItem = (e) => {
+    console.log(likedItems);
+    console.log(isLiked);
+    let updatedLikedItems = [...likedItems];
+    if (!isLiked) {
+      updatedLikedItems = [...likedItems, product?._id];
+      console.log(updatedLikedItems);
+    } else {
+      updatedLikedItems = updatedLikedItems.filter((id) => id !== product._id);
+    }
+
+    //saves the changes in local storage and in state
+    dispatch(saveLikeItems({ likedItems: updatedLikedItems }));
+    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
+  };
 
   if (product)
     return (
@@ -147,9 +170,22 @@ export default function ProductPage() {
             </div>
             <div className="w-full flex justify-between mt-10 items-center">
               <div className="flex">
-                <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
-                  <Icon path={mdiHeartOutline} size={1} color="green" />
-                </div>
+                {(isLiked && (
+                  <div
+                    className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                    onClick={handleLikeItem}
+                  >
+                    <Icon path={mdiHeart} size={1} color="green" />
+                  </div>
+                )) ||
+                  (!isLiked && (
+                    <div
+                      className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                      onClick={handleLikeItem}
+                    >
+                      <Icon path={mdiHeartOutline} size={1} color="green" />
+                    </div>
+                  ))}
                 <div
                   className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
                   onClick={() => 'TODO:'}

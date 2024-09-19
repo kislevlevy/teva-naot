@@ -4,11 +4,10 @@ import { apiReviews } from './api/apiReviewsSlices';
 import { apiOrders } from './api/apiOrdersSlices';
 import { apiUsers } from './api/apiUsersSlices';
 import userSliceReducer from './comp.Slices/usersSlice';
-import usersSlice from './comp.Slices/usersSlice';
 
 const store = configureStore({
   reducer: {
-    currentUser: userSliceReducer,
+    usersSlice: userSliceReducer,
     [apiProducts.reducerPath]: apiProducts.reducer,
 
     [apiReviews.reducerPath]: apiReviews.reducer,
