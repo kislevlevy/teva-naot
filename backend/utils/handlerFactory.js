@@ -25,6 +25,9 @@ export const validIdCheck = (id) => ({
   errorId: new AppError(400, 'Provided ID is not valid'),
 });
 
+export const simpleResponse = (req, res) =>
+  oneDocApiResponse(res, 200, { doc: req.doc });
+
 // Functions:
 export const getMany = (Model) =>
   asyncHandler(async (req, res, next) => {
@@ -96,13 +99,15 @@ export const editOneById = (Model) =>
     if (!errorBody) return next(outputBody);
 
     // Find doc by id & update:
-    const updatedDoc = await Model.findByIdAndUpdate(id, body, {
+    req.doc = await Model.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
 
+    if (req.file) return next();
+
     // API response:
-    oneDocApiResponse(res, 200, { doc: updatedDoc });
+    oneDocApiResponse(res, 200, { doc: req.doc });
   });
 
 export const createOne = (Model) =>
@@ -114,10 +119,12 @@ export const createOne = (Model) =>
     if (!errorBody) return next(outputBody);
 
     // Create new document:
-    const newDoc = await Model.create(body);
+    req.doc = await Model.create(body);
+
+    if (req.file) return next();
 
     // API response:
-    oneDocApiResponse(res, 201, { doc: newDoc });
+    oneDocApiResponse(res, 201, { doc: req.doc });
   });
 
 export const deleteOneById = (Model) =>

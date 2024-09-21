@@ -12,7 +12,6 @@ import {
 const router = Router();
 router.route('/').post(protect, canLeaveReview, createReview);
 
-// router.route('/').post(protect, createReview);
 router
   .route('/:id')
   .get(getReviewsByProductGroupId)
