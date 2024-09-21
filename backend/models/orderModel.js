@@ -106,7 +106,6 @@ orderSchema.post('save', function () {
     this.products.forEach(async (ele) => {
       const product = await Product.findOne({ colors: ele.productColor });
       const sold = [...ele.sizes.values()].reduce((acc, val) => acc + val, 0);
-      console.log(sold);
 
       product.sold += sold;
       product.save();

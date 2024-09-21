@@ -1,47 +1,42 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiProductsColor = createApi({
-  reducerPath: 'apiProducts',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  reducerPath: 'apiProductColors',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/products/colors' }),
 
   endpoints: (builder) => ({
-    getProductColors: builder.query({
-      query: () => '/products/colors',
-    }),
-    getProductColor: builder.query({
-      query: (colorId) => `/products/colors/${colorId}`,
-      providesTags: ['Products'],
+    getProductColorById: builder.query({
+      query: (id) => `/${id}`,
     }),
 
-    addNewProductColor: builder.mutation({
-      query: (newcolor) => ({
-        url: '/colors',
+    createProductColor: builder.mutation({
+      query: (body) => ({
+        url: '/',
         method: 'POST',
-        body: newcolor,
+        body,
       }),
     }),
 
-    editProductColor: builder.mutation({
-      query: (color) => ({
-        url: `/products/colors/${color.id}`,
+    editProductColorById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/${id}`,
         method: 'PATCH',
-        body: color,
+        body,
       }),
     }),
 
-    deleteProductColor: builder.mutation({
+    deleteProductColorById: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `/products/colors/${id}`,
+        url: `/${id}`,
       }),
     }),
   }),
 });
 
 export const {
-useGetProductColorsQuery,
-useGetProductColorQuery,
-useAddNewProductColorMutation,
-useEditProductColorMutation,
-useDeleteProductColorMutation,
+  useGetProductColorByIdQuery,
+  useCreateProductColorMutation,
+  useEditProductColorByIdMutation,
+  useDeleteProductColorByIdMutation,
 } = apiProductsColor;

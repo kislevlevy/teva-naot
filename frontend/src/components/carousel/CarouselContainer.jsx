@@ -1,27 +1,12 @@
-import { Skeleton } from '@mui/material';
-import { Carousel } from 'flowbite-react';
+// Imports:
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const data = [
-  {
-    image: 'https://www.tevanaot.co.il/media/wysiwyg/slider_web_14.jpg',
-    name: '#',
-  },
-  {
-    image: 'https://www.tevanaot.co.il/media/wysiwyg/slider_web_12.jpg',
-    name: '#',
-  },
-  {
-    image: 'https://www.tevanaot.co.il/media/wysiwyg/slider_web_11.jpg',
-    name: '#',
-  },
-  {
-    image: 'https://www.tevanaot.co.il/media/wysiwyg/slider_web_9.jpg',
-    name: '#',
-  },
-];
+import { Carousel } from 'flowbite-react';
 
+import { banners } from '../../utils/config';
+
+// Component:
 export default function CarouselContainer() {
   return (
     <div className="h-fit w-full">
@@ -43,19 +28,23 @@ export default function CarouselContainer() {
           },
         }}
       >
-        {data.map((ele, i) => (
-          <SlideCard key={`carousel-slide-${i}`} data={ele} />
+        {banners.href.map((_, i) => (
+          <SlideCard
+            key={`carousel-slide-${i}`}
+            image={banners.images[i]}
+            link={banners.href[i]}
+          />
         ))}
       </Carousel>
     </div>
   );
 }
 
-function SlideCard({ data }) {
+// Heleper components:
+function SlideCard({ image, link }) {
   return (
-    <Link to={data.link} state={{...location.state, from: location.pathname}}
->
-      <img src={data.image} alt={data.name} />
+    <Link to={link}>
+      <img src={image} alt="banner" />
     </Link>
   );
 }

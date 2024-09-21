@@ -2,57 +2,63 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiUsers = createApi({
   reducerPath: 'apiUsers',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/users' }),
+
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => '/users',
+      query: () => '/',
     }),
-
     getUserById: builder.query({
-      query: (userId) => `/users/${userId}`,
-    }),
-
-    logoutUserById: builder.query({
-      query: (userId) => `/users/logout/${userId}`,
+      query: (id) => `/${id}`,
     }),
 
     loginUser: builder.mutation({
-      query: (user) => ({
-        url: '/users/login',
+      query: (body) => ({
+        url: '/login',
         method: 'POST',
-        body: user,
+        body,
       }),
     }),
-
+    logoutUser: builder.query({
+      query: () => `/logout`,
+    }),
     signupUser: builder.mutation({
-      query: (formData) => ({
-        url: '/users/signup',
+      query: (body) => ({
+        url: '/signup',
         method: 'POST',
-        body: formData,
+        body,
       }),
     }),
-
     forgotPassword: builder.mutation({
-      query: (user) => ({
-        url: '/users/forgotpassword',
+      query: (body) => ({
+        url: '/forgotpassword',
         method: 'POST',
-        body: user,
+        body,
       }),
     }),
-
     resetPassword: builder.mutation({
       query: (user) => ({
-        url: `/users/resetPassword/${user.resettoken}`,
+        url: `/resetPassword/${user.resettoken}`,
         method: 'PATCH',
         body: user,
       }),
     }),
 
+    getMe: builder.query({
+      query: () => '/getMe',
+    }),
     changePassword: builder.mutation({
-      query: (user) => ({
-        url: '/users/changePassword',
+      query: (body) => ({
+        url: '/changePassword',
         method: 'PATCH',
-        body: user,
+        body,
+      }),
+    }),
+    updateMe: builder.mutation({
+      query: (body) => ({
+        url: '/updateMe',
+        method: 'PATCH',
+        body,
       }),
     }),
   }),
@@ -61,10 +67,14 @@ export const apiUsers = createApi({
 export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
-  useLogoutUserByIdQuery,
+
   useLoginUserMutation,
+  useLazyLogoutUserQuery,
   useSignupUserMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+
+  useGetMeQuery,
   useChangePasswordMutation,
+  useUpdateMeMutation,
 } = apiUsers;

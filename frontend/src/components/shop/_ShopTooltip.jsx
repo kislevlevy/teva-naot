@@ -1,12 +1,34 @@
 // Imports:
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Select } from '@mantine/core';
 import Icon from '@mdi/react';
 import { mdiGrid, mdiFormatListText } from '@mdi/js';
 
 // Component:
-export default function ShopTooltip({ isDetailed, setIsDetailed, results }) {
+export default function ShopTooltip({
+  isDetailed,
+  setIsDetailed,
+  results,
+  setSortBy,
+}) {
+  useEffect(() => {}, [results]);
+  const [sort, setSort] = useState('');
+
+  useEffect(() => {
+    switch (sort) {
+      case 'מחיר':
+        setSortBy('price');
+        break;
+      case 'דירוג':
+        setSortBy('-ratingsAvg');
+        break;
+      case 'פופולאריות':
+        setSortBy('-sold');
+        break;
+    }
+  }, [sort]);
+
   return (
     <div className="flex justify-between items-center bg-[#f9fafb] p-2 my-2 rounded-lg align-middle">
       <div className="flex items-center">
@@ -29,14 +51,14 @@ export default function ShopTooltip({ isDetailed, setIsDetailed, results }) {
           />
         </Button>
 
-        {results === 1 ? (
-          <h4 className="rtl">נמצאה תוצאה אחת!</h4>
-        ) : (
-          <h4 className="rtl">נמצאו {results} תוצאות עבורך!</h4>
-        )}
+        {results === 1 && <h4 className="rtl">נמצאה תוצאה אחת!</h4>}
+        {results === 0 && <h4 className="rtl">לא נמצאו תוצאות</h4>}
+        {results > 1 && <h4 className="rtl">נמצאו {results} תוצאות עבורך!</h4>}
       </div>
       <div>
         <Select
+          value={sort}
+          onChange={setSort}
           data={['מחיר', 'דירוג', 'פופולאריות']}
           placeholder="מיין לפי"
           className="w-24 rtl"

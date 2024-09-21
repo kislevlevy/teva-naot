@@ -1,23 +1,16 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, RangeSlider, Slider } from '@mantine/core';
-import { Checkbox, Label, Sidebar } from 'flowbite-react';
+import { Radio, Label, Sidebar } from 'flowbite-react';
 
 import classes from '../../styles/modules/rangeLable.module.css';
 import { categories, subCategories } from '../../utils/config';
 
 // Component:
-export default function ShopFilter({ setMinMaxObj, setCategoriesArr, data }) {
+export default function ShopFilter({ setMinMaxObj, setCategory, data }) {
   const [priceRange, setPriceRange] = useState([]);
   const [sizeRange, setSizeRange] = useState([]);
-
-  const setCategoriesVal = (e) =>
-    setCategoriesArr((prev) => {
-      const cat = e.target.name;
-      if (prev.includes(cat)) return prev.filter((ele) => ele !== cat);
-      return [...prev, cat];
-    });
 
   return (
     <Sidebar className="p-3 w-auto max-w-[250px]">
@@ -26,25 +19,28 @@ export default function ShopFilter({ setMinMaxObj, setCategoriesArr, data }) {
         <Sidebar.ItemGroup className="max-h-72 mb-4 overflow-y-scroll">
           {categories.map((category, i) => (
             <Sidebar.Item className="text-right" key={`category-${i}`}>
-              <Label className="mr-2 font-bold">{category}</Label>
-              <Checkbox
-                name={category}
-                onChange={setCategoriesVal}
-                className="text-[#64b496]"
-              />
-              <div>
-                {subCategories[i].map((subCategory, j) => (
-                  <div className="mr-4 my-1 h-fit" key={`category-${i}-sub-${j}`}>
-                    <Label className="mr-2">{subCategory}</Label>
-                    <Checkbox
-                      value={true}
-                      name={subCategory}
-                      onChange={setCategoriesVal}
-                      className="text-[#64b496]"
-                    />
-                  </div>
-                ))}
-              </div>
+              <fieldset>
+                <Label className="mr-2 font-bold">{category}</Label>
+                <Radio
+                  value={category}
+                  name="category"
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="text-[#64b496]"
+                />
+                <div>
+                  {subCategories[i].map((subCategory, j) => (
+                    <div className="mr-4 my-1 h-fit" key={`category-${i}-sub-${j}`}>
+                      <Label className="mr-2">{subCategory}</Label>
+                      <Radio
+                        value={subCategory}
+                        name="category"
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="text-[#64b496]"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
             </Sidebar.Item>
           ))}
         </Sidebar.ItemGroup>

@@ -35,31 +35,32 @@ export const getMany = (Model) =>
     // Awaiting for docs array:
     const docs = await features.find;
 
-    if (!docs || docs.length < 1)
-      return next(new AppError(404, 'No documents exiest for your query in DB'));
-
-    const aggregationPipeline = [
-      {
-        $group: {
-          _id: null,
-          totalResults: { $sum: 1 },
-          minPrice: { $min: '$price' },
-          maxPrice: { $max: '$price' },
-          minSize: { $min: { $arrayElemAt: ['$availableSizes', 0] } },
-          maxSize: { $max: { $arrayElemAt: ['$availableSizes', 1] } },
+    let data = {};
+    if (docs.length > 0) {
+      const aggregationPipeline = [
+        {
+          $group: {
+            _id: null,
+            totalResults: { $sum: 1 },
+            minPrice: { $min: '$price' },
+            maxPrice: { $max: '$price' },
+            minSize: { $min: { $arrayElemAt: ['$availableSizes', 0] } },
+            maxSize: { $max: { $arrayElemAt: ['$availableSizes', 1] } },
+          },
         },
-      },
-    ];
-    if (req.query.category)
-      aggregationPipeline.unshift({ $match: { category: req.query.category } });
-    const aggregatedData = await Model.aggregate(aggregationPipeline);
-    const { totalResults, minPrice, maxPrice, minSize, maxSize } = aggregatedData[0];
+      ];
+      if (req.query.category)
+        aggregationPipeline.unshift({ $match: { category: req.query.category } });
+      const aggregatedData = await Model.aggregate(aggregationPipeline);
+      const { totalResults, minPrice, maxPrice, minSize, maxSize } =
+        aggregatedData[0];
 
-    const data = {
-      results: totalResults,
-      prices: { min: minPrice, max: maxPrice },
-      sizes: { min: minSize, max: maxSize },
-    };
+      data = {
+        results: totalResults,
+        prices: { min: minPrice, max: maxPrice },
+        sizes: { min: minSize, max: maxSize },
+      };
+    }
 
     // API response:
     manyDocsApiResponse(res, 200, { docs, data });

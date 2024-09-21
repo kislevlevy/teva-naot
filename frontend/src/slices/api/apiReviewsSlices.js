@@ -2,49 +2,36 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiReviews = createApi({
   reducerPath: 'apiReviws',
-  baseQuery: fetchBaseQuery({ baseUrl: '/localhost:3000/api/v1' }),
-  tagTypes: ['Reviews'],
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/reviews' }),
 
   endpoints: (builder) => ({
-    getReviews: builder.query({
-      query: () => '/Reviews',
-      providesTags: ['Reviews'],
-    }),
-
-    getReviewsByGroup: builder.query({
-      query: (groupId) => `/Reviews/${groupId}`,
-    }),
-
-    addNewReview: builder.mutation({
-      query: (newReview) => ({
-        url: '/Reviews',
+    createReview: builder.mutation({
+      query: (body) => ({
+        url: '/',
         method: 'POST',
-        body: newReview,
+        body,
       }),
-      invalidatesTags: ['Reviews'],
     }),
 
     editReviewsById: builder.mutation({
-      query: (Review) => ({
-        url: `/Reviews/${Review.id}`,
+      query: ({ id, body }) => ({
+        url: `/${id}`,
         method: 'PATCH',
-        body: Review,
+        body,
       }),
     }),
 
-    deleteReview: builder.mutation({
+    deleteReviewById: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `/Reviews/${id}`,
+        url: `/${id}`,
       }),
     }),
   }),
 });
 
 export const {
-  useGetReviewsQuery,
-  useGetReviewsByGroupQuery,
-  useAddNewReviewMutation,
+  useCreateReviewMutation,
   useEditReviewsByIdMutation,
-  useDeleteReviewMutation,
+  useDeleteReviewByIdMutation,
 } = apiReviews;

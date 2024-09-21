@@ -10,13 +10,13 @@ import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveLikeItems } from '../../slices/comp.Slices/usersSlice';
+import { saveLikeItems } from '../../slices/state/userState';
 
 // Component:
 export default function ProductCardSimple({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
 
-  const likedItems = useSelector((state) => state.usersSlice.likedItems) || [];
+  const likedItems = useSelector((state) => state.userState.likedItems) || [];
   const isLiked = likedItems.includes(product._id); //should rerender on change of likedItems state
 
   const hoverEffect = useCallback(() => {
@@ -109,7 +109,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
               </div>
             )))}
       </div>
-      <div className="p-2">
+      <div className="p-2 flex flex-col items-center">
         <p className="text-center text-xs font-medium   text-gray-400">
           {product.category[product.category.length - 1]}
         </p>
@@ -120,7 +120,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
         />
 
         <h3
-          className="hover:underline cursor-pointer text-center text-lg font-medium"
+          className="hover:underline cursor-pointer text-lg font-medium w-fit"
           onClick={goToProductPage}
         >
           {product.name}

@@ -13,53 +13,27 @@ export const getUsers = getMany(User);
 export const getUsertById = getOneById(User);
 export const editUserById = editOneById(User);
 
-const getMe = asyncHandler(async (req, res, next) => {
-  // req.user- protect
-  // in route - router.get('/me', protect, getMe);
-  const user = await User.findById(req.user._id);
-  if (!user) {
-    return next(new AppError(404, 'User not found'));
-  }
-
-  oneDocApiResponse(res, 200, { doc: user });
+export const getMe = asyncHandler(async (req, res, next) => {
+  oneDocApiResponse(res, 200, { doc: req.user });
 });
 
-const updateMe = asyncHandler(async (req, res, next) => {
-  const { fullName, profileImg, shippingAddress, favoriteCategories } = req.body;
+export const updateMe = asyncHandler(async (req, res, next) => {
+  if (!req.body)
+    return next(new AppError(400, 'Update profile with at least one field'));
+  const { fullName = '', phoneNumber = '', shippingAddress = '' } = req.body;
 
-  if (req.body.password || req.body.passwordConfirm) {
-    return next(new AppError(400, 'Password updates are not allowed here.'));
-  }
-
-  // Prepare the update data
-  const updateData = {
-    fullName,
-    profileImg,
-    favoriteCategories,
-    ...(shippingAddress && { shippingAddress }), // Update shippingAddress if provided
-  };
-
-  // Remove undefined fields from updateData
-  Object.keys(updateData).forEach((key) => {
-    if (updateData[key] === undefined) {
-      delete updateData[key];
-    }
-  });
+  const updateData = {};
+  fullName && (updateData.fullName = fullName);
+  shippingAddress && (updateData.shippingAddress = shippingAddress);
+  phoneNumber && (updateData.phoneNumber = phoneNumber);
 
   // Update user using findByIdAndUpdate
-  const user = await User.findByIdAndUpdate(req.user.id, updateData);
+  const user = await User.findByIdAndUpdate(req.user._id, updateData, {
+    new: true,
+    runValidators: true,
+  }).select('+shippingAddress');
+  if (!user) return next(new AppError(404, 'User not found'));
+
+  if (req.file) return next();
   oneDocApiResponse(res, 200, { doc: user });
-
-  if (!user) {
-    return next(new AppError(404, 'User not found'));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      user,
-    },
-  });
 });
-
-export { getMe, updateMe };

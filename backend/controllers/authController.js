@@ -37,16 +37,6 @@ export const sentResAndToken = (req, res, next) => {
   return sendRes(req.user, req.isNew ? 201 : 200, res);
 };
 
-export const getLoggedInUserDetails = asyncHandler(async (req, res, next) => {
-  const user = req.user;
-  const token = req.token;
-
-  if (!user) {
-    return next(new AppError(401, 'User is not loggen in'));
-  }
-
-  sendRes(user, 200, token, res);
-});
 //front parameters: email, password
 export const login = asyncHandler(async (req, res, next) => {
   // Veriables:
@@ -54,7 +44,9 @@ export const login = asyncHandler(async (req, res, next) => {
   if (!email || !password) return next(new AppError(403, 'Missing details'));
 
   // Get user:
-  const user = await User.findOne({ email }).select('+password isActive');
+  const user = await User.findOne({ email }).select(
+    '+password isActive email profileImg fullName'
+  );
   if (!user || !user.isActive)
     return next(new AppError(401, 'This account does not exist.'));
 
@@ -198,9 +190,13 @@ export const protect = asyncHandler(async (req, res, next) => {
   if (!decoded || decoded.exp < Date.now() / 1000)
     return next(new AppError(403, 'Please login, token has expired!'));
 
-  const user = await User.findById(decoded.id).select('+favoriteCategories');
-  if (!user) return next(new AppError(403, 'Please login, user no longer exist!'));
+  const user = await User.findById(decoded.id).select(
+    '+isActive email fullName profileImg shippingAddress role permissions'
+  );
 
+  if (!user) return next(new AppError(403, 'Please login again'));
+  if (!user.isActive)
+    return next(new AppError(403, 'User dosent exist please signup'));
   // convert passwordChangedAt to seconds, then check if user changed password, if he did, tell him to log in
   // this will prevent any valid jwt that users already not using to increase security
   if (user.changePasswordAfter(decoded.iat))
@@ -208,7 +204,6 @@ export const protect = asyncHandler(async (req, res, next) => {
 
   // Set user and proseed to next function:
   req.user = user;
-  req.token = token;
   next();
 });
 
@@ -257,13 +252,13 @@ export const changePassword = asyncHandler(async (req, res, next) => {
   user.password = password;
   user.passwordConfirm = passwordConfirm;
   user.passwordChangedAt = new Date(Date.now() - 1000);
-  await user.save();
+  await user.save({ validateBeforeSave: true });
 
-  // create token:
+  // send cookie:
   sendJwtCookie(user._id, res);
 
-  // return cookie:
-  sendRes(user, 200, token, res);
+  // send res:
+  sendRes(user, 200, res);
 });
 
 export const logout = asyncHandler(async (req, res, next) => {

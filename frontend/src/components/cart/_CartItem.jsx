@@ -7,12 +7,10 @@ import { mdiTrashCanOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
 
 // Component:
-export default function CartProductCard({ cart,cache,i }) {
-  console.log( cart,cache )
+export default function CartProductCard({ cart, cache, i }) {
   // const quntity = Object.values(cart[i].sizes);
   // const size = Object.keys(cart[i].sizes);
   const sizeANDquntity = Object.entries(cart[i].sizes);
-console.log( sizeANDquntity[0][0])
   return (
     <Card
       className="max-w-xs flex-row mb-1"
@@ -30,25 +28,26 @@ console.log( sizeANDquntity[0][0])
           <h4 className="font-bold text-[#64b496]">{cache[i].productName}</h4>
           <div>
             {'צבע: '}
-          {cache[i].productColorName}
+            {cache[i].productColorName}
           </div>
 
           <div>
             {'מידה:'}
             {sizeANDquntity[0][0]}
           </div>
-         
+
           {/* <div>
             {sizesArr.length > 1 ? 'מידות: ' : 'מידה: '}
             {sizesArr.join(', ')}
           </div> */}
-         
-        {
-          <div>
-            {'כמות: '}
-            {sizeANDquntity[0][1]}
-            {/* {Object.entries(product.sizes).reduce((prev, [_, val]) => prev + val, 0)} */}
-          </div> }
+
+          {
+            <div>
+              {'כמות: '}
+              {sizeANDquntity[0][1]}
+              {/* {Object.entries(product.sizes).reduce((prev, [_, val]) => prev + val, 0)} */}
+            </div>
+          }
           <div>
             {'מחיר: '}
             {/* {product.discountPrice && (
@@ -57,7 +56,7 @@ console.log( sizeANDquntity[0][0])
               </span>
             )} */}
             <span className="mr-1 font-bold text-emerald-500 text-md">
-              {cache[i].price * sizeANDquntity[0][1]}{' '}₪
+              {cache[i].price * sizeANDquntity[0][1]} ₪
             </span>
           </div>
         </div>

@@ -10,7 +10,7 @@ import '../../styles/modules/hover.css';
 import StarComponent from './subComponents/_StarComponent';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveLikeItems } from '../../slices/comp.Slices/usersSlice';
+import { saveLikeItems } from '../../slices/state/userState';
 
 import { slugify } from '../../utils/slugify';
 
@@ -18,7 +18,7 @@ import { slugify } from '../../utils/slugify';
 export default function ProductCardDetailed({ setProductModalId, product }) {
   const [isHover, setIsHover] = useState(false);
 
-  const likedItems = useSelector((state) => state.usersSlice.likedItems) || [];
+  const likedItems = useSelector((state) => state.userState.likedItems) || [];
   const isLiked = likedItems.includes(product._id);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
           </div>
 
           <h3
-            className="hover:underline hover:text-blue-800 text-right text-xl font-medium"
+            className="hover:underline cursor-pointer text-right text-xl font-medium w-fit"
             onClick={goToProductPage}
           >
             {product.name}

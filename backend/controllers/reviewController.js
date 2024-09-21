@@ -1,9 +1,7 @@
-import mongoose from 'mongoose';
 import asyncHandler from 'express-async-handler';
 import Review from '../models/reviewModel.js';
 import AppError from '../utils/appError.js';
 import Product from '../models/productModel.js';
-import ProductColor from '../models/productColorModel.js';
 import { deleteOneById, editOneById } from '../utils/handlerFactory.js';
 import Order from '../models/orderModel.js';
 
@@ -92,8 +90,7 @@ export const isUserAuthor = asyncHandler(async (req, res, next) => {
 
   // Check author in review to be user loggedin
   const review = await Review.findById(reviewId);
-  console.log('review.user:' + review.user._id);
-  console.log('userId:' + userId);
+
   if (review.user._id === userId) return next();
 
   // Error not authorized:
@@ -104,7 +101,6 @@ export const isUserAuthor = asyncHandler(async (req, res, next) => {
 export const canLeaveReview = asyncHandler(async (req, res, next) => {
   const { product } = req.body;
   const userId = req.user.id;
-  console.log(userId);
 
   // Fetch product and populate colors
   const productDoc = await Product.findById(product).populate('colors');

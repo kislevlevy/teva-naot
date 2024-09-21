@@ -1,38 +1,33 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentUser } from '../../slices/comp.Slices/usersSlice';
 import { Link } from 'react-router-dom';
-import { useInputState } from '@mantine/hooks';
 
+import { setCurrentUser } from '../../slices/state/userState';
+import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
+
+import { useInputState } from '@mantine/hooks';
 import Icon from '@mdi/react';
 import { mdiAt, mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
 import { Button, Label, Popover, TextInput } from 'flowbite-react';
-import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
-import { login } from '../../../../backend/controllers/authController';
 
 export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useInputState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-
+  const [isSuccess, setIsSuccess] = useState(true);
   const [loginUser] = useLoginUserMutation();
-  const dispatch = useDispatch();
-  // const { _id } = useSelector((state) => state.usersSlice);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
     try {
-      const result = await loginUser({ email, password });
+      e.preventDefault();
+      await loginUser({ email, password });
 
-      const userData = result.data.data.user;
-      dispatch(
-        setCurrentUser({
-          _id: userData._id,
-        }),
-      );
-    } catch (error) {
-      console.log('failed', error);
+      setIsSuccess(true);
+      setEmail('');
+      setPassword('');
+      setIsLoginOpen(false);
+    } catch (_) {
+      setIsSuccess(false);
     }
   };
 
@@ -81,7 +76,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
                     )}
                   </div>
                 }
-                placeholder={isPasswordHidden ? '••••••••' : 'Pass1$34'}
+                placeholder="••••••••"
                 required
               />
             </div>
@@ -100,6 +95,11 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
             <Button type="submit" gradientDuoTone="greenToBlue" className="w-full">
               כניסה
             </Button>
+            {isSuccess || (
+              <p className="text-red-600 text-sm">
+                * מייל או סיסמה אינם נכונים, נסה שנית
+              </p>
+            )}
           </form>
         </div>
       }

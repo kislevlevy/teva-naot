@@ -17,7 +17,7 @@ export default function PopularProductsSidbarItem({
       className="text-emerald-500 flex items-center justify-between w-full bg-gray-200 hover:cursor-pointer shadow-md rounded-lg my-2 p-2"
     >
       <div className="flex flex-nowrap items-center justify-between w-full">
-        {iconToShow} 
+        {iconToShow}
         {textToShow}
         <HiArrowSmRight className="ml-2 text-emerald-500" />
       </div>

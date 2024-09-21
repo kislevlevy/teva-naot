@@ -13,18 +13,18 @@ const userSchema = new mongoose.Schema(
       maxlength: [50, '{VALUE}- Full name cannot exceed 50 characters'],
       validate: {
         validator: (val) =>
-          validator.isAlpha(val, 'he', { ignore: /[A-Za-z,.\-]/g }),
-        message: '{VALUE}- Full name must only contain english characters',
+          validator.isAlpha(val.replace(/[A-Za-z]/g, 'א'), 'he', {
+            ignore: ' ,.-',
+          }),
+        message: '{VALUE}- Full name must only contain english or hebrew characters',
       },
     },
     profileImg: {
       type: String,
       validate: {
         validator: (val) =>
-          validator.isURL(val, {
-            protocols: ['https'],
-            require_protocol: true,
-          }) && val.startsWith('https://res.cloudinary.com'),
+          val.startsWith('http://res.cloudinary.com') ||
+          val.startsWith('https://res.cloudinary.com'),
         message:
           '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
       },
@@ -135,7 +135,9 @@ const userSchema = new mongoose.Schema(
           maxlength: [20, '{VALUE}- City name must no exceed 20 character long'],
           validate: {
             validator: (val) =>
-              validator.isAlpha(val, ['en-US', 'he'], { ignore: ' -' }),
+              validator.isAlpha(val, 'he', {
+                ignore: /[ .,\-\nA-Za-z]/g,
+              }),
             message: '{VALUE}- City must only contain characters',
           },
         },
@@ -212,6 +214,11 @@ userSchema.virtual('orderHistory', {
   ref: 'Order',
   foreignField: 'user',
   localField: '_id',
+});
+
+userSchema.pre(/^findOne/, function (next) {
+  this.populate('orderHistory');
+  next();
 });
 
 // Middeleware:

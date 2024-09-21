@@ -14,8 +14,8 @@ import StarComponent from './subComponents/_StarComponent';
 import ProductGallery from './subComponents/_ProductGallery';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveLikeItems } from '../../slices/comp.Slices/usersSlice';
-import { useGetProductQuery } from '../../slices/api/apiProductsSlices';
+// import { saveLikeItems } from '../../slices/state/usersState';
+import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
 //localstorage
 import { addProductsToLocalStorage } from '../../utils/localStorage';
 
@@ -26,10 +26,10 @@ export default function ProductModal({ productModalId, setProductModalId }) {
   const [activeImg, setActiveImg] = useState('');
   const [currentSize, setCurrentSize] = useState('');
 
-  const { data, isSuccess, isError } = useGetProductQuery(productModalId);
+  const { data, isSuccess, isError } = useGetProductByIdQuery(productModalId);
 
   const dispatch = useDispatch();
-  const likedItems = useSelector((state) => state.usersSlice.likedItems) || [];
+  const likedItems = useSelector((state) => state.userState.likedItems) || [];
   const isLiked = likedItems.includes(productModalId);
 
   useEffect(() => {
@@ -50,9 +50,6 @@ export default function ProductModal({ productModalId, setProductModalId }) {
 
   const handleLocalstorage = () => {
     if (product && currentProductColor && currentSize) {
-      // console.log(product)
-      // console.log(currentProductColor)
-
       addProductsToLocalStorage(product, currentProductColor, currentSize);
     }
   };
@@ -65,7 +62,7 @@ export default function ProductModal({ productModalId, setProductModalId }) {
       updatedLikedItems = updatedLikedItems.filter((id) => id !== product._id);
     }
 
-    //saves the changes in local storage and in state
+    // saves the changes in local storage and in state
     dispatch(saveLikeItems({ likedItems: updatedLikedItems }));
     localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
   };
@@ -86,7 +83,7 @@ export default function ProductModal({ productModalId, setProductModalId }) {
             <Icon path={mdiCloseThick} size={0.75} />
           </div>
           <div className="flex justify-between">
-            <div className="my-2 w-full h-full flex rounded-md">
+            <div className="my-2 w-fit h-full flex rounded-md">
               <ProductGallery
                 classNames=" w-[250px]"
                 imagesArr={currentProductColor.images}

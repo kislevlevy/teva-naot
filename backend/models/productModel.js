@@ -134,7 +134,7 @@ ProductSchema.pre('save', function (next) {
 ProductSchema.pre(/^findOne/, function (next) {
   this.populate({
     path: 'reviews',
-    select: '_id user -product',
+    select: '_id user review rating createdAt',
   });
   this.populate({
     path: 'colors',

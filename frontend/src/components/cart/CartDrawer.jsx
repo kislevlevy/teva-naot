@@ -10,44 +10,16 @@ import { Link } from 'react-router-dom';
 import { retrieveFromLocalStorage } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
-  const {productCartObj} = retrieveFromLocalStorage();
-  let cart,cache,items,sum
-  if( productCartObj){
-    let {cart,cache}=productCartObj
+  const { productCartObj } = retrieveFromLocalStorage();
+  let cart, cache, items, sum;
+  if (productCartObj) {
+    let { cart, cache } = productCartObj;
   }
- 
- 
-  const products = [
-    {
-      name: 'שחר נשים',
-      price: 429,
-      discountPrice: 499,
-      sizes: {
-        37: 1,
-        39: 2,
-      },
-      color: 'חום',
-      images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
-      ],
-    },
-    {
-      name: 'רותם נשים',
-      price: 449,
-      sizes: {
-        35: 1,
-      },
-      color: 'לבן',
-      images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
-      ],
-    },
-  ];
 
-  if(cart&&cart.length>0){
-     sum = 0;
+  if (cart && cart.length > 0) {
+    sum = 0;
     items = cart?.reduce(
-      (acc, ele,i) =>
+      (acc, ele, i) =>
         acc +
         Object.entries(ele.sizes).reduce((prev, [key, value]) => {
           sum += cache[i].price * value;
@@ -68,20 +40,21 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
         )}
       />
       <Drawer.Items>
-        {cart?.length>0&&cache.map((product, i) => (
-          <CartProductCard key={'product-cart-' + i} {...productCartObj}i={i} />
-        ))}
+        {cart?.length > 0 &&
+          cache.map((product, i) => (
+            <CartProductCard key={'product-cart-' + i} {...productCartObj} i={i} />
+          ))}
       </Drawer.Items>
       <div className="sticky bottom-0 w-full bg-white p-3 rounded-md shadow-md">
         <div>
           <div className="flex justify-between p-2 bg-gray-200 rounded-md">
             <div className="font-bold">
               {'פריטים: '}
-              {items&&items}
+              {items && items}
             </div>
             <div className="font-bold">
               {'סה"כ: '}
-              {sum&&sum}₪
+              {sum && sum}₪
             </div>
           </div>
           <div className="flex justify-between my-2">
@@ -93,7 +66,10 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
             >
               המשך בקניות
             </Button>
-            <Link className="w-2/4 m-1" to="/checkout" state={{...location.state, from: location.pathname}}
+            <Link
+              className="w-2/4 m-1"
+              to="/checkout"
+              state={{ ...location.state, from: location.pathname }}
             >
               <Button onClick={handleClose} gradientDuoTone="greenToBlue">
                 לתשלום בקופה

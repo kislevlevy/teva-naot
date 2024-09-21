@@ -78,7 +78,7 @@ const calcAvgRating = (num) =>
     product.ratingsAvg = Math.round(
       (ratingsAvg * (ratingsQuantity - num) + this.rating) / ratingsQuantity
     );
-    console.log(ratingsAvg, ratingsQuantity, num);
+
     await product.save();
   };
 

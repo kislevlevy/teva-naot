@@ -99,7 +99,7 @@ ProductColorSchema.pre('save', function (next) {
 // update product group price + image, when new product is created
 ProductColorSchema.post('save', async function () {
   const product = await Product.findById(this.product);
-  if (wasNew) product.colors.push(this._id);
+  if (this.wasNew) product.colors.push(this._id);
 
   if (product.price === 0 || this.price < product.price) product.price = this.price;
   await product.save();
