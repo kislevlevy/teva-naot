@@ -10,6 +10,7 @@ import {
   editProductColorById,
   editProductStockById,
   getProductById,
+  getProductByIdWithSizes,
   getProductColorById,
   getProductColors,
   getProducts,
@@ -85,7 +86,18 @@ router
     uploadProductImage,
     simpleResponse
   );
+
 router.route('/foru').get(protect, getProductsForUser);
+
+router
+  .route('/full-info/:id') //maybe choose "with-sizes" or "details"
+  .get(
+    protect,
+    restrictByRole('employee', 'admin'),
+    restrictByPermission('product'),
+    getProductByIdWithSizes
+  );
+
 router
   .route('/:id')
   .get(getProductById)
@@ -98,6 +110,7 @@ router
     uploadProductImage,
     simpleResponse
   )
+
   .delete(
     protect,
     restrictByRole('employee', 'admin'),

@@ -64,7 +64,6 @@ export const getMany = (Model) =>
         sizes: { min: minSize, max: maxSize },
       };
     }
-
     // API response:
     manyDocsApiResponse(res, 200, { docs, data });
   });

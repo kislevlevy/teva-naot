@@ -23,6 +23,28 @@ export const getProductById = getOneById(Product);
 export const editProductById = editOneById(Product);
 export const deleteProductById = deleteOneById(Product);
 
+export const getProductByIdWithSizes = asyncHandler(async (req, res, next) => {
+  // Guard for correct ID:
+  const { id } = req.params;
+  const { outputId, errorId } = validIdCheck(id);
+  if (!outputId) return next(errorId);
+
+  // Find doc by ID
+  const doc = await Product.findById(id).lean();
+
+  // Guard:
+  if (!doc) return next(new AppError(404, 'No Product found with that ID.'));
+
+  // Populate the product colors with sizes
+  const docWithSizes = await Product.populate(doc, {
+    path: 'colors',
+    select: 'sizes',
+  });
+
+  // API response
+  oneDocApiResponse(res, 200, { doc: docWithSizes });
+});
+
 export const deleteProductItems = asyncHandler(async (req, res, next) => {
   const { products } = await Product.findById(req.params.id);
 
