@@ -25,6 +25,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const SingleProduct = lazy(() => import('./pages/Product'));
 const Info = lazy(() => import('./pages/Info'));
+const StoreLocator = lazy(() => import('./pages/StoreLocator'));
 
 // Component:
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
         </Route>
         <Route path="company">
           <Route index element={<Navigate to="אודות" />} />
+          <Route path="סניפים" element={<StoreLocator />} />
           <Route path=":slug" element={<Info />} />
         </Route>
       </Route>,
