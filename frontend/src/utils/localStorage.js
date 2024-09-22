@@ -12,36 +12,34 @@ if(!_product){
   addNewProduct(productCartObj)
 // the new color that has been selected is in localstorage
    }else{
-    const existingObj = productCartObj.cart.find(obj=>obj.productColor===currentProductColor._id)
-    let sizesObj = existingObj.sizes 
-    const selectedSize = Object.keys(sizesObj)
-
-
-    // console.log(selectedSize);
-    // let updateSizeObj ;
-    // for(let key in sizesObj ){
-    //   if(key==selectedSize){
-    //    console.log('line 20');
-    //    {sizesObj,sizesObj[key]=sizesObj[key]+1}
-    //    // updateSizeObj = {[key]:existingObj.sizes[key]+1} 
-    //   }else{
-    //     console.log('line 25');
-    //     console.log(sizesObj);
-    //     {sizesObj,sizesObj[key] = 1}
-        
-    //   }
-    // }
-    // productCartObj.cart = productCartObj.cart.map(obj=>{
-    // if(obj.productColor===currentProductColor._id){
-    // //  const newObj = {...obj,sizes:updateSizeObj}
-    //  const newObj = {...obj,sizesObj}
-    //  return newObj
-    // }else{
-    //   return obj
-    // }
-    // })
-    localStorage.setItem('productCart', JSON.stringify(productCartObj));
-   }
+  const existingObj = productCartObj.cart.find(obj=>obj.productColor===currentProductColor._id)
+  let sizesObj = existingObj.sizes 
+//check if the size is exist
+  const sizeExist = Object.keys(sizesObj).find(size=>size==currentSize)
+//size is exist
+if(sizeExist){
+  productCartObj.cart=productCartObj.cart.map(obj=>{
+    if(obj.productColor===currentProductColor._id){
+      const newObj = {...obj,sizes:{...obj.sizes,[sizeExist]:obj.sizes[sizeExist] +1}}
+ return newObj
+}else{
+  return obj
+}
+})
+//size is not exist
+}else{
+  productCartObj.cart=productCartObj.cart.map(obj=>{
+    if(obj.productColor===currentProductColor._id){
+      const newObj = {...obj,sizes:{...obj.sizes,[currentSize]: 1}}
+      return newObj
+    }else{
+      return obj
+    }
+  })
+  
+}
+localStorage.setItem('productCart', JSON.stringify(productCartObj));
+  }
   }
 
 function createNewCartProductObj(){
@@ -89,9 +87,45 @@ localStorage.setItem('productCart', JSON.stringify(productCart))
 }
 }
 
-
-
 export const retrieveFromLocalStorage = () => {
   let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
   return { productCartObj };
 };
+
+export const deleteItemFromLS = (id)=>{
+
+  let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
+  let LS;
+  if(productCartObj){
+    if(productCartObj.cart.length==1){
+     LS= localStorage.removeItem('productCart')
+      return LS
+    }else{
+    const i = productCartObj.cart.findIndex(obj=>obj.productColor==id)
+    productCartObj.cart=productCartObj.cart.filter((_,index)=>index!=i)
+    productCartObj.cache=productCartObj.cache.filter((_,index)=>index!=i)
+      LS= localStorage.setItem('productCart', JSON.stringify(productCartObj))
+      return LS
+    }
+
+  }
+}
+
+export const updateQuantity = (id,size)=>{
+  let update=false
+  let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
+  if(productCartObj){
+    productCartObj.cart = productCartObj.cart.map((obj)=>{
+  if(obj.productColor==id&&obj.sizes[size]){
+  const newObj = {...obj,sizes:{...obj.sizes,[size]:Number(obj.sizes[size])+1}}
+  
+  return newObj
+}else{
+  return obj
+}
+})  
+localStorage.setItem('productCart', JSON.stringify(productCartObj))
+  update=true
+  }
+  return update
+}

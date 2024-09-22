@@ -1,20 +1,21 @@
 import { Button, Card, List } from 'flowbite-react';
 import React from 'react';
 
-export default function ChackoutSummery({ products }) {
-  const finalPrice = products.reduce(
-    (acc, { price, sizes }) =>
-      acc + price * Object.values(sizes).reduce((acc, val) => acc + val, 0),
-    0,
-  );
-  const tax = Math.abs(finalPrice - finalPrice * 1.17);
+export default function ChackoutSummery({PriceBeforeTax }) {
+  // const finalPrice = products.reduce(
+  //   (acc, { price, sizes }) =>
+  //     acc + price * Object.values(sizes).reduce((acc, val) => acc + val, 0),
+  //   0,
+  // );
+  const tax = Math.abs(PriceBeforeTax * 0.17);
+  const finalPrice = PriceBeforeTax + tax
   const shippingPrice = finalPrice > 400 ? 0 : 25;
 
   return (
     <Card>
       <h3 className="font-bold text-lg text-emerald-500">סיכום הזמנה:</h3>
       <List unstyled>
-        <List.Item>{createListItem(finalPrice - tax, 'סכום ביניים')}</List.Item>
+        <List.Item>{createListItem(PriceBeforeTax, 'סכום ביניים')}</List.Item>
         <List.Item>{createListItem(tax, 'מע"מ')}</List.Item>
         <List.Item>{createListItem(shippingPrice, 'משלוח')}</List.Item>
 

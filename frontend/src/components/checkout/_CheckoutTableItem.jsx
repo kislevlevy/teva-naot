@@ -1,12 +1,22 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiMinusBoxOutline, mdiPlusBoxOutline, mdiTrashCanOutline } from '@mdi/js';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-export default function CheckoutItem({ product }) {
-  const sizesArr = Object.keys(product.sizes);
-
+import { updateQuantity } from '../../utils/localStorage';
+export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,update }) {
+  useEffect(()=>{
+    if(p.length>0){
+  setPriceBeforeTax(prev=>{
+    const total = p.reduce((acc,curr)=>{
+    acc= acc+curr.price
+    return acc  
+    },0)
+    prev = total
+    return prev
+    })
+  }
+  },[p])
   const navigate = useNavigate();
   const location = useLocation();
   const goToProductPage = () =>
@@ -14,13 +24,13 @@ export default function CheckoutItem({ product }) {
       state: { ...(location.state || {}), _id: product._id },
     });
 
-  return sizesArr.map((size, i) => (
-    <Table.Row key={`${product._id}-${i}`}>
+  return p.map((product, i) => (
+    <Table.Row key={`${product.productColor}-${i}`}>
       <Table.Cell className="flex">
         <div className="flex flex-col justify-center items-center ml-1">
           <div
             className="hover:text-green-500 text-gray-400 cursor-pointer"
-            onClick={() => 'TODO:'}
+            onClick={() => addQuantity(product.productColor,product.size)}
           >
             <Icon path={mdiPlusBoxOutline} size={1} />
           </div>
@@ -39,8 +49,8 @@ export default function CheckoutItem({ product }) {
         </div>
         <img
           className="min-w-16 h-20 object-cover m-auto rounded-lg"
-          src={product.images[0]}
-          alt={product.name}
+          src={product.image}
+          alt={product.productName}
         />
       </Table.Cell>
       <Table.Cell>
@@ -48,29 +58,30 @@ export default function CheckoutItem({ product }) {
           className="text-center font-bold text-[#64b496] hover:underline cursor-pointer"
           onClick={goToProductPage}
         >
-          {product.name}
+          {product.productName}
         </div>
       </Table.Cell>
       <Table.Cell className="text-right">
         <div className="min-w-14">
           {'צבע: '}
-          {product.color}
+          {product.productColorName}
         </div>
         <div className="min-w-14">
           {'מידה: '}
-          {size}
+          {product.size}
         </div>
         <div className="min-w-14">
           {'כמות: '}
-          {product.sizes[size]}
+          {product.quantity}
         </div>
+        <div>{product.update}</div>
       </Table.Cell>
       <Table.Cell className="text-center">
-        {product.discountPrice && (
+        {/* {product.discountPrice && (
           <span className="mr-1 text-sm text-gray-500 line-through">
             {product.discountPrice}₪
           </span>
-        )}
+        )} */}
         <span className="mr-1 font-bold text-emerald-500 text-md">
           {product.price}₪
         </span>

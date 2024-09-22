@@ -1,5 +1,5 @@
 // Imports:
-import React, { useContext } from 'react';
+import{ useEffect,useState,useCallback, useMemo,useRef } from 'react';
 
 import { Button, Drawer } from 'flowbite-react';
 
@@ -7,59 +7,61 @@ import Icon from '@mdi/react';
 import { mdiCartVariant } from '@mdi/js';
 import CartProductCard from './_CartItem';
 import { Link } from 'react-router-dom';
-import { retrieveFromLocalStorage } from '../../utils/localStorage';
+import { retrieveFromLocalStorage,deleteItemFromLS } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
-  const {productCartObj} = retrieveFromLocalStorage();
-  let cart,cache,items,sum
-  if( productCartObj){
-    let {cart,cache}=productCartObj
-  }
- 
- 
-  const products = [
-    {
-      name: 'שחר נשים',
-      price: 429,
-      discountPrice: 499,
-      sizes: {
-        37: 1,
-        39: 2,
-      },
-      color: 'חום',
-      images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
-      ],
-    },
-    {
-      name: 'רותם נשים',
-      price: 449,
-      sizes: {
-        35: 1,
-      },
-      color: 'לבן',
-      images: [
-        'https://res.cloudinary.com/drxtaxnkr/image/upload/v1726394499/0d8ae73f-7db3-4e7f-b8a4-71335252d781.png',
-      ],
-    },
-  ];
+  let items,sum
+const [_cart,setCart]=useState([])
+const [_cache,setCache]=useState([])
+const [_productCartObj,setProductCartObj]=useState({})
+const [localStorage,setLocalStorage]=useState(0)
+const [_sum,setSum]=useState(0)
+const [_items,setItems]=useState(0)
+const [deletItem,setDeletItem]=useState(false)
+const {productCartObj} = retrieveFromLocalStorage();
 
-  if(cart&&cart.length>0){
-     sum = 0;
-    items = cart?.reduce(
-      (acc, ele,i) =>
-        acc +
-        Object.entries(ele.sizes).reduce((prev, [key, value]) => {
-          sum += cache[i].price * value;
-          return prev + value;
-        }, 0),
-      0,
-    );
-  }
+
+useEffect(()=>{
+const {productCartObj} = retrieveFromLocalStorage();
+   calc()
+  setProductCartObj(prev=>{
+    const obj = {...productCartObj}
+    prev=obj
+    return prev
+  })  
+  setDeletItem(false)
+},[_items,setIsCartOpen,isCartOpen,deletItem])
+
+const calc = ()=>{
+  if(productCartObj){
+  sum = 0;
+  items = productCartObj.cart?.reduce(
+    (acc, ele,i) =>
+    acc +
+    Object.entries(ele.sizes).reduce((prev, [key, value]) => {
+      sum += productCartObj.cache[i].price * value;
+      return prev + value;
+    }, 0),
+    0,
+  );
+}
+setSum(sum)
+  setItems(items)
+  return items
+}
 
   const handleClose = () => setIsCartOpen(false);
+  const deleteProductFromLS=(id)=>{
+    deleteItemFromLS(id)
+    setDeletItem(true)
+    //local storage is just to forc rerender
+    setLocalStorage(prev=>(prev=productCartObj.cart.length))
+    setProductCartObj(prev=>(prev=productCartObj))
+    calc()
+ }
 
   return (
+    
     <Drawer open={isCartOpen} onClose={handleClose}>
       <Drawer.Header
         title="סל הקניות שלך"
@@ -67,21 +69,24 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
           <Icon className="ml-3" path={mdiCartVariant} size={0.75} color="#6b7280" />
         )}
       />
+
+      
       <Drawer.Items>
-        {cart?.length>0&&cache.map((product, i) => (
-          <CartProductCard key={'product-cart-' + i} {...productCartObj}i={i} />
+       {_productCartObj&&productCartObj&&productCartObj.cart.map((product, i) => (
+          <CartProductCard key={'product-cart-' + i} {...productCartObj}i={i}deleteProductFromLS={deleteProductFromLS} />
         ))}
       </Drawer.Items>
+      
       <div className="sticky bottom-0 w-full bg-white p-3 rounded-md shadow-md">
         <div>
           <div className="flex justify-between p-2 bg-gray-200 rounded-md">
             <div className="font-bold">
               {'פריטים: '}
-              {items&&items}
+              {_items&&_items}
             </div>
             <div className="font-bold">
               {'סה"כ: '}
-              {sum&&sum}₪
+              {_sum&&_sum}₪
             </div>
           </div>
           <div className="flex justify-between my-2">

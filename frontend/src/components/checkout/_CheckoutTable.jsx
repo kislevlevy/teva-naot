@@ -1,8 +1,63 @@
-import React from 'react';
+import { useEffect, useState,useRef,useCallback,useMemo } from 'react';
 import { Table } from 'flowbite-react';
 import CheckoutItem from './_CheckoutTableItem';
+import { retrieveFromLocalStorage } from '../../utils/localStorage';
+import { updateQuantity } from '../../utils/localStorage';
 
-export default function CheckoutTable({ products }) {
+export default function CheckoutTable({setPriceBeforeTax}) {
+  const {productCartObj} = retrieveFromLocalStorage();
+  const [_product,setProduct]=useState([])
+  const [update,setUpdate]=useState(false)
+  const productRef = useRef(productCartObj).current
+  // const LS = useMemo(()=>{
+  //   const {productCartObj} = retrieveFromLocalStorage();
+  //   return productCartObj
+  // },[productCartObj])
+  useEffect(()=>{
+    if(update){
+  const {productCartObj} = retrieveFromLocalStorage();
+  productRef.current=productCartObj
+  console.log(productRef.current)
+}  
+if(productRef?.cart.length>0){
+  const {productCartObj} = retrieveFromLocalStorage();
+  const {cart,cache} = productCartObj
+  setProduct(prev=>{ 
+    prev=[]
+  cache.map((obj,i)=>{
+    const newObj = {
+    productColor:cart[i].productColor,
+    image:obj.image,
+    productName:obj.productName,
+    productColorName:obj.productColorName,
+    update:[update]
+    }
+    prev=[...prev,newObj]
+  })
+  let finalArr=[]
+  prev.map((obj,i)=>{
+let newObj;
+  Object.entries(cart[i].sizes).map((zisesArr)=>{
+newObj =  {...obj,
+  size:zisesArr[0],
+  quantity:zisesArr[1],
+  price:cache[i].price * zisesArr[1],
+  }
+  finalArr.push(newObj)
+})
+  })
+  prev=finalArr
+  return prev
+  })
+  console.log(update)
+  setUpdate(false)
+}
+
+},[productRef,update])
+const addQuantity = (id,size)=>{
+  const update =  updateQuantity(id,size)
+  if(update)setUpdate(update)
+}
   return (
     <Table
       hoverable
@@ -25,9 +80,8 @@ export default function CheckoutTable({ products }) {
         <Table.HeadCell className="text-center">מחיר</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y">
-        {products.map((product) => (
-          <CheckoutItem key={product._id} product={product} />
-        ))}
+        <CheckoutItem p={_product} setPriceBeforeTax={setPriceBeforeTax} addQuantity={addQuantity} update={update} />
+      
       </Table.Body>
     </Table>
   );
