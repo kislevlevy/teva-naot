@@ -66,6 +66,7 @@ export const banners = {
     '/products/category/כפכפים-לנשים',
   ],
 };
+export const STORE_LOCATOR_API_KEY = '12d0c4bf314458418c4090773ae53b03';
 
 export const branches = [
   {
