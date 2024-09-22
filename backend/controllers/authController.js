@@ -219,18 +219,18 @@ export const restrictByRole = (...roles) => {
     next();
   };
 };
-export const restrictByPermission = (...permissions) => {
+
+/*  role: 'admin',
+  permissions: [ 'cs' ], */
+export const restrictByPermission = (...permission) => {
   return (req, res, next) => {
-    if (
-      !req.user.permissions ||
-      !permissions.some((permission) => req.user.permissions.includes(permission))
-    ) {
-      return res.status(403).json({
-        status: 'fail',
-        message: 'You do not have permission to perform this action',
-      });
-    }
-    next();
+    if (req.user.role === 'admin') return next();
+    if (req.user.permissions.includes(permission)) return next();
+
+    return res.status(403).json({
+      status: 'fail',
+      message: 'You do not have permission to perform this action',
+    });
   };
 };
 

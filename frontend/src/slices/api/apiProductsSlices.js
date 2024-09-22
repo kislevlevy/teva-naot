@@ -13,6 +13,7 @@ export const apiProducts = createApi({
 
     getProductById: builder.query({
       query: (id) => `${id}`,
+      providesTags: ['Products'],
     }),
 
     createProduct: builder.mutation({

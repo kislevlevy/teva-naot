@@ -7,11 +7,18 @@ import {
   mdiArrowTopRight,
   mdiCurrencyIls,
   mdiMagnify,
+  mdiOpenInNew,
+  mdiPlus,
+  mdiTrashCanOutline,
 } from '@mdi/js';
 
 import { toMoneyString } from '../../utils/helperFunctions';
-import { useGetProductsQuery } from '../../slices/api/apiProductsSlices';
+import {
+  useDeleteProductByIdMutation,
+  useGetProductsQuery,
+} from '../../slices/api/apiProductsSlices';
 import ProductEditor from './subComponents/_ProductEditor';
+import ConfirmationModal from '../helpers/ConfermationModal';
 
 export default function ProductDashboard() {
   const [filterStr, setFilterStr] = useState('');
@@ -46,15 +53,12 @@ export default function ProductDashboard() {
       )}
 
       <div className="container mx-auto p-4">
-        <div className="mb-2 p-2 flex justify-between items-center bg-gray-50 rounded-lg">
-          <Button
-            size="xs"
-            color="success"
-            onClick={() => setSelectedProductId('new')}
-          >
-            צור מוצר חדש
-          </Button>
-          <form dir="rtl" onSubmit={handleSubmit} className="flex gap-x-1">
+        <form
+          dir="rtl"
+          onSubmit={handleSubmit}
+          className=" mb-2 p-2 flex justify-between items-center bg-gray-50 rounded-lg"
+        >
+          <div className="flex gap-x-1">
             <TextInput
               type="text"
               placeholder={`חפש לפי ${searchOption === '_id' ? 'מק"ט' : 'שם'}...`}
@@ -73,9 +77,12 @@ export default function ProductDashboard() {
               <option value="_id">{'מק"ט'}</option>
               <option value="q">שם</option>
             </Select>
-            <input type="submit" hidden />
-          </form>
-        </div>
+          </div>
+          <Button color="gray" onClick={() => setFilterStr('')}>
+            אפס חיפוש
+          </Button>
+          <input type="submit" hidden />
+        </form>
         {isSuccess && (
           <Table hoverable dir="rtl">
             <Table.Head className="text-center">
@@ -85,7 +92,15 @@ export default function ProductDashboard() {
               <Table.HeadCell>קטגוריות</Table.HeadCell>
               <Table.HeadCell>דירוג ממוצע</Table.HeadCell>
               <Table.HeadCell>נמכרו</Table.HeadCell>
-              <Table.HeadCell>פעולות</Table.HeadCell>
+              <Table.HeadCell>
+                <Button
+                  size="xs"
+                  color="success"
+                  onClick={() => setSelectedProductId('new')}
+                >
+                  <Icon path={mdiPlus} size={0.6} />
+                </Button>
+              </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
               {products.map((product, i) => (
@@ -130,8 +145,26 @@ function StatsCard({ lable, main, diff }) {
 }
 
 function TableEntry({ product, setSelectedProductId }) {
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  const [deleteProductById] = useDeleteProductByIdMutation();
+
+  useEffect(() => {
+    if (isConfirmed) deleteProductById(product._id);
+  }, [isConfirmed]);
+
   return (
     <Table.Row className="text-center">
+      <ConfirmationModal
+        {...{
+          isConfirmOpen,
+          setIsConfirmOpen,
+          message:
+            'בלחיצה על אישור תמחק את המוצר הנבחר לצמיתות, פעולה זאת לא ניתנת להפיכה. האם תרצה להמשיך?',
+          setIsConfirmed,
+        }}
+      />
       <Table.Cell>
         <img
           src={product.image}
@@ -151,10 +184,10 @@ function TableEntry({ product, setSelectedProductId }) {
             color="success"
             onClick={() => setSelectedProductId(product._id)}
           >
-            פתח
+            <Icon path={mdiOpenInNew} size={0.7} />
           </Button>
-          <Button size="xs" color="failure" onClick={() => 'TODO:'}>
-            מחק
+          <Button size="xs" color="failure" onClick={() => setIsConfirmOpen(true)}>
+            <Icon path={mdiTrashCanOutline} size={0.7} />
           </Button>
         </div>
       </Table.Cell>

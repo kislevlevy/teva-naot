@@ -104,7 +104,7 @@ export const editOneById = (Model) =>
       runValidators: true,
     });
 
-    if (req.file) return next();
+    if (req.file || req.files) return next();
 
     // API response:
     oneDocApiResponse(res, 200, { doc: req.doc });
@@ -121,7 +121,7 @@ export const createOne = (Model) =>
     // Create new document:
     req.doc = await Model.create(body);
 
-    if (req.file) return next();
+    if (req.file || req.files) return next();
 
     // API response:
     oneDocApiResponse(res, 201, { doc: req.doc });

@@ -74,21 +74,30 @@ export const uploadProductImage = asyncHandler(async (req, res, next) => {
 export const uploadProductColorImages = asyncHandler(async (req, res, next) => {
   const { _id, product } = req.doc;
 
+  console.log(_id);
+
   const uploads = await Promise.all(
-    req.files.map((file, i) =>
+    req.files['images'].map((file, i) =>
       createStream(
         `teva-naot/products/${product}/colors`,
         `${_id}_${i}`,
-        req.file.buffer
+        file.buffer
       )
     )
   );
+  const returendData = { images: uploads.map((ele) => ele.url) };
 
-  req.doc = await ProductColor.findByIdAndUpdate(
-    _id,
-    { images: uploads.map((ele) => ele.url) },
-    { new: true }
-  );
+  // req.files['thumbnail'] &&
+  //   (returendData.thumbnail = [
+  //     'img',
+  //     await createStream(
+  //       `teva-naot/products/${_id}`,
+  //       _id,
+  //       req.files['thumbnail'][0].buffer
+  //     ),
+  //   ]);
+
+  req.doc = await ProductColor.findByIdAndUpdate(_id, returendData, { new: true });
 
   delete req.files;
   next();

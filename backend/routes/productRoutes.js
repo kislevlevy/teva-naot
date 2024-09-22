@@ -14,6 +14,7 @@ import {
   getProductColors,
   getProducts,
   getProductsForUser,
+  prepareCreateOrPatchProductColor,
 } from '../controllers/productController.js';
 import {
   protect,
@@ -35,10 +36,14 @@ router
   .route('/colors')
   .get(getProductColors)
   .post(
-    upload.array('images'),
+    upload.fields([
+      { name: 'images', maxCount: 10 },
+      { name: 'thumbnail', maxCount: 1 },
+    ]),
     protect,
     restrictByRole('employee', 'admin'),
     restrictByPermission('product'),
+    prepareCreateOrPatchProductColor,
     createProductColor,
     uploadProductColorImages,
     simpleResponse
@@ -54,10 +59,14 @@ router
     deleteProductColorById
   )
   .patch(
-    upload.array('images'),
+    upload.fields([
+      { name: 'images', maxCount: 10 },
+      { name: 'thumbnail', maxCount: 1 },
+    ]),
     protect,
     restrictByRole('employee', 'admin'),
     restrictByPermission('product'),
+    prepareCreateOrPatchProductColor,
     editProductColorById,
     uploadProductColorImages,
     simpleResponse

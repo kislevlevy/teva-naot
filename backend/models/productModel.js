@@ -14,7 +14,9 @@ const ProductSchema = new mongoose.Schema(
       maxLength: [40, '{VALUE}- Product name must not exceed 40 characters.'],
       validate: {
         validator: (val) =>
-          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+          validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
+            ignore: ' ,.-\n',
+          }),
         message: '{VALUE}- Product name must only contain letters.',
       },
     },
@@ -29,7 +31,9 @@ const ProductSchema = new mongoose.Schema(
       required: [true, 'Product description is required.'],
       validate: {
         validator: (val) =>
-          validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+          validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
+            ignore: ' ,.-\n',
+          }),
         message:
           '{VALUE}- Product description must only contain alphanumeric characters.',
       },
@@ -40,7 +44,9 @@ const ProductSchema = new mongoose.Schema(
           type: String,
           validate: {
             validator: (val) =>
-              validator.isAlpha(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+              validator.isAlpha(val.replace(/[A-Za-z]/g, 'א'), 'he', {
+                ignore: ' ,.-',
+              }),
             message:
               '{VALUE}- Each category must must not exceed 20 characters and contain only letters.',
           },
@@ -55,14 +61,6 @@ const ProductSchema = new mongoose.Schema(
     ratingsQuantity: {
       type: Number,
       default: 0,
-    },
-    baseBarcode: {
-      type: String,
-      required: [true, 'Product barcode is required.'],
-      validate: {
-        validator: (val) => validator.isNumeric(val, { ignore: '-' }),
-        message: '{VALUE}- Base barcode must be numeric.',
-      },
     },
     colors: [
       {
@@ -81,13 +79,7 @@ const ProductSchema = new mongoose.Schema(
     },
     availableSizes: {
       type: [String],
-      validate: {
-        validator: (arr) =>
-          arr.length === 2 && arr.every((ele) => ele > 1 && ele < 50),
-        message:
-          '{VALUE}- available sizes is an array built in this form [min, max] all sizes are has to be 1 < size < 50',
-      },
-      required: [true, 'availableSizes is a required field'],
+      default: ['0', '0'],
     },
     sold: {
       type: Number,

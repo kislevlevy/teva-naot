@@ -9,7 +9,9 @@ const ProductColorSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (val) =>
-        validator.isAlphanumeric(val, 'he', { ignore: /[ .,\-\nA-Za-z]/g }),
+        validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
+          ignore: ' ,.-\n',
+        }),
       message: '{VALUE}- Name must only contain alphanumeric characters.',
     },
     required: [true, 'Name is required.'],
@@ -32,28 +34,7 @@ const ProductColorSchema = new mongoose.Schema({
       message: '{VALUE}- Lable contents is not a valid hex color or texture image.',
     },
   },
-  images: [
-    {
-      type: String,
-      validate: {
-        validator: (val) =>
-          validator.isURL(val, {
-            protocols: ['https'],
-            require_protocol: true,
-          }) && val.startsWith('https://res.cloudinary.com'),
-        message:
-          '{VALUE}- The provided image URL is not a valid Cloudinary image url.',
-      },
-    },
-  ],
-  colorBarcode: {
-    type: String,
-    required: [true, 'Color barcode is required.'],
-    validate: {
-      validator: (val) => validator.isAlphanumeric(val, 'en-US', { ignore: '-' }),
-      message: '{VALUE}- Color barcode must be numeric.',
-    },
-  },
+  images: [String],
   sizes: {
     type: Map,
     of: {

@@ -40,6 +40,13 @@ export const getProductColorById = getOneById(ProductColor);
 export const editProductColorById = editOneById(ProductColor);
 export const deleteProductColorById = deleteOneById(ProductColor);
 
+export const prepareCreateOrPatchProductColor = (req, res, next) => {
+  const { sizes, thumbnail } = req.body;
+  sizes && (req.body.sizes = new Map(JSON.parse(sizes)));
+  thumbnail && (req.body.thumbnail = JSON.parse(thumbnail));
+  next();
+};
+
 export const editProductStockById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { sizes } = req.body;
