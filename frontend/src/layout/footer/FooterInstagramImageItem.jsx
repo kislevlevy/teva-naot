@@ -5,7 +5,7 @@ const FooterInstagramImageItem = ({ postEmbedCode, index }) => {
     // Load Instagram embed script dynamically
     const script = document.createElement('script');
     script.async = true;
-    script.src = "//www.instagram.com/embed.js";
+    script.src = '//www.instagram.com/embed.js';
     document.body.appendChild(script);
 
     return () => {
@@ -21,8 +21,8 @@ const FooterInstagramImageItem = ({ postEmbedCode, index }) => {
       <div
         className="instagram-post"
         style={{
-          transform: "scale(0.21) translate(0%, -70%) ",
-          transformOrigin: "top left",
+          transform: 'scale(0.21) translate(0%, -70%) ',
+          transformOrigin: 'top left',
           width: '100%',
           height: '100%',
           position: 'relative', // Ensure the post is correctly positioned

@@ -1,19 +1,25 @@
 import React from 'react';
-import {instagramPosts} from '../../utils/config';
-import FooterInstagramImageItem from './FooterInstagramImageItem';
 
-const FooterInstagramSection = () => {
+import { instagramPosts } from '../../utils/config';
+
+export default function FooterInstagramSection() {
   return (
-    <div className="flex flex-wrap justify-center p-5 w-4/6">
-      {instagramPosts.map((postEmbedCode, index) => (
-        <FooterInstagramImageItem
-          key={index}
-          postEmbedCode={postEmbedCode}
-          index={index}
+    <div className="flex w-52 flex-wrap justify-center ">
+      {instagramPosts.href.map((_, i) => (
+        <PostItem
+          key={'post-' + i}
+          image={instagramPosts.images[i]}
+          href={instagramPosts.href[i]}
         />
       ))}
     </div>
   );
-};
+}
 
-export default  FooterInstagramSection;
+function PostItem({ image, href }) {
+  return (
+    <a href={href} className="w-16 h-16 m-0.5 shadow-md hover:brightness-90">
+      <img src={image} alt="instegram-post" />
+    </a>
+  );
+}

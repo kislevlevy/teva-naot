@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
-
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useInputState } from '@mantine/hooks';
 
 import Icon from '@mdi/react';
 import { mdiAt, mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
 import { Button, Label, TextInput } from 'flowbite-react';
+import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
 
 export default function LoginPopover() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useInputState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [loginUser] = useLoginUserMutation();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    ('TODO:');
+  const resetFields = function () {
+    setEmail('');
+    setPassword('');
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      await loginUser({ email, password });
+      setIsSuccess(true);
+      resetFields();
+      navigate('/');
+    } catch (_) {
+      setIsSuccess(false);
+    }
   };
 
   return (
@@ -66,7 +83,11 @@ export default function LoginPopover() {
 
         <div className="text-sm ">
           {'שכחת סיסמה? '}
-          <Link to={'TODO:'} className="text-sm text-green-500 hover:underline" state={{...location.state, from: location.pathname}}>
+          <Link
+            to={'TODO:'}
+            className="text-sm text-green-500 hover:underline"
+            state={{ ...location.state, from: location.pathname }}
+          >
             לחץ כאן
           </Link>
         </div>
@@ -74,6 +95,11 @@ export default function LoginPopover() {
         <Button type="submit" gradientDuoTone="greenToBlue" className="w-full">
           כניסה
         </Button>
+        {isSuccess || (
+          <p className="text-red-600 text-sm">
+            * מייל או סיסמה אינם נכונים, נסה שנית
+          </p>
+        )}
       </form>
     </div>
   );

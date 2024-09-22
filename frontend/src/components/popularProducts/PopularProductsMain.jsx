@@ -12,9 +12,7 @@ export default function PopularProducts() {
     AOS.init();
   }, []);
   const [selectedCategory, setSelectedCategory] = useState('');
-  // useEffect(() => {
-  //   // console.log(popularProducts[selectedCategory]);
-  // }, [selectedCategory]);
+
   return (
     <section className="relative pb-24 md:pb-16">
       <div

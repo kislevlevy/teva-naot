@@ -16,6 +16,9 @@ img {
 .heb-font {
   font-family: 'RagSans', sans-serif;
 }
+.eng-font {
+  font-family: 'Open Sans', sans-serif;
+}
 .width-transition {
   transition: width 300ms ease;
 }

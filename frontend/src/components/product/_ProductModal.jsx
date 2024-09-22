@@ -2,16 +2,23 @@
 import React, { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
-import { mdiCloseThick, mdiHeartOutline, mdiShoppingOutline } from '@mdi/js';
+import {
+  mdiCloseThick,
+  mdiHeartOutline,
+  mdiHeart,
+  mdiShoppingOutline,
+} from '@mdi/js';
 import { Modal } from 'flowbite-react';
 
 import StarComponent from './subComponents/_StarComponent';
 import ProductGallery from './subComponents/_ProductGallery';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-import { useGetProductQuery } from '../../slices/api/apiProductsSlices';
+import { useSelector, useDispatch } from 'react-redux';
+// import { saveLikeItems } from '../../slices/state/usersState';
+import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
 //localstorage
 import { addProductsToLocalStorage } from '../../utils/localStorage';
+
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
   const [product, setProduct] = useState(null);
@@ -19,7 +26,12 @@ export default function ProductModal({ productModalId, setProductModalId }) {
   const [activeImg, setActiveImg] = useState('');
   const [currentSize, setCurrentSize] = useState('');
 
-  const { data, isSuccess, isError } = useGetProductQuery(productModalId);
+  const { data, isSuccess, isError } = useGetProductByIdQuery(productModalId);
+
+  const dispatch = useDispatch();
+  const likedItems = useSelector((state) => state.userState.likedItems) || [];
+  const isLiked = likedItems.includes(productModalId);
+
   useEffect(() => {
     if (isSuccess) {
       setProduct(data.data.doc);
@@ -35,14 +47,26 @@ export default function ProductModal({ productModalId, setProductModalId }) {
     navigate(`/products/product/${product.slug}`, {
       state: { ...(location.state || {}), _id: product._id },
     });
-const handleLocalstorage =()=>{
-  if(product&&currentProductColor&&currentSize){
-    // console.log(product)
-    // console.log(currentProductColor)
 
-addProductsToLocalStorage(product,currentProductColor,currentSize)
-}
-}
+  const handleLocalstorage = () => {
+    if (product && currentProductColor && currentSize) {
+      addProductsToLocalStorage(product, currentProductColor, currentSize);
+    }
+  };
+
+  const handleLikeItem = (e) => {
+    let updatedLikedItems = [...likedItems];
+    if (!isLiked) {
+      updatedLikedItems = [...likedItems, product._id];
+    } else {
+      updatedLikedItems = updatedLikedItems.filter((id) => id !== product._id);
+    }
+
+    // saves the changes in local storage and in state
+    dispatch(saveLikeItems({ likedItems: updatedLikedItems }));
+    localStorage.setItem('likedItems', JSON.stringify(updatedLikedItems));
+  };
+
   if (product)
     return (
       <Modal
@@ -59,7 +83,7 @@ addProductsToLocalStorage(product,currentProductColor,currentSize)
             <Icon path={mdiCloseThick} size={0.75} />
           </div>
           <div className="flex justify-between">
-            <div className="my-2 w-full h-full flex rounded-md">
+            <div className="my-2 w-fit h-full flex rounded-md">
               <ProductGallery
                 classNames=" w-[250px]"
                 imagesArr={currentProductColor.images}
@@ -125,12 +149,31 @@ addProductsToLocalStorage(product,currentProductColor,currentSize)
               </div>
               <div className="w-full flex justify-between mt-10 items-center">
                 <div className="flex">
-                  <div className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
-                    <Icon path={mdiHeartOutline} size={1} color="green" />
-                  </div>
+                  {(isLiked && (
+                    <div
+                      className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                      onClick={handleLikeItem}
+                    >
+                      <Icon path={mdiHeart} size={1} color="green" />
+                    </div>
+                  )) ||
+                    (!isLiked && (
+                      <div
+                        className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                        onClick={handleLikeItem}
+                      >
+                        <Icon
+                          path={mdiHeartOutline}
+                          size={1}
+                          color="green"
+                          onClick={handleLikeItem}
+                        />
+                      </div>
+                    ))}
                   <div
-                  onClick={handleLocalstorage}
-                   className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center">
+                    onClick={handleLocalstorage}
+                    className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
+                  >
                     <Icon path={mdiShoppingOutline} size={1} color="green" />
                     <span className="mr-1 text-sm">הוסף לעגלה</span>
                   </div>

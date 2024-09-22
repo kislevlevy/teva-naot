@@ -3,6 +3,10 @@ import { Text, Avatar, Group } from '@mantine/core';
 import StarComponent from '../product/subComponents/_StarComponent';
 
 export default function ReviewCard({ review }) {
+  const days = Math.trunc(
+    (Date.now() - new Date(review.createdAt)) / 1000 / 60 / 60 / 24,
+  );
+
   return (
     <div className="border-2 border-gray-400 p-2 rounded-md">
       <Group>
@@ -14,10 +18,7 @@ export default function ReviewCard({ review }) {
         <div>
           <Text size="sm">{review.user.fullName}</Text>
           <Text size="xs" c="dimmed">
-            פורסם לפני
-            {' ' +
-              Math.trunc((Date.now() - review.createdAt) / 1000 / 60 / 60 / 24)}{' '}
-            ימים
+            {days === 0 ? 'פורסם היום' : `פורסם לפני ${days} ימים`}
           </Text>
         </div>
         <StarComponent rating={review.rating} />

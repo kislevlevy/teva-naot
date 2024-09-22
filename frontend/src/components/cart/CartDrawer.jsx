@@ -98,7 +98,10 @@ setSum(sum)
             >
               המשך בקניות
             </Button>
-            <Link className="w-2/4 m-1" to="/checkout" state={{...location.state, from: location.pathname}}
+            <Link
+              className="w-2/4 m-1"
+              to="/checkout"
+              state={{ ...location.state, from: location.pathname }}
             >
               <Button onClick={handleClose} gradientDuoTone="greenToBlue">
                 לתשלום בקופה

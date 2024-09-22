@@ -2,58 +2,64 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiProducts = createApi({
   reducerPath: 'apiProducts',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/products' }),
   tagTypes: ['Products'],
 
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (filter) => '/products' + (filter ? filter : ''),
-      providesTags: ['Products'],
-    }),
-    getProduct: builder.query({
-      query: (productId) => `/products/${productId}`,
+      query: (filter) => `${filter || ''}`,
       providesTags: ['Products'],
     }),
 
-    addNewProduct: builder.mutation({
-      query: (newProduct) => ({
-        url: '/products',
+    getProductById: builder.query({
+      query: (id) => `${id}`,
+    }),
+
+    createProduct: builder.mutation({
+      query: (body) => ({
+        url: '',
         method: 'POST',
-        body: newProduct,
+        body,
       }),
       invalidatesTags: ['Products'],
     }),
 
-    editProduct: builder.mutation({
-      query: (product) => ({
-        url: `/products/${product.id}`,
+    editProductById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `${id}`,
         method: 'PATCH',
-        body: product,
+        body,
       }),
+      invalidatesTags: ['Products'],
     }),
 
-    editProductStock: builder.mutation({
-      query: (product) => ({
-        url: `/products/${product.id}/stock`,
+    editProductStockById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `${id}/stock`,
         method: 'PATCH',
-        body: product,
+        body,
       }),
+      invalidatesTags: ['Products'],
     }),
 
-    deleteProduct: builder.mutation({
+    deleteProductById: builder.mutation({
       query: (id) => ({
         method: 'DELETE',
-        url: `/products/${id}`,
+        url: `${id}`,
       }),
+      invalidatesTags: ['Products'],
     }),
   }),
 });
 
 export const {
   useGetProductsQuery,
-  useGetProductQuery,
-  useAddNewProductMutation,
-  useEditProductMutation,
-  useEditProductStockMutation,
-  useDeleteProductMutation,
+  useLazyGetProductsQuery,
+  useGetProductByIdQuery,
+  useLazyGetProductByIdQuery,
+
+  useCreateProductMutation,
+  useEditProductByIdMutation,
+  useEditProductStockByIdMutation,
+  useDeleteProductByIdMutation,
 } = apiProducts;

@@ -2,50 +2,49 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiOrders = createApi({
   reducerPath: 'apiOrders',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/orders' }),
   tagTypes: ['orders'],
 
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: () => '/orders',
+      query: () => '/',
       providesTags: ['orders'],
     }),
 
-    getOrder: builder.query({
-      query: (orderId) => `/Orders/${orderId}`,
+    getOrderById: builder.query({
+      query: (id) => `/${id}`,
     }),
 
-    addNewOrder: builder.mutation({
-      query: (newOrder) => ({
-        url: '/orders',
+    createOrder: builder.mutation({
+      query: (body) => ({
+        url: '/',
         method: 'POST',
-        body: newOrder,
-      }),
-      invalidatesTags: ['orders'],
-    }),
-
-    editOrder: builder.mutation({
-      query: (order) => ({
-        url: `/orders/${order.id}`,
-        method: 'PATCH',
-        body: order,
+        body,
       }),
     }),
 
-    changeOrderStatus: builder.mutation({
-      query: (order) => ({
-        url: `/orders/${order.id}`,
+    editOrderById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/${id}`,
         method: 'PATCH',
-        body: order,
+        body,
+      }),
+    }),
+
+    changeOrderStatusById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/${id}`,
+        method: 'PATCH',
+        body,
       }),
     }),
   }),
 });
 
 export const {
-  useGetOrdersQuery,
-  useGetOrderQuery,
-  useAddNewOrderMutation,
-  useEditOrderMutation,
-  useChangeOrderStatusMutation,
+  useGetOrdersMutation,
+  useGetOrderByIdMutation,
+  useCreateOrderMutation,
+  useEditOrderByIdMutation,
+  useChangeOrderStatusByIdMutation,
 } = apiOrders;

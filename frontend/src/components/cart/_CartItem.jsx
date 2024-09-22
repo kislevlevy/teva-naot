@@ -30,7 +30,7 @@ export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
           <h4 className="font-bold text-[#64b496]">{cache[i].productName}</h4>
           <div>
             {'צבע: '}
-          {cache[i].productColorName}
+            {cache[i].productColorName}
           </div>
 
           {<div>

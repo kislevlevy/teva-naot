@@ -25,6 +25,9 @@ export const validIdCheck = (id) => ({
   errorId: new AppError(400, 'Provided ID is not valid'),
 });
 
+export const simpleResponse = (req, res) =>
+  oneDocApiResponse(res, 200, { doc: req.doc });
+
 // Functions:
 export const getMany = (Model) =>
   asyncHandler(async (req, res, next) => {
@@ -35,31 +38,32 @@ export const getMany = (Model) =>
     // Awaiting for docs array:
     const docs = await features.find;
 
-    if (!docs || docs.length < 1)
-      return next(new AppError(404, 'No documents exiest for your query in DB'));
-
-    const aggregationPipeline = [
-      {
-        $group: {
-          _id: null,
-          totalResults: { $sum: 1 },
-          minPrice: { $min: '$price' },
-          maxPrice: { $max: '$price' },
-          minSize: { $min: { $arrayElemAt: ['$availableSizes', 0] } },
-          maxSize: { $max: { $arrayElemAt: ['$availableSizes', 1] } },
+    let data = {};
+    if (docs.length > 0) {
+      const aggregationPipeline = [
+        {
+          $group: {
+            _id: null,
+            totalResults: { $sum: 1 },
+            minPrice: { $min: '$price' },
+            maxPrice: { $max: '$price' },
+            minSize: { $min: { $arrayElemAt: ['$availableSizes', 0] } },
+            maxSize: { $max: { $arrayElemAt: ['$availableSizes', 1] } },
+          },
         },
-      },
-    ];
-    if (req.query.category)
-      aggregationPipeline.unshift({ $match: { category: req.query.category } });
-    const aggregatedData = await Model.aggregate(aggregationPipeline);
-    const { totalResults, minPrice, maxPrice, minSize, maxSize } = aggregatedData[0];
+      ];
+      if (req.query.category)
+        aggregationPipeline.unshift({ $match: { category: req.query.category } });
+      const aggregatedData = await Model.aggregate(aggregationPipeline);
+      const { totalResults, minPrice, maxPrice, minSize, maxSize } =
+        aggregatedData[0];
 
-    const data = {
-      results: totalResults,
-      prices: { min: minPrice, max: maxPrice },
-      sizes: { min: minSize, max: maxSize },
-    };
+      data = {
+        results: totalResults,
+        prices: { min: minPrice, max: maxPrice },
+        sizes: { min: minSize, max: maxSize },
+      };
+    }
 
     // API response:
     manyDocsApiResponse(res, 200, { docs, data });
@@ -95,13 +99,15 @@ export const editOneById = (Model) =>
     if (!errorBody) return next(outputBody);
 
     // Find doc by id & update:
-    const updatedDoc = await Model.findByIdAndUpdate(id, body, {
+    req.doc = await Model.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
 
+    if (req.file) return next();
+
     // API response:
-    oneDocApiResponse(res, 200, { doc: updatedDoc });
+    oneDocApiResponse(res, 200, { doc: req.doc });
   });
 
 export const createOne = (Model) =>
@@ -113,10 +119,12 @@ export const createOne = (Model) =>
     if (!errorBody) return next(outputBody);
 
     // Create new document:
-    const newDoc = await Model.create(body);
+    req.doc = await Model.create(body);
+
+    if (req.file) return next();
 
     // API response:
-    oneDocApiResponse(res, 201, { doc: newDoc });
+    oneDocApiResponse(res, 201, { doc: req.doc });
   });
 
 export const deleteOneById = (Model) =>

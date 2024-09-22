@@ -18,11 +18,11 @@ import Error from './pages/Error';
 import Signup from './pages/Signup';
 import Checkout from './pages/Checkout';
 import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
 
 // Lazy imports:
 const Home = lazy(() => import('./pages/Home'));
-const Shop = lazy(() => import('./components/shop/Shop'));
-const Cart = lazy(() => import('./components/product/ProductList'));
+const Shop = lazy(() => import('./pages/Shop'));
 const SingleProduct = lazy(() => import('./pages/Product'));
 const Info = lazy(() => import('./pages/Info'));
 
@@ -35,12 +35,12 @@ export default function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="products">
           <Route index element={<Shop />} />
           <Route path="product/:slug" element={<SingleProduct />} />
           <Route path="category/:slug" element={<Shop />} />
         </Route>
-        <Route path="cart" element={<Cart />} />
         <Route path="policy">
           <Route index element={<Navigate to="משלוחים" />} />
           <Route path=":slug" element={<Info />} />

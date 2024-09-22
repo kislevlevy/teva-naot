@@ -1,9 +1,13 @@
-export const addProductsToLocalStorage = (product,currentProductColor,currentSize) => {
+export const addProductsToLocalStorage = (
+  product,
+  currentProductColor,
+  currentSize,
+) => {
   let cart = JSON.parse(localStorage.getItem('productCart'));
-//localstorage is emty
+  //localstorage is emty
   if (!cart) {
     localStorage.setItem('productCart', JSON.stringify(createNewCartProductObj()));
-//local storage is not empty
+    //local storage is not empty
   } else {
     let productCartObj = JSON.parse(localStorage.getItem('productCart'));
     const _product =  productCartObj.cart.find(obj=>obj.productColor===currentProductColor._id)
@@ -88,7 +92,7 @@ localStorage.setItem('productCart', JSON.stringify(productCart))
 }
 
 export const retrieveFromLocalStorage = () => {
-  let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
+  let productCartObj = JSON.parse(localStorage.getItem('productCart'));
   return { productCartObj };
 };
 
