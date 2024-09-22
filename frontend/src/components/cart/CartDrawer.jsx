@@ -1,12 +1,12 @@
 // Imports:
-import{ useEffect,useState,useCallback, useMemo,useRef } from 'react';
+import{ useEffect,useState} from 'react';
 
 import { Button, Drawer } from 'flowbite-react';
 
 import Icon from '@mdi/react';
 import { mdiCartVariant } from '@mdi/js';
 import CartProductCard from './_CartItem';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { retrieveFromLocalStorage,deleteItemFromLS } from '../../utils/localStorage';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
@@ -20,7 +20,7 @@ const [_items,setItems]=useState(0)
 const [deletItem,setDeletItem]=useState(false)
 const {productCartObj} = retrieveFromLocalStorage();
 
-
+const navigation = useNavigate()
 useEffect(()=>{
 const {productCartObj} = retrieveFromLocalStorage();
    calc()

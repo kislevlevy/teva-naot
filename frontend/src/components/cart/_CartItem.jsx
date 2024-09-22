@@ -1,6 +1,4 @@
 // Imports:
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 import Icon from '@mdi/react';
 import { mdiTrashCanOutline } from '@mdi/js';
@@ -12,7 +10,12 @@ export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
   // const size = Object.keys(cart[i].sizes);
   const sizeANDquntity = Object.entries(cart[i].sizes);
   const sizesArr =  Object.keys(cart[i].sizes);
-  const quntityArr =  Object.values(cart[i].sizes);
+  const quantityArr =  Object.values(cart[i].sizes);
+  const TotalQuantity = quantityArr.reduce((acc,curr)=>{
+    acc= acc+curr
+    return acc
+  },0)
+ 
   return (
     <Card
       className="max-w-xs flex-row mb-1"
@@ -41,7 +44,7 @@ export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
         {
           <div>
             {'כמות: '}
-            {quntityArr.join(', ')}
+            {quantityArr.join(', ')}
             {/* {Object.entries(product.sizes).reduce((prev, [_, val]) => prev + val, 0)} 
             */}
 
@@ -54,7 +57,7 @@ export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
               </span>
             )} */}
             <span className="mr-1 font-bold text-emerald-500 text-md">
-              {cache[i].price * quntityArr.length}{' '}₪
+              {cache[i].price * TotalQuantity}{' '}₪
             </span>
           </div>
         </div>

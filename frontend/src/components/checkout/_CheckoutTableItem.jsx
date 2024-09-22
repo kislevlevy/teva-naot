@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Table, Button } from 'flowbite-react';
+import { useEffect } from 'react';
+import { Table } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiMinusBoxOutline, mdiPlusBoxOutline, mdiTrashCanOutline } from '@mdi/js';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { updateQuantity } from '../../utils/localStorage';
-export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,update }) {
+export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,reduceQuntity,deleteItem }) {
   useEffect(()=>{
     if(p.length>0){
   setPriceBeforeTax(prev=>{
@@ -36,13 +35,13 @@ export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,update })
           </div>
           <div
             className="hover:text-green-500 text-gray-400 cursor-pointer mb-2"
-            onClick={() => 'TODO:'}
+            onClick={() => reduceQuntity(product.productColor,product.size)}
           >
             <Icon path={mdiMinusBoxOutline} size={1} />
           </div>
           <div
             className="hover:text-red-500 text-gray-400 cursor-pointer"
-            onClick={() => 'TODO:'}
+            onClick={() => deleteItem(product.productColor,product.size)}
           >
             <Icon path={mdiTrashCanOutline} size={1} />
           </div>
@@ -74,6 +73,7 @@ export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,update })
           {'כמות: '}
           {product.quantity}
         </div>
+        {/* producr.update is only for make the comp. rerender */}
         <div>{product.update}</div>
       </Table.Cell>
       <Table.Cell className="text-center">

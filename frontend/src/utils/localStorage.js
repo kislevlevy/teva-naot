@@ -96,31 +96,57 @@ export const retrieveFromLocalStorage = () => {
   return { productCartObj };
 };
 
-export const deleteItemFromLS = (id)=>{
-
+export const deleteItemFromLS = (id,size)=>{
+  let update=false
   let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
-  let LS;
   if(productCartObj){
-    if(productCartObj.cart.length==1){
-     LS= localStorage.removeItem('productCart')
-      return LS
+  //if there is on product left and the size obj is with only one size
+    if(productCartObj.cart.length==1&&
+      (Object.keys(productCartObj.cart[0].sizes).length==1)
+    ){
+      localStorage.removeItem('productCart')
+      update=true
+      return update
     }else{
-    const i = productCartObj.cart.findIndex(obj=>obj.productColor==id)
-    productCartObj.cart=productCartObj.cart.filter((_,index)=>index!=i)
-    productCartObj.cache=productCartObj.cache.filter((_,index)=>index!=i)
-      LS= localStorage.setItem('productCart', JSON.stringify(productCartObj))
-      return LS
+      const i = productCartObj.cart.findIndex(obj=>obj.productColor==id)
+    if(i||i==0){
+   if(Object.keys(productCartObj.cart[i].sizes).length>1){
+    const oldSizesObj=productCartObj.cart[i].sizes
+    let newSizesObj ;
+    for(let key in oldSizesObj){
+      if(key==size)continue
+      newSizesObj={...newSizesObj,[key]:oldSizesObj[key]}
+    }
+    productCartObj.cart=productCartObj.cart.map((obj,index)=>{
+      if(index==i){
+       const newObj = {...obj,sizes:newSizesObj}
+        return newObj
+      }else{
+        return obj
+      }
+    })
+    localStorage.setItem('productCart', JSON.stringify(productCartObj))
+    update=true
+    return update
+   }else{
+  productCartObj.cart=productCartObj.cart.filter((_,index)=>index!=i)
+  productCartObj.cache=productCartObj.cache.filter((_,index)=>index!=i)
+    localStorage.setItem('productCart', JSON.stringify(productCartObj))
+    update=true
+    return update
+   }
+    }
     }
 
   }
 }
 
-export const updateQuantity = (id,size)=>{
+export const updateQuantity = (id,size,sign)=>{
   let update=false
   let productCartObj  = JSON.parse(localStorage.getItem('productCart'));
-  if(productCartObj){
+  if(productCartObj&&sign==='plus'){
     productCartObj.cart = productCartObj.cart.map((obj)=>{
-  if(obj.productColor==id&&obj.sizes[size]){
+  if(obj.productColor==id){
   const newObj = {...obj,sizes:{...obj.sizes,[size]:Number(obj.sizes[size])+1}}
   
   return newObj
@@ -129,6 +155,18 @@ export const updateQuantity = (id,size)=>{
 }
 })  
 localStorage.setItem('productCart', JSON.stringify(productCartObj))
+  update=true
+  }else if(productCartObj&&sign==='minus'){
+    productCartObj.cart = productCartObj.cart.map((obj)=>{
+      if(obj.productColor==id&&obj.sizes[size]>1){
+      const newObj = {...obj,sizes:{...obj.sizes,[size]:Number(obj.sizes[size])-1}}
+      
+      return newObj
+    }else{
+      return obj
+    }
+    })  
+    localStorage.setItem('productCart', JSON.stringify(productCartObj))
   update=true
   }
   return update

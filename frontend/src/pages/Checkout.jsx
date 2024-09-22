@@ -10,7 +10,17 @@ import CheckoutSummery from '../components/checkout/_ChackoutSummery';
 import Shipping from '../components/checkout/subComponents/_Shipping';
 
 export default function Checkout() {
+  const [PriceBeforeTax,setPriceBeforeTax]=useState(0)
+  const navigate = useNavigate();
 
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+
+  const currentUser = useSelector((state) => state.userState.user);
+  useEffect(() => {
+    if (!currentUser || !currentUser._id) navigate('/signup');
+  }, [currentUser]);
 
   return (
     <Container className="rtl min-h-max bg-gray-100">
@@ -22,7 +32,7 @@ export default function Checkout() {
           <Shipping
             {...{ address, setAddress, city, setCity, postalCode, setPostalCode }}
           />
-          <CheckoutSummery {...{ products }} />
+          <CheckoutSummery PriceBeforeTax={PriceBeforeTax} />
         </Grid>
       </Grid>
     </Container>

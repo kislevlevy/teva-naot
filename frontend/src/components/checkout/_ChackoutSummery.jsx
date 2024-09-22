@@ -2,11 +2,7 @@ import { Button, Card, List } from 'flowbite-react';
 import React from 'react';
 
 export default function ChackoutSummery({PriceBeforeTax }) {
-  // const finalPrice = products.reduce(
-  //   (acc, { price, sizes }) =>
-  //     acc + price * Object.values(sizes).reduce((acc, val) => acc + val, 0),
-  //   0,
-  // );
+ 
   const tax = Math.abs(PriceBeforeTax * 0.17);
   const finalPrice = PriceBeforeTax + tax
   const shippingPrice = finalPrice > 400 ? 0 : 25;
