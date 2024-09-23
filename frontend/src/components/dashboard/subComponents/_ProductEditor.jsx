@@ -94,7 +94,7 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       const length = Array.from(productFormData.entries()).length;
 
       if (selectedProductId === 'new') {
-        if (length !== 5) throw new Error('* עליך למלא את כל השדות.');
+        // if (length !== 5) throw new Error('* עליך למלא את כל השדות.');
         await createProduct(productFormData);
         setSelectedProductId('');
       } else {

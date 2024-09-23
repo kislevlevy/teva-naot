@@ -10,7 +10,6 @@ export const apiOrders = createApi({
       query: (filter) => filter || '',
       providesTags: ['Orders'],
     }),
-
     getOrderById: builder.query({
       query: (id) => `/${id}`,
       providesTags: ['Orders'],
@@ -24,6 +23,20 @@ export const apiOrders = createApi({
       }),
       invalidatesTags: ['Orders'],
     }),
+    orderSuccess: builder.mutation({
+      query: (body) => ({
+        url: '/success',
+        method: 'POST',
+        body,
+      }),
+    }),
+    orderFailure: builder.mutation({
+      query: (body) => ({
+        url: '/failure',
+        method: 'POST',
+        body,
+      }),
+    }),
 
     editOrderById: builder.mutation({
       query: ({ id, body }) => ({
@@ -33,7 +46,6 @@ export const apiOrders = createApi({
       }),
       invalidatesTags: ['Orders'],
     }),
-
     changeOrderStatusById: builder.mutation({
       query: ({ id, body }) => ({
         url: `/${id}/changeStatus`,
@@ -50,6 +62,9 @@ export const {
   useGetOrderByIdQuery,
 
   useCreateOrderMutation,
+  useOrderFailureMutation,
+  useOrderSuccessMutation,
+
   useEditOrderByIdMutation,
   useChangeOrderStatusByIdMutation,
 } = apiOrders;

@@ -19,6 +19,8 @@ import Signup from './pages/Signup';
 import Checkout from './pages/Checkout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import OrderSuccess from './pages/OrderSuccess';
+import OrderFailure from './pages/OrderFailure';
 
 // Lazy imports:
 const Home = lazy(() => import('./pages/Home'));
@@ -36,6 +38,8 @@ export default function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="order-success" element={<OrderSuccess />} />
+        <Route path="order-failure" element={<OrderFailure />} />
         <Route path="profile" element={<Profile />} />
         <Route path="products">
           <Route index element={<Shop />} />

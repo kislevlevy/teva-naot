@@ -4,6 +4,8 @@ import asyncHandler from 'express-async-handler';
 
 import Product from '../models/productModel.js';
 import ProductColor from '../models/productColorModel.js';
+import Order from '../models/orderModel.js';
+import AppError from './appError.js';
 
 // Functions:
 const generatePaymentToken = async () => {
@@ -77,15 +79,13 @@ export const createPaypalOrder = async (order) => {
           },
         ],
         application_context: {
-          return_url: `${process.env.FRONT_END}/order/complete?orderId=${order._id}`,
-          cancel_url: `${process.env.FRONT_END}/order/cancel?orderId=${order._id}`,
+          return_url: `${process.env.FRONT_END}/order-success?orderId=${order._id}`,
+          cancel_url: `${process.env.FRONT_END}/order-failure?orderId=${order._id}`,
           user_action: 'PAY_NOW',
           brand_name: 'טבע נאות',
         },
       }),
     });
-    order.paypalOrderId = data._id;
-    await order.save();
 
     return data.links.find((link) => link.rel === 'approve').href;
   } catch (err) {
@@ -93,16 +93,50 @@ export const createPaypalOrder = async (order) => {
   }
 };
 
-export const capturePaypalPayment = asyncHandler(async (orderId) => {
+export const capturePaypalPayment = asyncHandler(async (req, res, next) => {
   const accessToken = await generatePaymentToken();
+  const { orderId, token } = req.body;
 
   const response = await axios({
-    url: `${process.env.PAYPAL_URL}/v2/checkout/orders/${orderId}/capture`,
+    url: `${process.env.PAYPAL_URL}/v2/checkout/orders/${token}/capture`,
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  return response.data;
+
+  const order = await Order.findByIdAndUpdate(
+    orderId,
+    {
+      status: 'procceing',
+      paypalOrderId: response.data.id,
+    },
+    { new: true }
+  );
+
+  return res.status(200).json({
+    status: 'success',
+    data: { order },
+  });
+});
+
+export const cancelOrder = asyncHandler(async (req, res, next) => {
+  const { orderId } = req.body;
+  if (!orderId) return next(new AppError(404, 'Order Id was not found in request.'));
+
+  const order = await Order.findById(orderId);
+  if (!order) return next(new AppError(404, 'Order was not found in DB.'));
+  if (order.status !== 'pending')
+    return next(new AppError(404, 'Genral failure, contact CS for more info'));
+
+  order.status = 'canceled';
+  order.save();
+
+  // TODO: add products back to stock here.
+
+  return res.status(200).json({
+    status: 'success',
+    data: { order },
+  });
 });
