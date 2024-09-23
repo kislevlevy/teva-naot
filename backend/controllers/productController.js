@@ -64,8 +64,12 @@ export const deleteProductColorById = deleteOneById(ProductColor);
 
 export const prepareCreateOrPatchProductColor = (req, res, next) => {
   const { sizes, thumbnail } = req.body;
-  sizes && (req.body.sizes = new Map(JSON.parse(sizes)));
-  thumbnail && (req.body.thumbnail = JSON.parse(thumbnail));
+  sizes &&
+    typeof sizes === 'string' &&
+    (req.body.sizes = new Map(JSON.parse(sizes)));
+  thumbnail &&
+    typeof thumbnail === 'string' &&
+    (req.body.thumbnail = JSON.parse(thumbnail));
   next();
 };
 
