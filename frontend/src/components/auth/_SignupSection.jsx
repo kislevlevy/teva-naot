@@ -18,10 +18,13 @@ export default function SignupSection() {
   const [profileImg, setProfileImg] = useState('');
   const [isSuccess, setIsSuccess] = useState(true);
   const [signupUser] = useSignupUserMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
+
       const userFormData = new FormData();
       userFormData.append('email', email);
       userFormData.append('password', password);
@@ -31,8 +34,10 @@ export default function SignupSection() {
       profileImg && userFormData.append('profileImg', profileImg);
 
       await signupUser(userFormData);
+      setIsLoading(false);
       setIsSuccess(true);
     } catch (_) {
+      setIsLoading(false);
       setIsSuccess(false);
     }
   };
@@ -93,7 +98,12 @@ export default function SignupSection() {
         </div>
         <div className="text-red-500 mb-2 text-sm">* שדות נדרשים</div>
 
-        <Button type="submit" gradientDuoTone="greenToBlue" className="w-full">
+        <Button
+          type="submit"
+          gradientDuoTone="greenToBlue"
+          className="w-full"
+          isProcessing={isLoading}
+        >
           הרשמה
         </Button>
         {isSuccess || (

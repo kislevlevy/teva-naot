@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 
-import { mdiAt, mdiPencilOutline } from '@mdi/js';
+import { mdiPencilOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { Button, FileInput, Label, Modal, TextInput } from 'flowbite-react';
 
 import PhoneNumer from '../auth/subComponents/_PhoneNumer';
-import { useUpdateMeMutation } from '../../slices/api/apiUsersSlices';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentUser } from '../../slices/state/userState';
 
@@ -18,6 +17,7 @@ export default function EditProfileModal({
   const [phoneNumber, setPhoneNumber] = useState('');
   const [profileImg, setProfileImg] = useState('');
   const [isError, setIsError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.userState.user);
@@ -31,6 +31,7 @@ export default function EditProfileModal({
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
       const userFormData = new FormData();
 
       fullName && userFormData.append('fullName', fullName);
@@ -38,14 +39,16 @@ export default function EditProfileModal({
       profileImg && userFormData.append('profileImg', profileImg);
 
       if (Array.from(userFormData.entries()).length < 1)
-        return setIsError('* עליך למלא שדה אחד לפחות.');
+        throw new Error('* עליך למלא שדה אחד לפחות.');
 
       const { data } = await updateMe(userFormData).unwrap();
       dispatch(setCurrentUser({ ...currentUser, ...data.doc }));
 
+      setIsLoading(false);
       setIsEditProfileOpen(false);
-    } catch (_) {
-      return setIsError('* משהו לא עבד... נסה שנית מאוחר יותר.');
+    } catch (err) {
+      setIsLoading(false);
+      return setIsError(err.message || '* משהו לא עבד... נסה שנית מאוחר יותר.');
     }
   };
 
@@ -99,7 +102,12 @@ export default function EditProfileModal({
         <Button color="failure" outline onClick={() => setIsEditProfileOpen(false)}>
           ביטול
         </Button>
-        <Button color="success" outline onClick={handleSubmit}>
+        <Button
+          isProcessing={isLoading}
+          color="success"
+          outline
+          onClick={handleSubmit}
+        >
           שמור
         </Button>
       </Modal.Footer>

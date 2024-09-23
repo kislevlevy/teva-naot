@@ -13,6 +13,7 @@ import {
 
 import {
   useChangePasswordMutation,
+  useDisableMeMutation,
   useLazyLogoutUserQuery,
   useUpdateMeMutation,
 } from '../slices/api/apiUsersSlices';
@@ -23,6 +24,7 @@ import AdressModal from '../components/profile/_AdressModal';
 import { toDateString } from '../utils/helperFunctions';
 import OrderModal from '../components/profile/_OrderModal';
 import FavoriteProduct from '../components/profile/_FavoriteProduct';
+import ConfirmationModal from '../components/helpers/ConfermationModal';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -32,15 +34,27 @@ export default function Profile() {
   const [isAdressOpen, setIsAdressOpen] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState('');
 
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [disableMe] = useDisableMeMutation();
+
   const [triggerLogout] = useLazyLogoutUserQuery();
   const [updateMe, { isLoading: isUpdating }] = useUpdateMeMutation();
   const [changePassword, { isLoading: IsPassChange }] = useChangePasswordMutation();
   const currentUser = useSelector((state) => state.userState.user);
 
+  const handleDisableAccount = () => {
+    setIsConfirmed(false);
+    setIsConfirmOpen(false);
+    disableMe();
+  };
+
   useEffect(() => {
     if ((!isUpdating || !IsPassChange) && (!currentUser || !currentUser._id))
       navigate('/');
-  }, [currentUser, isUpdating, IsPassChange]);
+
+    if (isConfirmed) handleDisableAccount();
+  }, [currentUser, isUpdating, IsPassChange, isConfirmed]);
 
   return (
     <div className="container mx-auto p-6">
@@ -49,8 +63,16 @@ export default function Profile() {
       />
       <EditProfileModal {...{ updateMe, isEditProfileOpen, setIsEditProfileOpen }} />
       <AdressModal {...{ updateMe, isAdressOpen, setIsAdressOpen }} />
-      <OrderModal {...{ isOrderOpen, setIsOrderOpen }} />
-
+      {isOrderOpen && <OrderModal {...{ isOrderOpen, setIsOrderOpen }} />}
+      <ConfirmationModal
+        {...{
+          isConfirmOpen,
+          setIsConfirmOpen,
+          message:
+            'בפעולה הבאה אתה עומד להשבית את החשבון שלך לצמיתות, פעולה זו אינה ניתנת להפיכה. האם ברצונך להמשיך?',
+          setIsConfirmed,
+        }}
+      />
       <div className="flex flex-col lg:flex-row-reverse lg:space-x-6 lg:space-x-reverse">
         <div className="lg:w-1/3 bg-white shadow-lg p-6 rounded-lg">
           <img
@@ -107,7 +129,10 @@ export default function Profile() {
               התנתק
             </div>
 
-            <div className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-red-100 rounded-lg p-1 text-sm">
+            <div
+              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-red-100 rounded-lg p-1 text-sm"
+              onClick={() => setIsConfirmOpen(true)}
+            >
               <Icon className="ml-5" path={mdiAccountLockOutline} size={1} />
               השבת חשבון
             </div>

@@ -13,7 +13,7 @@ export default function Signup() {
   const currentUser = useSelector((state) => state.userState.user);
 
   useEffect(() => {
-    if (currentUser?._id) navigate('/profile');
+    if (currentUser?._id) navigate('/');
   }, [currentUser]);
 
   return (

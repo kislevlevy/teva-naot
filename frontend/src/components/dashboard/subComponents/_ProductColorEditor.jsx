@@ -96,29 +96,22 @@ export default function ProductColorEditor({
       const length = Array.from(productColorFormData.entries()).length;
 
       if (color._id === 'new') {
-        if (length !== 6) {
-          setIsLoading(false);
-          return setIsError('* עליך למלא את כל השדות.');
-        }
+        if (length !== 6) throw new Error('* עליך למלא את כל השדות.');
         productColorFormData.append('product', color.product);
         await createProductColor(productColorFormData);
-        setIsLoading(false);
-        handleClose();
       } else {
-        if (length < 1) {
-          setIsLoading(false);
-          return setIsError('* עליך למלא שדה אחד לפחות.');
-        }
+        if (length < 1) throw new Error('* עליך למלא שדה אחד לפחות.');
         await editProductColorById({
           id: color._id,
           body: productColorFormData,
         });
-        setIsLoading(false);
-        handleClose();
       }
-    } catch (_) {
+
       setIsLoading(false);
-      return setIsError('* משהו לא עבד... נסה שנית מאוחר יותר.');
+      handleClose();
+    } catch (err) {
+      setIsLoading(false);
+      return setIsError(err.message);
     }
   };
 

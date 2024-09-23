@@ -17,9 +17,9 @@ const StoreLocator = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log(
-          `User's Geolocation: Latitude: ${latitude}, Longitude: ${longitude}`,
-        );
+        // console.log(
+        //   `User's Geolocation: Latitude: ${latitude}, Longitude: ${longitude}`,
+        // );
         setCurrentLocation([latitude, longitude]); // Update state with user's location
       },
       (error) => {
@@ -36,7 +36,6 @@ const StoreLocator = () => {
         success: (data) => {
           if (data.length > 0) {
             const { lon, lat } = data[0];
-            // console.log(`${city}-- Longitude: ${lon}, Latitude: ${lat}`);
             resolve({ lon, lat });
           } else {
             reject('No data found for the given city');
@@ -105,9 +104,7 @@ const StoreLocator = () => {
 
           // Add the marker to the cluster group
           markers.addLayer(marker);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       });
 
       // Add the marker cluster group to the map
@@ -118,8 +115,6 @@ const StoreLocator = () => {
   // Update map view when currentLocation changes
   useEffect(() => {
     if (mapRef.current) {
-      console.log('printing');
-
       mapRef.current.setView(currentLocation, 10); // Change the view to the updated currentLocation
     }
   }, [currentLocation]); // Dependency on currentLocation

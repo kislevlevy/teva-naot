@@ -74,8 +74,6 @@ export const uploadProductImage = asyncHandler(async (req, res, next) => {
 export const uploadProductColorImages = asyncHandler(async (req, res, next) => {
   const { _id, product } = req.doc;
 
-  console.log(_id);
-
   const uploads = await Promise.all(
     req.files['images'].map((file, i) =>
       createStream(

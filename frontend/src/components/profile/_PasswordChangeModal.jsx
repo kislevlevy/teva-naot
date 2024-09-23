@@ -17,6 +17,7 @@ export default function ChangePasswordModal({
   const [password, setPassword] = useInputState('');
   const [passwordConfirm, setPasswordConfirm] = useInputState('');
   const [isError, setIsError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [triggerLogout] = useLazyLogoutUserQuery();
 
@@ -29,19 +30,24 @@ export default function ChangePasswordModal({
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
+
       if (!currentPassword || !password || !passwordConfirm)
-        return setIsError('* עליך למלא את כל השדות.');
+        throw new Error('* עליך למלא את כל השדות.');
 
       await changePassword({
         currentPassword,
         password,
         passwordConfirm,
       }).unwrap();
+
+      setIsLoading(false);
       setIsEditProfileOpen(false);
       setIsError('');
       await triggerLogout();
-    } catch (_) {
-      return setIsError('* משהו לא עבד... נסה שנית מאוחר יותר.');
+    } catch (err) {
+      setIsLoading(false);
+      return setIsError(err.message || '* משהו לא עבד... נסה שנית מאוחר יותר.');
     }
   };
 
@@ -91,7 +97,12 @@ export default function ChangePasswordModal({
         >
           ביטול
         </Button>
-        <Button color="success" outline onClick={handleSubmit}>
+        <Button
+          isProcessing={isLoading}
+          color="success"
+          outline
+          onClick={handleSubmit}
+        >
           שמור
         </Button>
       </Modal.Footer>
