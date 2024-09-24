@@ -3,21 +3,36 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const apiOrders = createApi({
   reducerPath: 'apiOrders',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/orders' }),
-  tagTypes: ['orders'],
+  tagTypes: ['Orders'],
 
   endpoints: (builder) => ({
     getOrders: builder.query({
-      query: () => '/',
-      providesTags: ['orders'],
+      query: (filter) => filter || '',
+      providesTags: ['Orders'],
     }),
-
     getOrderById: builder.query({
       query: (id) => `/${id}`,
+      providesTags: ['Orders'],
     }),
 
     createOrder: builder.mutation({
       query: (body) => ({
-        url: '/',
+        url: '',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Orders'],
+    }),
+    orderSuccess: builder.mutation({
+      query: (body) => ({
+        url: '/success',
+        method: 'POST',
+        body,
+      }),
+    }),
+    orderFailure: builder.mutation({
+      query: (body) => ({
+        url: '/failure',
         method: 'POST',
         body,
       }),
@@ -29,22 +44,27 @@ export const apiOrders = createApi({
         method: 'PATCH',
         body,
       }),
+      invalidatesTags: ['Orders'],
     }),
-
     changeOrderStatusById: builder.mutation({
       query: ({ id, body }) => ({
-        url: `/${id}`,
+        url: `/${id}/changeStatus`,
         method: 'PATCH',
         body,
       }),
+      invalidatesTags: ['Orders'],
     }),
   }),
 });
 
 export const {
-  useGetOrdersMutation,
-  useGetOrderByIdMutation,
+  useGetOrdersQuery,
+  useGetOrderByIdQuery,
+
   useCreateOrderMutation,
+  useOrderFailureMutation,
+  useOrderSuccessMutation,
+
   useEditOrderByIdMutation,
   useChangeOrderStatusByIdMutation,
 } = apiOrders;

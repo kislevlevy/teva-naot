@@ -9,6 +9,7 @@ import {
   logout,
   signup,
   sentResAndToken,
+  disableMe,
 } from '../controllers/authController.js';
 import {
   getMe,
@@ -22,28 +23,31 @@ import { oneDocApiResponse } from '../utils/handlerFactory.js';
 
 const router = Router();
 
-router.route('/login').post(login);
-router.route('/logout').get(logout);
-router
-  .route('/signup')
-  .post(upload.single('profileImg'), signup, uploadProfileImage, sentResAndToken);
-router.route('/resetPassword/:resetToken').patch(resetPassword);
+router.post('/login', login);
+router.get('/logout', logout);
+router.post(
+  '/signup',
+  upload.single('profileImg'),
+  signup,
+  uploadProfileImage,
+  sentResAndToken
+);
+router.patch('/resetPassword/:resetToken', resetPassword);
 
 router.use(protect);
-router.route('/').get(getUsers);
-router.route('/forgotPassword').post(forgotPassword);
-router.route('/changePassword').patch(changePassword);
+router.get('/', getUsers);
+router.post('/forgotPassword', forgotPassword);
+router.patch('/changePassword', changePassword);
 
-router.route('/getMe').get(getMe);
-router
-  .route('/updateMe')
-  .patch(
-    upload.single('profileImg'),
-    updateMe,
-    uploadProfileImage,
-    (req, res, next) => oneDocApiResponse(res, 200, { doc: req.user })
-  );
-router.route('/:id').get(getUsertById);
-router.route('/:id').patch(editUserById);
+router.get('/getMe', getMe);
+router.delete('/disableMe', disableMe, logout);
+router.patch(
+  '/updateMe',
+  upload.single('profileImg'),
+  updateMe,
+  uploadProfileImage,
+  (req, res, next) => oneDocApiResponse(res, 200, { doc: req.user })
+);
+router.route('/:id').get(getUsertById).patch(editUserById);
 
 export default router;

@@ -5,7 +5,6 @@ import {
   Textarea,
   Button,
   Table,
-  Select,
   Popover,
   Card,
   Label,
@@ -50,7 +49,7 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
     if (selectedProductId === 'new') {
       setProduct(initialState);
       setIsEditing(true);
-    } else getProductById(selectedProductId);
+    } else getProductById('/full-info/' + selectedProductId);
     isSuccess && setProduct(data.data.doc);
   }, [data, selectedProductId]);
 
@@ -95,21 +94,19 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       const length = Array.from(productFormData.entries()).length;
 
       if (selectedProductId === 'new') {
-        if (length !== 5) return setIsError('* עליך למלא את כל השדות.');
+        // if (length !== 5) throw new Error('* עליך למלא את כל השדות.');
         await createProduct(productFormData);
         setSelectedProductId('');
-        setIsError('');
-        setIsEditing(false);
       } else {
-        if (length < 1) return setIsError('* עליך למלא שדה אחד לפחות.');
+        if (length < 1) throw new Error('* עליך למלא שדה אחד לפחות.');
         await editProductById({ id: selectedProductId, body: productFormData });
-        setIsError('');
-        setIsEditing(false);
       }
+      setIsEditing(false);
+      setIsError('');
       setIsLoading(false);
-    } catch (_) {
+    } catch (err) {
       setIsLoading(false);
-      return setIsError('* משהו לא עבד... נסה שנית מאוחר יותר.');
+      return setIsError(err.message || '* משהו לא עבד... נסה שנית מאוחר יותר.');
     }
   };
 

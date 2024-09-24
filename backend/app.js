@@ -14,6 +14,7 @@ import userRouter from './routes/userRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import reviewRouter from './routes/reviewRoutes.js';
+import statsRouter from './routes/statsRoutes.js';
 
 import AppError from './utils/appError.js';
 import errorController from './controllers/errorController.js';
@@ -78,6 +79,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/stats', statsRouter);
 
 // Error handeling:
 app.all('*', (req, res, next) => {

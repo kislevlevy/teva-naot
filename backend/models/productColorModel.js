@@ -102,19 +102,18 @@ ProductColorSchema.set('toJSON', {
 ProductColorSchema.post('save', async function () {
   const product = await Product.findById(this.product);
 
-  //get the current availableSizes(as strings)
-  const sizes = Array.from(this.sizes.keys());
-  //if availableSize empty, insert the min and max of the new availableSize of the added productColor
-  //if not empty, checking(after converting to Number) if there is need to update min or max, if so - update it
-  if (product.availableSizes.length === 0) {
-    product.availableSizes = [sizes[0], sizes[sizes.length - 1]];
+  const allSizes = (await ProductColor.find({ product: this.product })).flatMap(
+    (color) => Array.from(color.sizes.keys()).map((size) => parseInt(size, 10))
+  );
+
+  if (allSizes.length > 0) {
+    const minSize = Math.min(...allSizes).toString();
+    const maxSize = Math.max(...allSizes).toString();
+    product.availableSizes = [minSize, maxSize];
   } else {
-    const currentMin = parseInt(product.availableSizes[0], 10);
-    const currentMax = parseInt(product.availableSizes[1], 10);
-    const newMin = Math.min(...sizes.map(Number), currentMin);
-    const newMax = Math.max(...sizes.map(Number), currentMax);
-    product.availableSizes = [newMin.toString(), newMax.toString()];
+    product.availableSizes = ['0', '0'];
   }
+
   await product.save();
 });
 

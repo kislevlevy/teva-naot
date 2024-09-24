@@ -220,8 +220,6 @@ export const restrictByRole = (...roles) => {
   };
 };
 
-/*  role: 'admin',
-  permissions: [ 'cs' ], */
 export const restrictByPermission = (...permission) => {
   return (req, res, next) => {
     if (req.user.role === 'admin') return next();
@@ -268,4 +266,10 @@ export const logout = asyncHandler(async (req, res, next) => {
     status: 'success',
     data: null,
   });
+});
+
+export const disableMe = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { isActive: false });
+  next();
 });

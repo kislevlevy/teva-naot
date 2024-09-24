@@ -13,6 +13,7 @@ export default function AdressModal({ isAdressOpen, setIsAdressOpen, updateMe })
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [isError, setIsError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.userState.user);
@@ -26,17 +27,21 @@ export default function AdressModal({ isAdressOpen, setIsAdressOpen, updateMe })
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
+
       if (!address || !city || !postalCode)
-        return setIsError('* עליך למלא את כל השדות.');
+        throw new Error('* עליך למלא את כל השדות.');
 
       const { data } = await updateMe({
         shippingAddress: { address, city, postalCode },
       }).unwrap();
       dispatch(setCurrentUser({ ...currentUser, ...data.doc }));
 
+      setIsLoading(false);
       setIsAdressOpen(false);
-    } catch (_) {
-      return setIsError('* משהו לא עבד... נסה שנית מאוחר יותר.');
+    } catch (err) {
+      setIsLoading(false);
+      return setIsError(err.message || '* משהו לא עבד... נסה שנית מאוחר יותר.');
     }
   };
 
@@ -74,7 +79,12 @@ export default function AdressModal({ isAdressOpen, setIsAdressOpen, updateMe })
         <Button color="failure" outline onClick={() => setIsAdressOpen(false)}>
           ביטול
         </Button>
-        <Button color="success" outline onClick={handleSubmit}>
+        <Button
+          isProcessing={isLoading}
+          color="success"
+          outline
+          onClick={handleSubmit}
+        >
           שמור
         </Button>
       </Modal.Footer>

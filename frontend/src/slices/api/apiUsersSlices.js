@@ -6,10 +6,17 @@ export const apiUsers = createApi({
 
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => '/',
+      query: (query) => query || '',
     }),
     getUserById: builder.query({
       query: (id) => `/${id}`,
+    }),
+    editUserById: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/${id}`,
+        method: 'PATCH',
+        body,
+      }),
     }),
 
     loginUser: builder.mutation({
@@ -61,12 +68,19 @@ export const apiUsers = createApi({
         body,
       }),
     }),
+    disableMe: builder.mutation({
+      query: () => ({
+        url: '/disableMe',
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
 export const {
   useGetUsersQuery,
   useGetUserByIdQuery,
+  useEditUserByIdMutation,
 
   useLoginUserMutation,
   useLazyLogoutUserQuery,
@@ -77,4 +91,5 @@ export const {
   useGetMeQuery,
   useChangePasswordMutation,
   useUpdateMeMutation,
+  useDisableMeMutation,
 } = apiUsers;

@@ -64,8 +64,12 @@ export const deleteProductColorById = deleteOneById(ProductColor);
 
 export const prepareCreateOrPatchProductColor = (req, res, next) => {
   const { sizes, thumbnail } = req.body;
-  sizes && (req.body.sizes = new Map(JSON.parse(sizes)));
-  thumbnail && (req.body.thumbnail = JSON.parse(thumbnail));
+  sizes &&
+    typeof sizes === 'string' &&
+    (req.body.sizes = new Map(JSON.parse(sizes)));
+  thumbnail &&
+    typeof thumbnail === 'string' &&
+    (req.body.thumbnail = JSON.parse(thumbnail));
   next();
 };
 
@@ -111,17 +115,41 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
 
 //     // Fetch products from favorite categories
 //     const favoriteCategoryProducts = await Product.aggregate([
-//       { $match: { category: { $in: favoriteCategories }, sold: { $gt: 0 } } },
+//       {
+//         $match: {
+//           category: { $in: favoriteCategories },
+//           sold: { $gt: 0 },
+//         },
+//       },
 //       { $sample: { size: 5 } },
 //     ]);
 
+//     // Fetch top 5 sold products
 //     const topSoldProducts = await Product.aggregate([
 //       { $match: { sold: { $gt: 0 } } },
-//       { $sort: { sold: -1 } }, // Sort by the 'sold' field in descending order
+//       { $sort: { sold: -1 } },
 //       { $limit: 5 },
 //     ]);
 
-//     const combinedProducts = [...favoriteCategoryProducts, ...topSoldProducts];
+//     // Fetch 5 discounted product colors
+//     const discountedProductColors = await ProductColor.aggregate([
+//       {
+//         $match: {
+//           priceBeforeDiscount: { $exists: true, $gt: 0 },
+//           $expr: { $gt: ['$priceBeforeDiscount', '$price'] },
+//         },
+//       },
+//       { $sample: { size: 5 } },
+//     ]);
+
+//     // Combine all results and ensure unique products
+//     const combinedProducts = [
+//       ...favoriteCategoryProducts,
+//       ...topSoldProducts,
+//       ...discountedProductColors,
+//     ];
+
+//     // Ensure products are unique based on _id
 //     const uniqueProducts = Array.from(
 //       new Map(
 //         combinedProducts.map((product) => [product._id.toString(), product])
@@ -139,31 +167,8 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
 //     next(err);
 //   }
 // };
-
 export const getProductsForUser = async (req, res, next) => {
   try {
-    const user = req.user;
-
-    if (!user || !user.favoriteCategories || user.favoriteCategories.length === 0) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'No favorite categories found for the user',
-      });
-    }
-
-    const favoriteCategories = user.favoriteCategories.map((cat) => cat.category);
-
-    // Fetch products from favorite categories
-    const favoriteCategoryProducts = await Product.aggregate([
-      {
-        $match: {
-          category: { $in: favoriteCategories },
-          sold: { $gt: 0 },
-        },
-      },
-      { $sample: { size: 5 } },
-    ]);
-
     // Fetch top 5 sold products
     const topSoldProducts = await Product.aggregate([
       { $match: { sold: { $gt: 0 } } },
@@ -183,11 +188,7 @@ export const getProductsForUser = async (req, res, next) => {
     ]);
 
     // Combine all results and ensure unique products
-    const combinedProducts = [
-      ...favoriteCategoryProducts,
-      ...topSoldProducts,
-      ...discountedProductColors,
-    ];
+    const combinedProducts = [...topSoldProducts, ...discountedProductColors];
 
     // Ensure products are unique based on _id
     const uniqueProducts = Array.from(

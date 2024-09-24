@@ -1,63 +1,68 @@
-import { useEffect, useState,useRef,useCallback,useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Table } from 'flowbite-react';
 import CheckoutItem from './_CheckoutTableItem';
-import { retrieveFromLocalStorage,updateQuantity,deleteItemFromLS } from '../../utils/localStorage';
+import {
+  retrieveFromLocalStorage,
+  updateQuantity,
+  deleteItemFromLS,
+} from '../../utils/localStorage';
 
-export default function CheckoutTable({setPriceBeforeTax}) {
-  const {productCartObj} = retrieveFromLocalStorage();
-  const [_product,setProduct]=useState([])
-  const [update,setUpdate]=useState(false)
- if(productCartObj==null){} 
-  const productRef = useRef(productCartObj?productCartObj:{}).current
- 
-  useEffect(()=>{
-if( productCartObj){
-  const {cart,cache} = productCartObj
-  setProduct(prev=>{ 
-    prev=[]
-  cache?.map((obj,i)=>{
-    const newObj = {
-    productColor:cart[i].productColor,
-    image:obj.image,
-    productName:obj.productName,
-    productColorName:obj.productColorName,
-    update:[update]
+export default function CheckoutTable({ setPriceBeforeTax }) {
+  const { productCartObj } = retrieveFromLocalStorage();
+  const [_product, setProduct] = useState([]);
+  const [update, setUpdate] = useState(false);
+  if (productCartObj == null) {
+  }
+  const productRef = useRef(productCartObj ? productCartObj : {}).current;
+
+  useEffect(() => {
+    if (productCartObj) {
+      const { cart, cache } = productCartObj;
+      setProduct((prev) => {
+        prev = [];
+        cache?.map((obj, i) => {
+          const newObj = {
+            productColor: cart[i].productColor,
+            image: obj.image,
+            productName: obj.productName,
+            productColorName: obj.productColorName,
+            update: [update],
+          };
+          prev = [...prev, newObj];
+        });
+        let finalArr = [];
+        prev.map((obj, i) => {
+          let newObj;
+          Object.entries(cart[i].sizes).map((zisesArr) => {
+            newObj = {
+              ...obj,
+              size: zisesArr[0],
+              quantity: zisesArr[1],
+              price: cache[i].price * zisesArr[1],
+            };
+            finalArr.push(newObj);
+          });
+        });
+        prev = finalArr;
+        return prev;
+      });
+      setUpdate(false);
+    } else {
+      setProduct(null);
     }
-    prev=[...prev,newObj]
-  })
-  let finalArr=[]
-  prev.map((obj,i)=>{
-let newObj;
-  Object.entries(cart[i].sizes).map((zisesArr)=>{
-newObj =  {...obj,
-  size:zisesArr[0],
-  quantity:zisesArr[1],
-  price:cache[i].price * zisesArr[1],
-  }
-  finalArr.push(newObj)
-})
-  })
-  prev=finalArr
-  return prev
-  })
-  setUpdate(false)
-}else{
-setProduct(null)
-}
-
-},[productRef,update])
-const addQuantity = (id,size)=>{
-  const update =  updateQuantity(id,size,'plus')
-  if(update)setUpdate(update)
-}
-const reduceQuntity =(id,size)=>{
-  const update =  updateQuantity(id,size,'minus')
-  if(update)setUpdate(update)
-  }
-const deleteItem = (id,size)=>{
-  const update = deleteItemFromLS(id,size)
-  if(update)setUpdate(update)
-}
+  }, [productRef, update]);
+  const addQuantity = (id, size) => {
+    const update = updateQuantity(id, size, 'plus');
+    if (update) setUpdate(update);
+  };
+  const reduceQuntity = (id, size) => {
+    const update = updateQuantity(id, size, 'minus');
+    if (update) setUpdate(update);
+  };
+  const deleteItem = (id, size) => {
+    const update = deleteItemFromLS(id, size);
+    if (update) setUpdate(update);
+  };
   return (
     <Table
       hoverable
@@ -73,21 +78,25 @@ const deleteItem = (id,size)=>{
         },
       }}
     >
-        {_product&&
+      {_product && (
         <>
-        
-        <Table.Head>
-          <Table.HeadCell className="text-center">פריט</Table.HeadCell>
-          <Table.HeadCell className="text-center">שם</Table.HeadCell>
-          <Table.HeadCell className="text-center">מידע</Table.HeadCell>
-          <Table.HeadCell className="text-center">מחיר</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          <CheckoutItem p={_product} setPriceBeforeTax={setPriceBeforeTax} addQuantity={addQuantity} reduceQuntity={reduceQuntity} deleteItem={deleteItem} />
-        
-        </Table.Body>
+          <Table.Head>
+            <Table.HeadCell className="text-center">פריט</Table.HeadCell>
+            <Table.HeadCell className="text-center">שם</Table.HeadCell>
+            <Table.HeadCell className="text-center">מידע</Table.HeadCell>
+            <Table.HeadCell className="text-center">מחיר</Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            <CheckoutItem
+              p={_product}
+              setPriceBeforeTax={setPriceBeforeTax}
+              addQuantity={addQuantity}
+              reduceQuntity={reduceQuntity}
+              deleteItem={deleteItem}
+            />
+          </Table.Body>
         </>
-        }
-      </Table>
+      )}
+    </Table>
   );
 }

@@ -4,6 +4,7 @@ import { apiUsers } from '../api/apiUsersSlices';
 const initialState = {
   user: undefined,
   likedItems: JSON.parse(localStorage.getItem('likedItems')) || [],
+  cart: JSON.parse(localStorage.getItem('cart')) || [],
 };
 
 const userState = createSlice({
@@ -46,7 +47,20 @@ const userState = createSlice({
       },
     );
     builder.addMatcher(apiUsers.endpoints.logoutUser.matchFulfilled, (state) => {
-      state.user = initialState.user;
+      state.user = undefined;
+      state.likedItems = [];
+      state.cart = { caches: [], cart: [] };
+
+      localStorage.removeItem('likedItems');
+      localStorage.removeItem('cart');
+    });
+    builder.addMatcher(apiUsers.endpoints.disableMe.matchFulfilled, (state) => {
+      state.user = undefined;
+      state.likedItems = [];
+      state.cart = { caches: [], cart: [] };
+
+      localStorage.removeItem('likedItems');
+      localStorage.removeItem('cart');
     });
   },
 });

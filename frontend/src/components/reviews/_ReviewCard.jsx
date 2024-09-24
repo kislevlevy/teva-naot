@@ -2,6 +2,12 @@ import React from 'react';
 import { Text, Avatar, Group } from '@mantine/core';
 import StarComponent from '../product/subComponents/_StarComponent';
 
+const daysToStr = {
+  0: 'פורסם היום',
+  1: 'פורסם אתמול',
+  2: 'פורסם לפני יומיים',
+};
+
 export default function ReviewCard({ review }) {
   const days = Math.trunc(
     (Date.now() - new Date(review.createdAt)) / 1000 / 60 / 60 / 24,
@@ -18,7 +24,7 @@ export default function ReviewCard({ review }) {
         <div>
           <Text size="sm">{review.user.fullName}</Text>
           <Text size="xs" c="dimmed">
-            {days === 0 ? 'פורסם היום' : `פורסם לפני ${days} ימים`}
+            {days < 3 ? daysToStr[days] : `פורסם לפני ${days} ימים`}
           </Text>
         </div>
         <StarComponent rating={review.rating} />

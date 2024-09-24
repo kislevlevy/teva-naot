@@ -1,4 +1,4 @@
-import{ useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -10,7 +10,7 @@ import CheckoutSummery from '../components/checkout/_ChackoutSummery';
 import Shipping from '../components/checkout/subComponents/_Shipping';
 
 export default function Checkout() {
-  const [PriceBeforeTax,setPriceBeforeTax]=useState(0)
+  const [PriceBeforeTax, setPriceBeforeTax] = useState(0);
   const navigate = useNavigate();
 
   const [address, setAddress] = useState('');
@@ -32,7 +32,9 @@ export default function Checkout() {
           <Shipping
             {...{ address, setAddress, city, setCity, postalCode, setPostalCode }}
           />
-          <CheckoutSummery PriceBeforeTax={PriceBeforeTax} />
+          <CheckoutSummery
+            {...{ PriceBeforeTax, address: { address, city, postalCode } }}
+          />
         </Grid>
       </Grid>
     </Container>

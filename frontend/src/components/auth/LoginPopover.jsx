@@ -16,17 +16,22 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isSuccess, setIsSuccess] = useState(true);
   const [loginUser] = useLoginUserMutation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
+
       await loginUser({ email, password });
 
       setIsSuccess(true);
       setEmail('');
       setPassword('');
       setIsLoginOpen(false);
+      setIsLoading(false);
     } catch (_) {
+      setIsLoading(false);
       setIsSuccess(false);
     }
   };
@@ -92,7 +97,12 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
               </Link>
             </div>
 
-            <Button type="submit" gradientDuoTone="greenToBlue" className="w-full">
+            <Button
+              type="submit"
+              gradientDuoTone="greenToBlue"
+              className="w-full"
+              isProcessing={isLoading}
+            >
               כניסה
             </Button>
             {isSuccess || (

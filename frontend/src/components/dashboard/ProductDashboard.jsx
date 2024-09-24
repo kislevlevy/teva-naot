@@ -151,7 +151,10 @@ function TableEntry({ product, setSelectedProductId }) {
   const [deleteProductById] = useDeleteProductByIdMutation();
 
   useEffect(() => {
-    if (isConfirmed) deleteProductById(product._id);
+    if (isConfirmed) {
+      deleteProductById(product._id);
+      setIsConfirmOpen(false);
+    }
   }, [isConfirmed]);
 
   return (
