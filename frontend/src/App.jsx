@@ -23,6 +23,8 @@ import OrderSuccess from './pages/OrderSuccess';
 import OrderFailure from './pages/OrderFailure';
 import Home from './pages/Home';
 import StoreLocator from './pages/StoreLocator';
+import ResetPassword from './pages/ResetPassword';
+
 // Lazy imports:
 const Shop = lazy(() => import('./pages/Shop'));
 const SingleProduct = lazy(() => import('./pages/Product'));
@@ -39,6 +41,7 @@ export default function App() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="order-success" element={<OrderSuccess />} />
         <Route path="order-failure" element={<OrderFailure />} />
+        <Route path="reset-password" element={<ResetPassword />} />
         <Route path="profile" element={<Profile />} />
         <Route path="products">
           <Route index element={<Shop />} />

@@ -33,10 +33,10 @@ router.post(
   sentResAndToken
 );
 router.patch('/resetPassword/:resetToken', resetPassword);
+router.post('/forgotPassword', forgotPassword);
 
 router.use(protect);
 router.get('/', getUsers);
-router.post('/forgotPassword', forgotPassword);
 router.patch('/changePassword', changePassword);
 
 router.get('/getMe', getMe);

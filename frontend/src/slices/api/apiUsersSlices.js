@@ -38,16 +38,16 @@ export const apiUsers = createApi({
     }),
     forgotPassword: builder.mutation({
       query: (body) => ({
-        url: '/forgotpassword',
+        url: '/forgotPassword',
         method: 'POST',
         body,
       }),
     }),
     resetPassword: builder.mutation({
-      query: (user) => ({
-        url: `/resetPassword/${user.resettoken}`,
+      query: ({ token, body }) => ({
+        url: `/resetPassword/${token}`,
         method: 'PATCH',
-        body: user,
+        body,
       }),
     }),
 

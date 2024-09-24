@@ -6,6 +6,7 @@ import Icon from '@mdi/react';
 import { mdiAt, mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
 import { Button, Label, TextInput } from 'flowbite-react';
 import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 export default function LoginPopover() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function LoginPopover() {
   const [isSuccess, setIsSuccess] = useState(true);
   const [loginUser] = useLoginUserMutation();
   const [isLoading, setIsLoading] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
   const resetFields = function () {
     setEmail('');
@@ -40,6 +42,7 @@ export default function LoginPopover() {
 
   return (
     <div className="flex justify-center items-center bg-gray-100">
+      <ForgotPasswordModal {...{ isForgotPasswordOpen, setIsForgotPasswordOpen }} />
       <form
         className="bg-white p-8 rounded shadow-md w-full m-5 space-y-2 h-full"
         onSubmit={handleSubmit}
@@ -87,13 +90,12 @@ export default function LoginPopover() {
 
         <div className="text-sm ">
           {'שכחת סיסמה? '}
-          <Link
-            to={'TODO:'}
-            className="text-sm text-green-500 hover:underline"
-            state={{ ...location.state, from: location.pathname }}
+          <span
+            className="text-sm text-green-500 hover:underline cursor-pointer"
+            onClick={() => setIsForgotPasswordOpen(true)}
           >
             לחץ כאן
-          </Link>
+          </span>
         </div>
 
         <Button
