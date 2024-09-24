@@ -8,25 +8,25 @@ export default function PopularProductsButtonsGroup({ setSelectedCategory }) {
     <div className="flex justify-around p-4 bg-gray-100">
       <Button
         className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
-        onClick={() => setSelectedCategory('דגמים נבחרים')}
+        onClick={() => setSelectedCategory('הצג הכל')}
       >
         <FaRegStar size={'1.5rem'} className="self-center ml-2" />
-        דגמים נבחרים
-      </Button>
+        הצג הכל     
+        </Button>
       <Button
         className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
-        onClick={() => setSelectedCategory('New Collection')}
+        onClick={() => setSelectedCategory('דגמים פופולריים')}
       >
         <BsTag size={'1.5rem'} className="self-center ml-2" />
-        הנמכרים ביותר
-      </Button>
+        דגמים פופולריים    
+         </Button>
       <Button
         className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
-        onClick={() => setSelectedCategory('Special 4 U')}
+        onClick={() => setSelectedCategory('מוצרים נבחרים')}
       >
         <RiHeart2Line size={'1.5rem'} className="self-center ml-2" />
-        במיוחד בשבילך
-      </Button>
+        מוצרים נבחרים  
+         </Button>
     </div>
   );
 }

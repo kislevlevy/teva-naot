@@ -12,17 +12,17 @@ export default function PopularProductsSidebar({ setSelectedCategory }) {
         <Sidebar.ItemGroup className="my-0 py-0">
           <PopularProductsSidbarItem
             iconToShow={<FaRegStar className="text-emerald-500 mr-2" />}
-            textToShow="דגמים נבחרים"
+            textToShow="הצג הכל"
             setSelectedCategory={setSelectedCategory}
           />
           <PopularProductsSidbarItem
             iconToShow={<BsTag className="text-emerald-500 mr-2" />}
-            textToShow="הנמכרים ביותר"
+            textToShow="מוצרים פופולריים"
             setSelectedCategory={setSelectedCategory}
           />
           <PopularProductsSidbarItem
             iconToShow={<RiHeart2Line className="text-emerald-500 mr-2" />}
-            textToShow="במיוחד בשבילך"
+            textToShow="מוצרים נבחרים"
             setSelectedCategory={setSelectedCategory}
           />
         </Sidebar.ItemGroup>
