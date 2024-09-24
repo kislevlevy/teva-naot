@@ -164,7 +164,7 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
 //     });
 //   } catch (err) {
 //     console.error('Error fetching products for user:', err);
-//     next(err);
+//     next(err);()
 //   }
 // };
 export const getProductsForUser = async (req, res, next) => {
@@ -177,7 +177,7 @@ export const getProductsForUser = async (req, res, next) => {
     ]);
 
     // Fetch 5 discounted product colors
-    const discountedProductColors = await ProductColor.aggregate([
+    let discountedProductColors = await ProductColor.aggregate([
       {
         $match: {
           priceBeforeDiscount: { $exists: true, $gt: 0 },
@@ -187,20 +187,21 @@ export const getProductsForUser = async (req, res, next) => {
       { $sample: { size: 5 } },
     ]);
 
-    // Combine all results and ensure unique products
-    const combinedProducts = [...topSoldProducts, ...discountedProductColors];
+    // Convert topSoldProducts IDs to a Set for quick lookup
+    const topSoldProductIds = new Set(
+      topSoldProducts.map((product) => product._id.toString())
+    );
 
-    // Ensure products are unique based on _id
-    const uniqueProducts = Array.from(
-      new Map(
-        combinedProducts.map((product) => [product._id.toString(), product])
-      ).values()
+    // Filter discounted products to remove any that are also in topSoldProducts
+    discountedProductColors = discountedProductColors.filter(
+      (productColor) => !topSoldProductIds.has(productColor._id.toString())
     );
 
     res.status(200).json({
       status: 'success',
       data: {
-        products: uniqueProducts,
+        topSoldProducts, // Send top sold products separately
+        discountedProductColors, // Send discounted product colors separately
       },
     });
   } catch (err) {
