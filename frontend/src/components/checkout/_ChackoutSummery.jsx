@@ -5,7 +5,7 @@ import { Button, Card, List } from 'flowbite-react';
 
 import { retrieveFromLocalStorage } from '../../utils/localStorage';
 import { useCreateOrderMutation } from '../../slices/api/apiOrdersSlices';
-
+import { toMoneyString } from '../../utils/helperFunctions';
 export default function ChackoutSummery({ PriceBeforeTax, address }) {
   const [createOrder] = useCreateOrderMutation();
   const [isLoading, setIsLoading] = useState(false);
