@@ -10,7 +10,6 @@ export const apiProducts = createApi({
       query: (filter) => `${filter || ''}`,
       providesTags: ['Products'],
     }),
-
     getProductById: builder.query({
       query: (id) => `${id || ''}`,
       providesTags: ['Products'],
@@ -24,7 +23,6 @@ export const apiProducts = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-
     editProductById: builder.mutation({
       query: ({ id, body }) => ({
         url: `${id}`,
@@ -33,7 +31,6 @@ export const apiProducts = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-
     editProductStockById: builder.mutation({
       query: ({ id, body }) => ({
         url: `${id}/stock`,
