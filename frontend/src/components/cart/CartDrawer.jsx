@@ -8,6 +8,7 @@ import { mdiCartVariant } from '@mdi/js';
 import CartProductCard from './_CartItem';
 import { Link,useNavigate } from 'react-router-dom';
 import { retrieveFromLocalStorage,deleteItemFromLS } from '../../utils/localStorage';
+import { toMoneyString } from '../../utils/helperFunctions';
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   let items,sum
@@ -86,7 +87,7 @@ setSum(sum)
             </div>
             <div className="font-bold">
               {'סה"כ: '}
-              {_sum&&_sum}₪
+              {_sum&&toMoneyString(_sum)}
             </div>
           </div>
           <div className="flex justify-between my-2">

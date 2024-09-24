@@ -1,5 +1,5 @@
 import { Button, Card, List } from 'flowbite-react';
-import React from 'react';
+import { toMoneyString } from '../../utils/helperFunctions';
 
 export default function ChackoutSummery({PriceBeforeTax }) {
  
@@ -31,7 +31,7 @@ function createListItem(val, lable) {
   return (
     <div className="flex flex-row justify-between w-full">
       <p>{lable}</p>
-      <p className="font-bold">{Math.floor(val * 100) / 100}₪</p>
+      <p className="font-bold">{toMoneyString(Math.floor(val * 100) / 100)}</p>
     </div>
   );
 }

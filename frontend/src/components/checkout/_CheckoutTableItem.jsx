@@ -3,6 +3,7 @@ import { Table } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiMinusBoxOutline, mdiPlusBoxOutline, mdiTrashCanOutline } from '@mdi/js';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toMoneyString } from '../../utils/helperFunctions';
 export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,reduceQuntity,deleteItem }) {
   useEffect(()=>{
     if(p.length>0){
@@ -83,7 +84,7 @@ export default function CheckoutItem({ p,setPriceBeforeTax,addQuantity,reduceQun
           </span>
         )} */}
         <span className="mr-1 font-bold text-emerald-500 text-md">
-          {product.price}₪
+          {toMoneyString(product.price)}
         </span>
       </Table.Cell>
     </Table.Row>

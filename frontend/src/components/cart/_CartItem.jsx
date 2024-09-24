@@ -1,9 +1,8 @@
-// Imports:
 
 import Icon from '@mdi/react';
 import { mdiTrashCanOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
-
+import { toMoneyString } from '../../utils/helperFunctions';
 // Component:
 export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
   // const quntity = Object.values(cart[i].sizes);
@@ -57,7 +56,7 @@ export default function CartProductCard({ cart,cache,i,deleteProductFromLS }) {
               </span>
             )} */}
             <span className="mr-1 font-bold text-emerald-500 text-md">
-              {cache[i].price * TotalQuantity}{' '}₪
+              {toMoneyString(cache[i].price * TotalQuantity)}
             </span>
           </div>
         </div>

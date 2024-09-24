@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
 //localstorage
 import { addProductsToLocalStorage } from '../../utils/localStorage';
-
+import { toMoneyString } from '../../utils/helperFunctions';
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
   const [product, setProduct] = useState(null);
@@ -180,12 +180,12 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                 </div>
                 <div>
                   <span className="mr-1 font-bold text-emerald-500 text-xl">
-                    {currentProductColor.price}₪
+                    {toMoneyString(currentProductColor.price)}
                   </span>
 
                   {currentProductColor.priceBeforeDiscount && (
                     <span className="ml-1 text-md text-gray-500 line-through">
-                      {currentProductColor.priceBeforeDiscount}₪
+                      {toMoneyString(currentProductColor.priceBeforeDiscount)}
                     </span>
                   )}
                 </div>

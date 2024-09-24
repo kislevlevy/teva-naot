@@ -19,13 +19,12 @@ import Signup from './pages/Signup';
 import Checkout from './pages/Checkout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
-
+import Home from './pages/Home';
+import StoreLocator from './pages/StoreLocator';
 // Lazy imports:
-const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const SingleProduct = lazy(() => import('./pages/Product'));
 const Info = lazy(() => import('./pages/Info'));
-const StoreLocator = lazy(() => import('./pages/StoreLocator'));
 
 // Component:
 export default function App() {
