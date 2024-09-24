@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { hebAlphaLine, hebAlphaNumericLine } from '../utils/hebrewValidate.js';
 
 // Schema:
 const userSchema = new mongoose.Schema(
@@ -12,10 +13,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Please provide your full name'],
       maxlength: [50, '{VALUE}- Full name cannot exceed 50 characters'],
       validate: {
-        validator: (val) =>
-          validator.isAlpha(val.replace(/[A-Za-z]/g, 'א'), 'he', {
-            ignore: ' ,.-',
-          }),
+        validator: (val) => hebAlphaLine(val),
         message: '{VALUE}- Full name must only contain english or hebrew characters',
       },
     },
@@ -121,10 +119,7 @@ const userSchema = new mongoose.Schema(
           maxlength: [50, '{VALUE}- Address name must no exceed 50 character long'],
           trim: true,
           validate: {
-            validator: (val) =>
-              validator.isAlphanumeric(val, 'he', {
-                ignore: /[ .,\-\nA-Za-z]/g,
-              }),
+            validator: (val) => hebAlphaNumericLine(val),
             message: '{VALUE}- Address must only contain alpha numeric characters',
           },
         },
@@ -134,10 +129,7 @@ const userSchema = new mongoose.Schema(
           minLength: [2, '{VALUE}- City name must be at least 2 character long'],
           maxlength: [20, '{VALUE}- City name must no exceed 20 character long'],
           validate: {
-            validator: (val) =>
-              validator.isAlpha(val, 'he', {
-                ignore: /[ .,\-\nA-Za-z]/g,
-              }),
+            validator: (val) => hebAlphaLine(val),
             message: '{VALUE}- City must only contain characters',
           },
         },
@@ -150,22 +142,6 @@ const userSchema = new mongoose.Schema(
           },
         },
       },
-      select: false,
-    },
-    favoriteCategories: {
-      type: [
-        {
-          category: {
-            type: String,
-            validate: {
-              validator: (val) =>
-                validator.isAlpha(val, ['he', 'en-US'], { ignore: ' -' }),
-              message: '{VALUE}- Category must only contain characters',
-            },
-          },
-          clicks: Number,
-        },
-      ],
       select: false,
     },
   },
@@ -186,6 +162,7 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
 //used in the authController.forgotPassword, and save it in the passwordResetToken field of the relevent user
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Product from './productModel.js';
+import { hebAlphaNumericPar } from '../utils/hebrewValidate.js';
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -16,6 +17,10 @@ const reviewSchema = new mongoose.Schema(
     },
     review: {
       type: String,
+      validate: {
+        validator: (val) => hebAlphaNumericPar(val),
+        message: '{VALUE}- Product name must only contain letters.',
+      },
       required: [true, 'Review cannot be empty'],
       trim: true,
       minlength: [5, 'Review must be at least 10 characters long'],
@@ -29,7 +34,7 @@ const reviewSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now(),
     },
     daysSinceReview: { type: Number },
   },

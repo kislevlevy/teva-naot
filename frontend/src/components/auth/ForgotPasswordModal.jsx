@@ -14,6 +14,7 @@ export default function ForgotPasswordModal({
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
+  const [disabled, setDisabled] = useState(false);
 
   const [forgotPassword] = useForgotPasswordMutation();
 
@@ -35,9 +36,11 @@ export default function ForgotPasswordModal({
       await forgotPassword({ email });
       setIsLoading(false);
       setMessage('אם משתמש זה קיים, נשלח כעת מייל עם לינק שחזור סיסמה.');
+      setDisabled(true);
     } catch (err) {
       setIsLoading(false);
       setMessage('אם משתמש זה קיים, נשלח כעת מייל עם לינק שחזור סיסמה.');
+      setDisabled(true);
     }
   };
 
@@ -67,7 +70,12 @@ export default function ForgotPasswordModal({
         {!error && message && <p className="text-sm rtl mt-2">{message}</p>}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleSubmit} isProcessing={isLoading} color="success">
+        <Button
+          disabled={disabled}
+          onClick={handleSubmit}
+          isProcessing={isLoading}
+          color="success"
+        >
           שחזר סיסמה
         </Button>
       </Modal.Footer>

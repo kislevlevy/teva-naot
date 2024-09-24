@@ -140,6 +140,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
     await user.save({ validateBeforeSave: false });
+    console.log(err);
     return next(new AppError(500, 'There was a problem sending email'));
   }
 });

@@ -33,22 +33,19 @@ import { simpleResponse } from '../utils/handlerFactory.js';
 const router = express.Router({ mergeParams: true });
 
 // Product colors:
-router
-  .route('/colors')
-  .get(getProductColors)
-  .post(
-    upload.fields([
-      { name: 'images', maxCount: 10 },
-      { name: 'thumbnail', maxCount: 1 },
-    ]),
-    protect,
-    restrictByRole('employee', 'admin'),
-    restrictByPermission('product'),
-    prepareCreateOrPatchProductColor,
-    createProductColor,
-    uploadProductColorImages,
-    simpleResponse
-  );
+router.route('/colors').get(getProductColors).post(
+  // upload.fields([
+  //   { name: 'images', maxCount: 10 },
+  //   { name: 'thumbnail', maxCount: 1 },
+  // ]),
+  protect,
+  restrictByRole('employee', 'admin'),
+  restrictByPermission('product'),
+  prepareCreateOrPatchProductColor,
+  createProductColor,
+  uploadProductColorImages,
+  simpleResponse
+);
 router.patch('/colors/:id/stock', editProductStockById);
 router
   .route('/colors/:id')

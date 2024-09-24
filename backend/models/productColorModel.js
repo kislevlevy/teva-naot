@@ -2,16 +2,14 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import Product from './productModel.js';
+import { hebAlphaLine } from '../utils/hebrewValidate.js';
 
 // DB Schema:
 const ProductColorSchema = new mongoose.Schema({
   name: {
     type: String,
     validate: {
-      validator: (val) =>
-        validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
-          ignore: ' ,.-\n',
-        }),
+      validator: (val) => hebAlphaLine(val),
       message: '{VALUE}- Name must only contain alphanumeric characters.',
     },
     required: [true, 'Name is required.'],
@@ -21,13 +19,12 @@ const ProductColorSchema = new mongoose.Schema({
     validate: {
       validator: (arr) => {
         if (arr.length !== 2 || !['hex', 'img'].includes(arr[0])) return false;
+
         if (arr[0] === 'hex') return validator.isHexColor(arr[1]);
         else if (arr[0] === 'img')
           return (
-            validator.isURL(arr[1], {
-              protocols: ['https'],
-              require_protocol: true,
-            }) && arr[1].startsWith('https://res.cloudinary.com')
+            arr[1].startsWith('http://res.cloudinary.com') ||
+            arr[1].startsWith('https://res.cloudinary.com')
           );
         else return false;
       },

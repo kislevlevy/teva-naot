@@ -12,7 +12,7 @@ export const apiProducts = createApi({
     }),
 
     getProductById: builder.query({
-      query: (id) => `${id}`,
+      query: (id) => `${id || ''}`,
       providesTags: ['Products'],
     }),
 
