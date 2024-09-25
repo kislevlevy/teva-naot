@@ -18,6 +18,7 @@ import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
 //localstorage
 import { addProductsToLocalStorage } from '../../utils/localStorage';
 import { toMoneyString } from '../../utils/helperFunctions';
+import { saveLikeItems } from '../../slices/state/userState';
 
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
@@ -26,7 +27,7 @@ export default function ProductModal({ productModalId, setProductModalId }) {
   const [activeImg, setActiveImg] = useState('');
   const [currentSize, setCurrentSize] = useState('');
 
-  const { data, isSuccess, isError } = useGetProductByIdQuery(productModalId);
+  const { data, isSuccess } = useGetProductByIdQuery(productModalId);
 
   const dispatch = useDispatch();
   const likedItems = useSelector((state) => state.userState.likedItems) || [];

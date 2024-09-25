@@ -60,7 +60,7 @@ const userState = createSlice({
       state.cart = { caches: [], cart: [] };
 
       localStorage.removeItem('likedItems');
-      localStorage.removeItem('cart');
+      localStorage.removeItem('productCart');
     });
   },
 });

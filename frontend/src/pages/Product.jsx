@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { saveLikeItems } from '../slices/state/userState';
 import { useGetProductByIdQuery } from '../slices/api/apiProductsSlices';
 import { slugify } from '../utils/slugify';
+import { addProductsToLocalStorage } from '../utils/localStorage';
 
 // Component:
 export default function ProductPage() {
@@ -32,6 +33,12 @@ export default function ProductPage() {
   const likedItems = useSelector((state) => state.userState.likedItems) || [];
   const isLiked = product ? likedItems.includes(product._id) : false;
   const dispatch = useDispatch();
+
+  const handleLocalstorage = () => {
+    if (product && currentProductColor && currentSize) {
+      addProductsToLocalStorage(product, currentProductColor, currentSize);
+    }
+  };
 
   // paging: location.state._id - the id to fetch data for
   const location = useLocation();
@@ -185,7 +192,7 @@ export default function ProductPage() {
                 ))}
               <div
                 className="mx-1 w-fit h-10 hover:bg-zinc-200 hover:cursor-pointer rounded-md border-[1px] border-slate-300 bg-zinc-100 p-2 flex items-center"
-                onClick={() => 'TODO:'}
+                onClick={handleLocalstorage}
               >
                 <Icon path={mdiShoppingOutline} size={1} color="green" />
                 <span className="mr-1 text-sm">הוסף לעגלה</span>

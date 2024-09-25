@@ -131,8 +131,8 @@ export default function ProductDashboard() {
 }
 
 function StatsCard({ lable, main, diff }) {
-  const percent = main !== 0 && diff !== 0 ? ((main - diff) / diff) * 100 : 0;
-  console.log(percent);
+  const percent = Math.abs(((main - diff) / diff) * 100);
+  const isPositive = main - diff > 0;
 
   return (
     <Card className="min-w-52 w-fit bg-gray-50">
@@ -145,11 +145,11 @@ function StatsCard({ lable, main, diff }) {
         {!!percent && (
           <div
             className={`flex h-fit items-center ${
-              diff > 0 ? 'text-green-400' : 'text-red-400'
+              isPositive ? 'text-green-400' : 'text-red-400'
             }`}
           >
-            <h3 className="translate-y-[1px]">{percent}%</h3>
-            {percent > 0 ? (
+            <h3 className="translate-y-[1px]">{Math.trunc(percent)}%</h3>
+            {isPositive ? (
               <Icon path={mdiArrowTopRight} size={0.6} />
             ) : (
               <Icon path={mdiArrowBottomRight} size={0.6} />

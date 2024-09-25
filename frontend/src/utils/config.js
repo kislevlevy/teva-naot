@@ -29,7 +29,7 @@ export const links = {
   instegram: 'https://www.instagram.com/tevanaot',
 };
 
-export const backend = 'https://teva-naot.onrender.com';
+export const backend = 'http://localhost:3000';
 
 export const instagramPosts = {
   images: [

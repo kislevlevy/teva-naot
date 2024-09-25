@@ -17,9 +17,7 @@ const StoreLocator = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        // console.log(
-        //   `User's Geolocation: Latitude: ${latitude}, Longitude: ${longitude}`,
-        // );
+
         setCurrentLocation([latitude, longitude]); // Update state with user's location
       },
       (error) => {
@@ -31,7 +29,7 @@ const StoreLocator = () => {
   const getCoordinates = (city) => {
     return new Promise((resolve, reject) => {
       $.ajax({
-        url: `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${STORE_LOCATOR_API_KEY}`,
+        url: `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${STORE_LOCATOR_API_KEY}`,
         dataType: 'json',
         success: (data) => {
           if (data.length > 0) {
@@ -122,7 +120,7 @@ const StoreLocator = () => {
   return (
     <section id="about-naot" className="p-8 bg-gray-50">
       <h1 className="text-3xl font-bold text-gray-800 mb-4 rtl">סניפי הרשת</h1>
-      <div id="store-locator-map" className="h-[70vh] w-[80vw] mx-auto"></div>
+      <div id="store-locator-map" className="h-[70vh] w-[80vw] mx-auto z-0"></div>
     </section>
   );
 };

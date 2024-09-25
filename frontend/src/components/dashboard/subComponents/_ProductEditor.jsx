@@ -83,7 +83,6 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       e.preventDefault();
       setIsLoading(true);
       const { name, price, description, image, category } = product;
-      console.log(category);
 
       const productFormData = new FormData();
       name && productFormData.append('name', name);

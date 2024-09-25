@@ -42,7 +42,7 @@ export default function ChangePasswordModal({
       }).unwrap();
 
       setIsLoading(false);
-      setIsEditProfileOpen(false);
+      setIsChangePasswordOpen(false);
       setIsError('');
       await triggerLogout();
     } catch (err) {
