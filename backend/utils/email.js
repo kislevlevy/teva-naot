@@ -1,44 +1,42 @@
 import nodemailer from 'nodemailer';
 
-const logoUrl =
-  'https://res.cloudinary.com/drxtaxnkr/image/upload/v1725452130/logoMain_bz64nt.svg';
-
 const passwordResetMessage = (token) => ({
-  subject: 'Password Reset',
-  heading: 'Reset Your Password',
+  subject: 'איפוס סיסמה',
+  heading: 'אפס את הסיסמה שלך',
   message:
-    'Please click below to reset your password. This link will expire in 10 minutes:',
+    'אנא לחץ על הקישור למטה כדי לאפס את הסיסמה שלך. קישור זה יפוג בעוד 10 דקות',
   html: `
     <div style="text-align: center; margin: 20px 0;">
           <a href="${token}" style="background-color: #64b496; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
-            Reset Password
+            איפוס סיסמה
           </a>
-        </div>`,
-  buttonText: 'Reset Password',
+    </div>`,
+  buttonText: 'איפוס סיסמה',
 });
+
 const verificationMessage = (token) => ({
-  subject: 'Email Verification',
-  heading: 'Verify Your Email Address',
-  message: 'Please use the following code to verify your email address:',
+  subject: 'אימות דוא"ל',
+  heading: 'אמת את כתובת הדוא"ל שלך',
+  message: 'אנא השתמש בקוד הבא כדי לאמת את כתובת הדוא"ל שלך:',
   html: `
     <div style="text-align: center; margin: 20px 0;">
-      <h3 style="color: #333;">${token}</h3> <!-- Verification Code -->
+      <h3 style="color: #333;">${token}</h3> <!-- קוד אימות -->
     </div>`,
 });
 
 // Email template for email confirmation
 const emailConfirmationMessage = (token) => ({
-  subject: 'Email Confirmation',
-  heading: 'Confirm Your Email Address',
-  message: 'Please click below to confirm your email address:',
+  subject: 'אישור דוא"ל',
+  heading: 'אשר את כתובת הדוא"ל שלך',
+  message: 'אנא לחץ על הקישור למטה כדי לאשר את כתובת הדוא"ל שלך:',
   html: `
     <div style="text-align: center; margin: 20px 0;">
           <a href="${token}" style="background-color: #64b496; color: white; padding: 10px 20px; text-decoration: none; font-size: 16px; border-radius: 5px;">
-            Confirm Email
+            אישור דוא"ל
           </a>
     </div>`,
 });
-//need to add to env: EMAIL_HOST, EMAIL_USER, EMAIL_PORT, EMAIL_PASSWORD
+
 const sendEmail = async (type, user, token) => {
   let options;
   if (type === 'passwordReset') {
@@ -58,24 +56,84 @@ const sendEmail = async (type, user, token) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    secure: true,
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 10000,
   });
 
   const mailOptions = {
-    from: '<info@teva-naot.com> - Teva Naot',
+    from: process.env.EMAIL_USER,
     to: user.email,
     subject: options.subject,
     html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0;">
-      <div style="text-align: center;">
-          <img src="${logoUrl}" alt="Teva Naot" style="width: 150px; margin-bottom: 20px;" />
+    <!DOCTYPE html>
+    <html lang="he">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teva Naot</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;300;600;800&display=swap" rel="stylesheet">
+        <style>
+            body {
+                margin: 0;
+            }
+            body * {
+                font-family: "Open Sans", sans-serif;
+
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #e0e0e0;
+                direction: rtl;
+            }
+            .header {
+                text-align: center;
+            }
+            .header img {
+                width: 150px;
+            }
+            .heading {
+                color: #333;
+                margin-top: 20px;
+                text-align: center;
+            }
+            .message {
+                color: #555;
+                font-size: 16px;
+                text-align: center;
+            }
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+                color: #555;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <img src="https://res.cloudinary.com/drxtaxnkr/image/upload/v1727174940/logoMain_jupmbk.png" alt="Teva Naot">
+            </div>
+            <h2 class="heading">
+                ${options.heading}
+            </h2>
+            <p class="message">
+                ${options.message}
+            </p>
+            ${options.html}
+            <div class="footer">
+                <p>
+                    טבע נאות, נווה צדק 1, תל-אביב, 100890
+                </p>
+            </div>
         </div>
-        <h2 style="color: #333; text-align: center;">${options.heading}</h2>
-        <p style="color: #555; font-size: 16px; text-align: center;">${options.message}</p>
-        ${options.html}
-        <div style="text-align: center; margin-top: 20px;">
-          <p style="color: #555; font-size: 12px;">Teva Naot,Neve Tzedek 1,Tel-Aviv,Israel,100890</p>
-        </div>
-      </div>`,
+    </body>
+    </html>`,
   };
 
   await transport.sendMail(mailOptions);

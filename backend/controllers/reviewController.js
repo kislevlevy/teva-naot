@@ -43,43 +43,6 @@ export const createReview = asyncHandler(async (req, res, next) => {
     newReview,
   });
 });
-// export const editReviewById = asyncHandler(async (req, res, next) => {
-//   const { review, rating } = req.body;
-//   const { id: reviewId } = req.params;
-
-//   const updatedReview = await Review.findOneAndUpdate(
-//     {
-//       _id: reviewId,
-//       user: req.user.id,
-//     },
-//     { review, rating },
-//     {
-//       new: true, //return the updated review after the changes are saved
-//       runValidators: true,
-//     }
-//   );
-//   if (!updatedReview) return next(new AppError(404, 'Review not found'));
-
-//   await updateProductGroupRating(updatedReview.productGroup);
-
-//   res.status(200).json({
-//     status: 'success',
-//     updatedReview,
-//   });
-// });
-
-// asyncHandler(async (req, res, next) => {
-//   const { id: reviewId } = req.params;
-//   const review = await Review.findOneAndDelete({ _id: reviewId, user: req.user.id });
-//   if (!review) return next(new AppError(404, 'Review not found'));
-
-//   await updateProductGroupRating(review.productGroup);
-
-//   res.status(204).json({
-//     status: 'success',
-//     data: null,
-//   });
-// });
 
 export const deleteReviewById = deleteOneById(Review);
 export const editReviewById = editOneById(Review);

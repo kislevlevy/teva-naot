@@ -129,18 +129,18 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   //handling the email message and link(a reset password form) to the user
-  const resetURL = `${process.env.FRONT_END}/resetPassword/${resetToken}`;
+  const resetURL = `${process.env.FRONT_END}/reset-password?token=${resetToken}`;
   try {
     await sendEmail('passwordReset', user, resetURL); // MUL DANA
     res.status(200).json({
       status: 'success',
       message: 'The password reset link has been sent to your email',
-      token: resetToken,
     });
   } catch (err) {
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
     await user.save({ validateBeforeSave: false });
+    console.log(err);
     return next(new AppError(500, 'There was a problem sending email'));
   }
 });

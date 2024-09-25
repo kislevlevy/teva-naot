@@ -8,6 +8,6 @@ import {
 const router = express.Router();
 
 router.get('/profits', getProfits);
-router.get('/orders-left', getOrdersLeftToFulfill);
+router.get('/ordersLeft', getOrdersLeftToFulfill);
 
 export default router;

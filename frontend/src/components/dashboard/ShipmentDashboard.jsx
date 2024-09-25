@@ -9,11 +9,15 @@ import {
   useGetOrdersQuery,
 } from '../../slices/api/apiOrdersSlices';
 import PrintSticker from './subComponents/_PrintSticker';
+import { useGetOrdersLeftQuery } from '../../slices/api/apiStatsSlices';
 
 export default function ShipmentDashboard() {
   const [filterStr, setFilterStr] = useState('');
   const [query, setQuery] = useState('');
   const [orders, setOrders] = useState([]);
+
+  const [stats, setStats] = useState(null);
+  const { data: statsDb, isSuccess: isStats } = useGetOrdersLeftQuery();
 
   const { data, isSuccess } = useGetOrdersQuery(
     filterStr || '?limit=10&status=procceing',
@@ -26,15 +30,18 @@ export default function ShipmentDashboard() {
 
   useEffect(() => {
     if (isSuccess) setOrders(data.data.docs);
-  }, [data]);
+    if (isStats) setStats(statsDb.data);
+  }, [data, isStats]);
 
   return (
     <div className="w-full">
-      <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
-        <StatsCard {...{ lable: 'בדרך ללקוח', main: 59 }} />
-        <StatsCard {...{ lable: 'מוכן לשילוח', main: 26 }} />
-        <StatsCard {...{ lable: 'ממתין לתשלום', main: 5 }} />
-      </div>
+      {stats && (
+        <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
+          <StatsCard {...{ lable: 'בדרך ללקוח', main: stats.shipped }} />
+          <StatsCard {...{ lable: 'מוכן לשילוח', main: stats.processing }} />
+          <StatsCard {...{ lable: 'ממתין לתשלום', main: stats.pending }} />
+        </div>
+      )}
 
       <div className="container mx-auto p-4">
         <form

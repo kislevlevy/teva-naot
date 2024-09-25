@@ -1,7 +1,7 @@
 // Module Imports:
 import mongoose from 'mongoose';
-import validator from 'validator';
 import { slugify } from '../utils/slugify.js';
+import { hebAlphaLine, hebAlphaNumericPar } from '../utils/hebrewValidate.js';
 
 // DB Schema:
 const ProductSchema = new mongoose.Schema(
@@ -13,10 +13,7 @@ const ProductSchema = new mongoose.Schema(
       trim: true,
       maxLength: [40, '{VALUE}- Product name must not exceed 40 characters.'],
       validate: {
-        validator: (val) =>
-          validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
-            ignore: ' ,.-\n',
-          }),
+        validator: (val) => hebAlphaLine(val),
         message: '{VALUE}- Product name must only contain letters.',
       },
     },
@@ -30,10 +27,7 @@ const ProductSchema = new mongoose.Schema(
       ],
       required: [true, 'Product description is required.'],
       validate: {
-        validator: (val) =>
-          validator.isAlphanumeric(val.replace(/[A-Za-z]/g, 'א'), 'he', {
-            ignore: ' ,.-\n',
-          }),
+        validator: (val) => hebAlphaNumericPar(val),
         message:
           '{VALUE}- Product description must only contain alphanumeric characters.',
       },
@@ -43,10 +37,7 @@ const ProductSchema = new mongoose.Schema(
         {
           type: String,
           validate: {
-            validator: (val) =>
-              validator.isAlpha(val.replace(/[A-Za-z]/g, 'א'), 'he', {
-                ignore: ' ,.-',
-              }),
+            validator: (val) => hebAlphaLine(val),
             message:
               '{VALUE}- Each category must must not exceed 20 characters and contain only letters.',
           },

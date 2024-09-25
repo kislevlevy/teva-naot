@@ -15,7 +15,7 @@ export const apiProducts = createApi({
     providesTags: ['Products'],
     }),
     getProductById: builder.query({
-      query: (id) => `${id}`,
+      query: (id) => `${id || ''}`,
       providesTags: ['Products'],
     }),
     createProduct: builder.mutation({
@@ -26,7 +26,6 @@ export const apiProducts = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-
     editProductById: builder.mutation({
       query: ({ id, body }) => ({
         url: `${id}`,
@@ -35,7 +34,6 @@ export const apiProducts = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-
     editProductStockById: builder.mutation({
       query: ({ id, body }) => ({
         url: `${id}/stock`,

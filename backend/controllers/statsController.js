@@ -103,14 +103,24 @@ export const getOrdersLeftToFulfill = asyncHandler(async (req, res, next) => {
     {
       $match: { status: { $in: ['pending', 'processing', 'shipped'] } },
     },
-    { $count: 'ordersLeftToFulfill' },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
   ]);
+
+  const result = [
+    { pending: ordersLeft.find((order) => order._id === 'pending')?.count || 0 },
+    {
+      processing: ordersLeft.find((order) => order._id === 'processing')?.count || 0,
+    },
+    { shipped: ordersLeft.find((order) => order._id === 'shipped')?.count || 0 },
+  ];
 
   res.status(200).json({
     status: 'success',
-    data: {
-      ordersLeftToFulfill:
-        ordersLeft.length > 0 ? ordersLeft[0].ordersLeftToFulfill : 0,
-    },
+    data: result,
   });
 });
