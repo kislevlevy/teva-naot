@@ -29,17 +29,4 @@ export default class DesktopNotification extends Component {
       console.log('Notification permission not granted');
     }
   }
-
-  // render() {
-  //   return (
-  //     <div>
-  //       <button
-  //         className="bg-blue-500 text-white p-2 rounded"
-  //         onClick={this.showNotification}
-  //       >
-  //         Show notification
-  //       </button>
-  //     </div>
-  //   );
-  // }
 }

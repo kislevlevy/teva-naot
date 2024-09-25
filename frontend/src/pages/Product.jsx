@@ -21,7 +21,7 @@ import ReviewCard from '../components/reviews/_ReviewCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveLikeItems } from '../slices/state/userState';
 import { useGetProductByIdQuery } from '../slices/api/apiProductsSlices';
-import { slugify } from '../../../backend/utils/slugify';
+import { slugify } from '../utils/slugify';
 
 // Component:
 export default function ProductPage() {
@@ -149,8 +149,14 @@ export default function ProductPage() {
                   <div
                     key={`size-${i}`}
                     className={`w-6 h-6 border-2 text-center mx-0.5
-                        ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}
-                        ${val === 0 ? 'diagonalCross cursor-not-allowed text-gray-400' : 'cursor-pointer hover:border-gray-400'}`}
+                        ${
+                          currentSize === key ? 'border-gray-600' : 'border-gray-300'
+                        }
+                        ${
+                          val === 0
+                            ? 'diagonalCross cursor-not-allowed text-gray-400'
+                            : 'cursor-pointer hover:border-gray-400'
+                        }`}
                     onClick={val !== 0 ? () => setCurrentSize(key) : null}
                   >
                     {key}

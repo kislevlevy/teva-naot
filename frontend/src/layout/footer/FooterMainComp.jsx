@@ -1,4 +1,4 @@
-import { Footer, Blockquote, Accordion } from 'flowbite-react';
+import { Footer, Accordion } from 'flowbite-react';
 import FooterLogo from './FooterLogo';
 import FooterLinks from './FooterLinks';
 import FooterCategoryLinks from './FooterCategoryLinks';

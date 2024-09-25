@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiReviews = createApi({
   reducerPath: 'apiReviws',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/reviews' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://teva-naot.onrender.com/api/v1/reviews',
+    credentials: 'include'
+
+  }),
 
   endpoints: (builder) => ({
     createReview: builder.mutation({

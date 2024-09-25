@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import Icon from '@mdi/react';
 import { mdiTruckFastOutline } from '@mdi/js';
 import { Modal, Table } from 'flowbite-react';
 import { useGetProductColorByIdQuery } from '../../slices/api/apiProductsColorsSlices';
 
-import { useNavigate } from 'react-router-dom';
 import { slugify } from '../../utils/slugify';
 import ReviewPopover from './subComponents/_ReviewPopover';
 

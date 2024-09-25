@@ -6,17 +6,16 @@ import { Button, Drawer } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiCartVariant } from '@mdi/js';
 import CartProductCard from './_CartItem';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   retrieveFromLocalStorage,
   deleteItemFromLS,
 } from '../../utils/localStorage';
 import { toMoneyString } from '../../utils/helperFunctions';
+
 // Component:
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   let items, sum;
-  const [_cart, setCart] = useState([]);
-  const [_cache, setCache] = useState([]);
   const [_productCartObj, setProductCartObj] = useState({});
   const [localStorage, setLocalStorage] = useState(0);
   const [_sum, setSum] = useState(0);
@@ -24,7 +23,6 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   const [deletItem, setDeletItem] = useState(false);
   const { productCartObj } = retrieveFromLocalStorage();
 
-  const navigation = useNavigate();
   useEffect(() => {
     const { productCartObj } = retrieveFromLocalStorage();
     calc();
@@ -46,7 +44,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
             sum += productCartObj.cache[i].price * value;
             return prev + value;
           }, 0),
-        0,
+        0
       );
     }
     setSum(sum);
@@ -58,9 +56,10 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   const deleteProductFromLS = (id) => {
     deleteItemFromLS(id);
     setDeletItem(true);
+
     //local storage is just to forc rerender
-    setLocalStorage((prev) => (prev = productCartObj.cart.length));
-    setProductCartObj((prev) => (prev = productCartObj));
+    setLocalStorage(productCartObj.cart.length);
+    setProductCartObj(productCartObj);
     calc();
   };
 

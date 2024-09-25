@@ -1,5 +1,4 @@
-import React, { Component, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import DesktopNotification from './desktopNotifications';
 
 // Function to show a toast notification

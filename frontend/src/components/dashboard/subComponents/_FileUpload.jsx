@@ -1,11 +1,13 @@
 import { useRef } from 'react';
+
 import { Text, Group, Button } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
-import classes from '../../../styles/modules/fileDropzone.module.css';
 import { mdiClose, mdiCloudUploadOutline, mdiDownload } from '@mdi/js';
 import Icon from '@mdi/react';
 
-export function FileDropzone({ setFiles, files, isMany }) {
+import classes from '../../../styles/modules/fileDropzone.module.css';
+
+export default function FileDropzone({ setFiles, isMany }) {
   const openRef = useRef(null);
 
   return (

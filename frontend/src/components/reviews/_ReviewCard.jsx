@@ -10,7 +10,7 @@ const daysToStr = {
 
 export default function ReviewCard({ review }) {
   const days = Math.trunc(
-    (Date.now() - new Date(review.createdAt)) / 1000 / 60 / 60 / 24,
+    (Date.now() - new Date(review.createdAt)) / 1000 / 60 / 60 / 24
   );
 
   return (

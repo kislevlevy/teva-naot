@@ -6,18 +6,15 @@ import { useLocation } from 'react-router-dom';
 import { Pagination } from 'flowbite-react';
 import Grid from '@mui/material/Grid2';
 
-import {
-  useGetProductsQuery,
-  useLazyGetProductsQuery,
-} from '../slices/api/apiProductsSlices';
+import { useGetProductsQuery } from '../slices/api/apiProductsSlices';
 
 import ProductList from '../components/product/ProductList';
 import ShopFilter from '../components/shop/_ShopFilter';
 import ShopTooltip from '../components/shop/_ShopTooltip';
 import { unslugify } from '../utils/slugify';
 
-const initaialDetails = {
-  prices: { min: 0, max: 0 },
+const initialDetails = {
+  prices: { min: 0, max: 1000 },
   sizes: { min: 0, max: 0 },
   results: 0,
 };
@@ -28,7 +25,7 @@ export default function Shop() {
   const { data, isSuccess } = useGetProductsQuery(filterObj || '');
 
   const [products, setProducts] = useState(null);
-  const [details, setDetails] = useState(initaialDetails);
+  const [details, setDetails] = useState(initialDetails);
   const [isDetailed, setIsDetailed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -36,22 +33,30 @@ export default function Shop() {
   const [minMaxObj, setMinMaxObj] = useState(null);
   const [sortBy, setSortBy] = useState('');
 
-  const [isSlug, setIsSlug] = useState(true);
   const { slug = '' } = useParams();
   const query = useLocation();
 
   useEffect(() => {
+    setCurrentPage(1);
+    setMinMaxObj(null);
+    setSortBy('');
+    setCategory('');
+    setProducts(null);
+
     let arr = [];
     const q = new URLSearchParams(query.search).get('q');
 
-    if (slug && isSlug) {
+    if (slug) {
       arr.push(`category=${unslugify(slug).replaceAll(' ', '%20')}`);
-      setIsSlug(false);
     }
-    if (q && isSlug) {
+    if (q) {
       arr.push(`q=${q}`);
-      setIsSlug(false);
     }
+    arr.length === 0 ? setFilterObj(null) : setFilterObj(`?${arr.join('&')}`);
+  }, [slug, query.search]);
+
+  useEffect(() => {
+    let arr = [];
 
     if (category) arr.push(`category=${category.replaceAll(' ', '%20')}`);
 
@@ -69,15 +74,12 @@ export default function Shop() {
   }, [category, minMaxObj, currentPage, sortBy]);
 
   useEffect(() => {
-    setCurrentPage(1);
-    setMinMaxObj(null);
-    setSortBy('');
-  }, [category]);
-
-  useEffect(() => {
     if (isSuccess && data.data.docs.length > 0) {
       setDetails(data.data.data);
       setProducts(data.data.docs);
+    } else if (isSuccess && data.data.docs.length == 0) {
+      setDetails(initialDetails);
+      setProducts(null);
     }
   }, [isSuccess, data]);
 

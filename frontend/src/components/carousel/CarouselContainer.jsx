@@ -5,6 +5,7 @@ import { Carousel } from 'flowbite-react';
 import { banners } from '../../utils/config';
 import { Blur } from 'transitions-kit';
 import { AsyncImage } from 'loadable-image';
+
 export default function CarouselContainer() {
   return (
     <div className="h-fit w-full">
@@ -55,8 +56,5 @@ function SlideCard({ image, link }) {
         Transition={Blur}
       />
     </Link>
-    // <Link to={link}>
-    //   <img src={image} alt="banner" />
-    // </Link>
   );
 }

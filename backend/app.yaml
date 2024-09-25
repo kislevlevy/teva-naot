@@ -42,5 +42,3 @@ handlers:
     script: auto
   - url: /api/v1/stats.*
     script: auto
-  - url: /.*
-    script: auto

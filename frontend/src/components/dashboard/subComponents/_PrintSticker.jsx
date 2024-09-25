@@ -10,14 +10,16 @@ export default function PrintSticker({ order }) {
 
   const createProductEntry = (product) => {
     const [sizes, quantity] = Object.entries(product.sizes).reduce(
-      (prev, [key, val]) => [prev[0] + ', ' + key, prev[1] + val],
+      (prev, [key, val]) => [prev[0] + ', ' + key, prev[1] + val]
     );
 
     return `
     <li>
         <strong>P/N: ${product.productColor}</strong>
         </br>
-         Size: ${sizes}, Price: ${toMoneyString(product.price * quantity)}, Quantity: ${quantity}
+         Size: ${sizes}, Price: ${toMoneyString(
+      product.price * quantity
+    )}, Quantity: ${quantity}
     </li>`;
   };
 

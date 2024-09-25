@@ -1,6 +1,6 @@
 // Imports:
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Button, MegaMenu, Navbar } from 'flowbite-react';
@@ -142,21 +142,23 @@ export default function Header() {
                     key={'category-nav-' + i}
                   >
                     <ul
-                      className={`grid ${subCategories[i].length > 5 && 'grid-cols-2'}`}
+                      className={`grid ${
+                        subCategories[i].length > 5 && 'grid-cols-2'
+                      }`}
                     >
                       <div className="space-y-4 p-4">
                         {subCategories[i].map(
                           (subCategory, i) =>
                             i < 5 && (
                               <li key={'sub-category-nav-' + i}>
-                                <a
-                                  href={`/products/category/${slugify(subCategory)}`}
+                                <NavLink
+                                  to={`/products/category/${slugify(subCategory)}`}
                                   className="hover:text-primary-600 dark:hover:text-primary-500 hover:text-[#64b496]"
                                 >
                                   {subCategory}
-                                </a>
+                                </NavLink>
                               </li>
-                            ),
+                            )
                         )}
                       </div>
                       {subCategories[i].length > 5 && (
@@ -165,20 +167,20 @@ export default function Header() {
                             (subCategory, i) =>
                               i > 5 && (
                                 <li key={'sub-category-nav-' + i}>
-                                  <a
-                                    href={`/products/category/${slugify(subCategory)}`}
+                                  <NavLink
+                                    to={`/products/category/${slugify(subCategory)}`}
                                     className="hover:text-primary-600 dark:hover:text-primary-500"
                                   >
                                     {subCategory}
-                                  </a>
+                                  </NavLink>
                                 </li>
-                              ),
+                              )
                           )}
                         </div>
                       )}
                     </ul>
                   </MegaMenu.Dropdown>
-                ),
+                )
               )}
             </div>
 

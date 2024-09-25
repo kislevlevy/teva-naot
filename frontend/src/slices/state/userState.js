@@ -26,25 +26,25 @@ const userState = createSlice({
       apiUsers.endpoints.signupUser.matchFulfilled,
       (state, { payload }) => {
         state.user = payload.data.user;
-      },
+      }
     );
     builder.addMatcher(
       apiUsers.endpoints.getMe.matchFulfilled,
       (state, { payload }) => {
         state.user = payload.data.user;
-      },
+      }
     );
     builder.addMatcher(
       apiUsers.endpoints.loginUser.matchFulfilled,
       (state, { payload }) => {
         state.user = payload.data.user;
-      },
+      }
     );
     builder.addMatcher(
       apiUsers.endpoints.updateMe.matchFulfilled,
       (state, { payload }) => {
         state.user = payload.data.user;
-      },
+      }
     );
     builder.addMatcher(apiUsers.endpoints.logoutUser.matchFulfilled, (state) => {
       state.user = undefined;

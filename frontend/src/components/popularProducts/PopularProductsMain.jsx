@@ -17,7 +17,6 @@ export default function PopularProducts() {
   useEffect(() => {
     AOS.init();
     if (isSuccess) setProducts(data.data);
-    console.log(data);
   }, [isSuccess]);
 
   return (

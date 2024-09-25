@@ -5,9 +5,7 @@ import app from './app.js';
 //////////////////////////////////////////////////////
 // App start:
 const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () => {
-  console.log(`App running on port - ${PORT}\nhttp://localhost:${PORT}`);
-});
+const server = app.listen(PORT);
 
 //////////////////////////////////////////////////////
 // Database connect:

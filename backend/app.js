@@ -82,14 +82,14 @@ app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/stats', statsRouter);
 
 // Error handeling:
-app.all('*', (req, res, next) => {
+app.all('*', (req, res, next) =>
   next(
     new AppError(
       404,
       `Cannot find desired request on this server. (${req.originalUrl})`
     )
-  );
-});
+  )
+);
 app.use(errorController);
 
 ////////////////////////////////////////////////

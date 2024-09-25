@@ -1,7 +1,5 @@
 import { Footer } from 'flowbite-react';
 import React from 'react';
-import { TfiEmail } from 'react-icons/tfi';
-import { BsFillPhoneFill } from 'react-icons/bs';
 
 import Icon from '@mdi/react';
 import { mdiCellphone, mdiEmailOutline } from '@mdi/js';

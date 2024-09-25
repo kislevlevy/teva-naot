@@ -20,7 +20,7 @@ export default function ShipmentDashboard() {
   const { data: statsDb, isSuccess: isStats } = useGetOrdersLeftQuery();
 
   const { data, isSuccess } = useGetOrdersQuery(
-    filterStr || '?limit=10&status=procceing',
+    filterStr || '?limit=10&status=procceing'
   );
 
   const handleQuery = (e) => {
@@ -99,7 +99,7 @@ function StatsCard({ lable, main }) {
 
 function TableEntry({ order }) {
   const [status, setStatus] = useState(
-    ['pending', 'canceled'].includes(order.status) ? 'procceing' : order.status,
+    ['pending', 'canceled'].includes(order.status) ? 'procceing' : order.status
   );
   const [isLoading, setIsLoading] = useState(false);
   const [changeOrderStatusById] = useChangeOrderStatusByIdMutation();

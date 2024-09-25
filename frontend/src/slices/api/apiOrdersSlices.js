@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiOrders = createApi({
   reducerPath: 'apiOrders',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/orders' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://teva-naot.onrender.com/api/v1/orders',
+    credentials: 'include'
+  }),
   tagTypes: ['Orders'],
 
   endpoints: (builder) => ({

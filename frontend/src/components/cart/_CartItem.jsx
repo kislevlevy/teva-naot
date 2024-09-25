@@ -2,11 +2,9 @@ import Icon from '@mdi/react';
 import { mdiTrashCanOutline } from '@mdi/js';
 import { Card } from 'flowbite-react';
 import { toMoneyString } from '../../utils/helperFunctions';
+
 // Component:
 export default function CartProductCard({ cart, cache, i, deleteProductFromLS }) {
-  // const quntity = Object.values(cart[i].sizes);
-  // const size = Object.keys(cart[i].sizes);
-  const sizeANDquntity = Object.entries(cart[i].sizes);
   const sizesArr = Object.keys(cart[i].sizes);
   const quantityArr = Object.values(cart[i].sizes);
   const TotalQuantity = quantityArr.reduce((acc, curr) => {

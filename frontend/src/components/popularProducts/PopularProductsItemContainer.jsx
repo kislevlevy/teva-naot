@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import ProductList from '../product/ProductList';
 
 export default function PopularProductsItemContainer({
@@ -8,7 +9,6 @@ export default function PopularProductsItemContainer({
   const [productsArr, setProductsArr] = useState([]);
 
   const displayProducts = (cat) => {
-    console.log(products);
     switch (cat) {
       case 'all':
         setProductsArr([

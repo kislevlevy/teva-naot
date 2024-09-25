@@ -50,8 +50,8 @@ export default function Password({
           password.length > 0 && index === 0
             ? 100
             : strength >= ((index + 1) / 4) * 100
-              ? 100
-              : 0
+            ? 100
+            : 0
         }
         color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
         key={index}

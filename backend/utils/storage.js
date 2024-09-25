@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { createReadStream } from 'streamifier';
 
+import AppError from './appError.js';
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
 import ProductColor from '../models/productColorModel.js';

@@ -14,11 +14,11 @@ import StarComponent from './subComponents/_StarComponent';
 import ProductGallery from './subComponents/_ProductGallery';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-// import { saveLikeItems } from '../../slices/state/usersState';
 import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
 //localstorage
 import { addProductsToLocalStorage } from '../../utils/localStorage';
 import { toMoneyString } from '../../utils/helperFunctions';
+
 // Component:
 export default function ProductModal({ productModalId, setProductModalId }) {
   const [product, setProduct] = useState(null);
@@ -118,7 +118,11 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                         setActiveImg(product.colors[i].images[0]);
                       }}
                       key={`thumbnail-${i}`}
-                      className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${currentProductColor._id === ele._id ? 'border-gray-600' : 'border-gray-300'}`}
+                      className={`w-6 h-6 border-2 mx-0.5 hover:brightness-90 cursor-pointer ${
+                        currentProductColor._id === ele._id
+                          ? 'border-gray-600'
+                          : 'border-gray-300'
+                      }`}
                       style={
                         ele.thumbnail[0] === 'hex'
                           ? { backgroundColor: ele.thumbnail[1] }
@@ -137,8 +141,14 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                       <div
                         key={`size-${i}`}
                         className={`w-6 h-6 border-2 text-center mx-0.5
-                        ${currentSize === key ? 'border-gray-600' : 'border-gray-300'}
-                        ${val === 0 ? 'diagonalCross cursor-not-allowed text-gray-400' : 'cursor-pointer hover:border-gray-400'}`}
+                        ${
+                          currentSize === key ? 'border-gray-600' : 'border-gray-300'
+                        }
+                        ${
+                          val === 0
+                            ? 'diagonalCross cursor-not-allowed text-gray-400'
+                            : 'cursor-pointer hover:border-gray-400'
+                        }`}
                         onClick={val !== 0 ? () => setCurrentSize(key) : null}
                       >
                         {key}

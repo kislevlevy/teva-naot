@@ -18,7 +18,7 @@ export default function ProductList({ isDetailed = false, productsGroupArr }) {
             <ProductCardDetailed {...{ setProductModalId, product }} key={i} />
           ) : (
             <ProductCardSimple {...{ setProductModalId, product }} key={i} />
-          ),
+          )
         )}
       </div>
     </>

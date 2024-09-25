@@ -24,7 +24,7 @@ const StoreLocator = () => {
       },
       (error) => {
         console.error('Error fetching geolocation:', error);
-      },
+      }
     );
   };
 

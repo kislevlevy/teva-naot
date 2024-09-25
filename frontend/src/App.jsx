@@ -57,8 +57,8 @@ export default function App() {
           <Route path="סניפים" element={<StoreLocator />} />
           <Route path=":slug" element={<Info />} />
         </Route>
-      </Route>,
-    ),
+      </Route>
+    )
   );
 
   return (

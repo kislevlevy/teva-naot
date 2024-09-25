@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiProducts = createApi({
   reducerPath: 'apiProducts',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/products' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://teva-naot.onrender.com/api/v1/products',
+    credentials: 'include'
+
+  }),
   tagTypes: ['Products'],
 
   endpoints: (builder) => ({
@@ -10,9 +14,9 @@ export const apiProducts = createApi({
       query: (filter) => `${filter || ''}`,
       providesTags: ['Products'],
     }),
-    getPopularProducts:builder.query({
-    query:()=>'/foru',
-    providesTags: ['Products'],
+    getPopularProducts: builder.query({
+      query: () => '/foru',
+      providesTags: ['Products'],
     }),
     getProductById: builder.query({
       query: (id) => `${id || ''}`,

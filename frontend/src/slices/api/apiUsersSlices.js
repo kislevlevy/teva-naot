@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiUsers = createApi({
   reducerPath: 'apiUsers',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/users' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://teva-naot.onrender.com/api/v1/users',
+    credentials: 'include'
+
+  }),
 
   endpoints: (builder) => ({
     getUsers: builder.query({

@@ -2,7 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiProductsColor = createApi({
   reducerPath: 'apiProductColors',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1/products/colors' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://teva-naot.onrender.com/api/v1/products/colors',
+    credentials: 'include'
+
+  }),
 
   endpoints: (builder) => ({
     getProductColorById: builder.query({

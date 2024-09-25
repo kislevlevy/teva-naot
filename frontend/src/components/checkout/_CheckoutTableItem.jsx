@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { Table } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiMinusBoxOutline, mdiPlusBoxOutline, mdiTrashCanOutline } from '@mdi/js';
-import { useLocation, useNavigate } from 'react-router-dom';
+
 import { toMoneyString } from '../../utils/helperFunctions';
+
 export default function CheckoutItem({
   p,
   setPriceBeforeTax,

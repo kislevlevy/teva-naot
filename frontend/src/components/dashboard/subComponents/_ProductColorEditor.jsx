@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import {
   Modal,
   Button,
@@ -10,7 +11,8 @@ import {
 } from 'flowbite-react';
 import Icon from '@mdi/react';
 import { mdiPencilOutline } from '@mdi/js';
-import { FileDropzone } from './_FileUpload';
+
+import FileDropzone from './_FileUpload';
 import {
   useCreateProductColorMutation,
   useEditProductColorByIdMutation,

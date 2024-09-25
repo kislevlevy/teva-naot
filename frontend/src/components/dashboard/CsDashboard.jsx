@@ -69,7 +69,9 @@ export default function CsDashboard() {
         <div className="flex gap-x-1">
           <TextInput
             type="text"
-            placeholder={`חפש לפי ${searchOption === '_id' ? 'מזהה לקוח' : 'דוא"ל'}...`}
+            placeholder={`חפש לפי ${
+              searchOption === '_id' ? 'מזהה לקוח' : 'דוא"ל'
+            }...`}
             className="rounded"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

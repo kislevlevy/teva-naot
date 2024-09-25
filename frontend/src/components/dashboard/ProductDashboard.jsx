@@ -31,7 +31,7 @@ export default function ProductDashboard() {
   const [stats, setStats] = useState(null);
 
   const { data, isSuccess } = useGetProductsQuery(
-    `?fields=sold,name,price,ratingsAvg,image,category${filterStr || ''}`,
+    `?fields=sold,name,price,ratingsAvg,image,category${filterStr || ''}`
   );
   const [products, setProducts] = useState([]);
 
@@ -144,7 +144,9 @@ function StatsCard({ lable, main, diff }) {
         <h2 className="text-3xl font-bold mr-3">{toMoneyString(main)}</h2>
         {!!percent && (
           <div
-            className={`flex h-fit items-center ${diff > 0 ? 'text-green-400' : 'text-red-400'}`}
+            className={`flex h-fit items-center ${
+              diff > 0 ? 'text-green-400' : 'text-red-400'
+            }`}
           >
             <h3 className="translate-y-[1px]">{percent}%</h3>
             {percent > 0 ? (

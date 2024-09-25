@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
-import { setCurrentUser } from '../../slices/state/userState';
-import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
 
 import { useInputState } from '@mantine/hooks';
 import Icon from '@mdi/react';
 import { mdiAt, mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
 import { Button, Label, Popover, TextInput } from 'flowbite-react';
+
+import { useLoginUserMutation } from '../../slices/api/apiUsersSlices';
 import ForgotPasswordModal from './ForgotPasswordModal';
 
 export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) {

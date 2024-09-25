@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
+
 import { Table } from 'flowbite-react';
+
 import CheckoutItem from './_CheckoutTableItem';
 import {
   retrieveFromLocalStorage,

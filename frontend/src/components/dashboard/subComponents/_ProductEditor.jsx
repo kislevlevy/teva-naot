@@ -17,7 +17,7 @@ import {
   useEditProductByIdMutation,
   useLazyGetProductByIdQuery,
 } from '../../../slices/api/apiProductsSlices';
-import { FileDropzone } from './_FileUpload';
+import FileDropzone from './_FileUpload';
 import ConfirmationModal from '../../helpers/ConfermationModal';
 import { useDeleteProductColorByIdMutation } from '../../../slices/api/apiProductsColorsSlices';
 import ProductColorEditor from './_ProductColorEditor';
@@ -83,18 +83,20 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       e.preventDefault();
       setIsLoading(true);
       const { name, price, description, image, category } = product;
+      console.log(category);
 
       const productFormData = new FormData();
       name && productFormData.append('name', name);
       price && productFormData.append('price', price);
       description && productFormData.append('description', description.split(','));
       image && productFormData.append('image', image);
-      category && productFormData.append('category', category);
+      category && productFormData.append('category', category.split(','));
 
       const length = Array.from(productFormData.entries()).length;
 
       if (selectedProductId === 'new') {
-        // if (length !== 5) throw new Error('* עליך למלא את כל השדות.');
+        if (!name || !price || !description || !image || !category)
+          throw new Error('* עליך למלא את כל השדות.');
         await createProduct(productFormData);
         setSelectedProductId('');
       } else {

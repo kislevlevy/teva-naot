@@ -1,7 +1,7 @@
 export const addProductsToLocalStorage = (
   product,
   currentProductColor,
-  currentSize,
+  currentSize
 ) => {
   let cart = JSON.parse(localStorage.getItem('productCart'));
   //localstorage is emty
@@ -11,7 +11,7 @@ export const addProductsToLocalStorage = (
   } else {
     let productCartObj = JSON.parse(localStorage.getItem('productCart'));
     const _product = productCartObj.cart.find(
-      (obj) => obj.productColor === currentProductColor._id,
+      (obj) => obj.productColor === currentProductColor._id
     );
     // the new color that has been selected is not in localstorage
     if (!_product) {
@@ -19,7 +19,7 @@ export const addProductsToLocalStorage = (
       // the new color that has been selected is in localstorage
     } else {
       const existingObj = productCartObj.cart.find(
-        (obj) => obj.productColor === currentProductColor._id,
+        (obj) => obj.productColor === currentProductColor._id
       );
       let sizesObj = existingObj.sizes;
       //check if the size is exist
@@ -134,7 +134,7 @@ export const deleteItemFromLS = (id, size) => {
         } else {
           productCartObj.cart = productCartObj.cart.filter((_, index) => index != i);
           productCartObj.cache = productCartObj.cache.filter(
-            (_, index) => index != i,
+            (_, index) => index != i
           );
           localStorage.setItem('productCart', JSON.stringify(productCartObj));
           update = true;

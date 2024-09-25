@@ -1,9 +1,11 @@
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { Container } from '@mui/material';
 import { Card } from 'flowbite-react';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+
 import { useGetProductByIdQuery } from '../../slices/api/apiProductsSlices';
-import { useNavigate } from 'react-router-dom';
 
 export default function FavoriteProduct() {
   const likedItems = useSelector((state) => state.userState.likedItems);
