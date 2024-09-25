@@ -15,13 +15,16 @@ export default function PopularProductsItemContainer({ selectedCategory }) {
    const displayProducts = ()=>{
      switch(selectedCategory ) {
        case "הצג הכל":
-         setProductsGroupArr(prev=>(prev=popular.data.products))
+         setProductsGroupArr(prev=>(prev=[...popular.data.
+          discountedProductColors,...popular.data.topSoldProducts]))
          break;
          case "מוצרים פופולריים":
-           setProductsGroupArr(prev=>(prev=popular.data.products))
+           setProductsGroupArr(prev=>(prev=popular.data.
+            discountedProductColors
+            ))
            break;
            case "מוצרים נבחרים":
-             setProductsGroupArr(prev=>(prev=popular.data.products))
+             setProductsGroupArr(prev=>(prev=popular.data.topSoldProducts))
              break
              default:
   }
@@ -29,7 +32,7 @@ export default function PopularProductsItemContainer({ selectedCategory }) {
 useEffect(() => {
   //SEND APIREQ FOR THE 3 CARDS OF THE REQUESTED TOPIC
   if(isSuccess){
-      console.log(popular.data.products)
+      console.log(popular.data)
       displayProducts()
     }
   }, [selectedCategory,isSuccess]);

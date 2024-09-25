@@ -29,7 +29,7 @@ export default function PopularProducts() {
           </div>
 
         <div className="flex justify-between align-top">
-         <PopularProductsSidebar setSelectedCategory={setSelectedCategory} />
+         <PopularProductsSidebar {...{selectedCategory,setSelectedCategory}} />
 
          <PopularProductsItemContainer selectedCategory={selectedCategory}/> 
           </div>
