@@ -5,6 +5,7 @@ import { apiOrders } from './api/apiOrdersSlices';
 import { apiUsers } from './api/apiUsersSlices';
 import userStateReducer from './state/userState';
 import { apiProductsColor } from './api/apiProductsColorsSlices';
+import { apiStats } from './api/apiStatsSlices';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     [apiReviews.reducerPath]: apiReviews.reducer,
     [apiOrders.reducerPath]: apiOrders.reducer,
     [apiUsers.reducerPath]: apiUsers.reducer,
+    [apiStats.reducerPath]: apiStats.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -22,7 +24,8 @@ const store = configureStore({
       .concat(apiProductsColor.middleware)
       .concat(apiReviews.middleware)
       .concat(apiOrders.middleware)
-      .concat(apiUsers.middleware),
+      .concat(apiUsers.middleware)
+      .concat(apiStats.middleware),
   devTools: true,
 });
 export default store;

@@ -19,12 +19,16 @@ import {
 } from '../../slices/api/apiProductsSlices';
 import ProductEditor from './subComponents/_ProductEditor';
 import ConfirmationModal from '../helpers/ConfermationModal';
+import { useGetProfitsQuery } from '../../slices/api/apiStatsSlices';
 
 export default function ProductDashboard() {
   const [filterStr, setFilterStr] = useState('');
   const [searchOption, setSearchOption] = useState('_id');
   const [query, setQuery] = useState('');
   const [selectedProductId, setSelectedProductId] = useState('');
+
+  const { data: statsData, isSuccess: isStats } = useGetProfitsQuery();
+  const [stats, setStats] = useState(null);
 
   const { data, isSuccess } = useGetProductsQuery(
     `?fields=sold,name,price,ratingsAvg,image,category${filterStr || ''}`,
@@ -39,15 +43,24 @@ export default function ProductDashboard() {
 
   useEffect(() => {
     if (isSuccess) setProducts(data.data.docs);
-  }, [data]);
+    if (isStats) setStats(statsData.data.profitData);
+  }, [data, isStats]);
 
   return (
     <div className="w-full">
-      <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
-        <StatsCard {...{ lable: 'חודשי', main: 13456, diff: 34 }} />
-        <StatsCard {...{ lable: 'שבועי', main: 1943, diff: -10 }} />
-        <StatsCard {...{ lable: 'יומי', main: 1236, diff: 52 }} />
-      </div>
+      {stats && (
+        <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
+          <StatsCard
+            {...{ lable: 'חודשי', main: stats.month[0], diff: stats.month[1] }}
+          />
+          <StatsCard
+            {...{ lable: 'שבועי', main: stats.week[0], diff: stats.week[1] }}
+          />
+          <StatsCard
+            {...{ lable: 'יומי', main: stats.day[0], diff: stats.day[1] }}
+          />
+        </div>
+      )}
       {selectedProductId && (
         <ProductEditor {...{ setSelectedProductId, selectedProductId }} />
       )}
@@ -118,6 +131,9 @@ export default function ProductDashboard() {
 }
 
 function StatsCard({ lable, main, diff }) {
+  const percent = main !== 0 && diff !== 0 ? ((main - diff) / diff) * 100 : 0;
+  console.log(percent);
+
   return (
     <Card className="min-w-52 w-fit bg-gray-50">
       <div className="flex justify-between items-center font-bold text-gray-400">
@@ -126,20 +142,24 @@ function StatsCard({ lable, main, diff }) {
       </div>
       <div className="flex items-end">
         <h2 className="text-3xl font-bold mr-3">{toMoneyString(main)}</h2>
-        <div
-          className={`flex h-fit items-center ${diff > 0 ? 'text-green-400' : 'text-red-400'}`}
-        >
-          <h3 className="translate-y-[1px]">{diff}%</h3>
-          {diff > 0 ? (
-            <Icon path={mdiArrowTopRight} size={0.6} />
-          ) : (
-            <Icon path={mdiArrowBottomRight} size={0.6} />
-          )}
-        </div>
+        {!!percent && (
+          <div
+            className={`flex h-fit items-center ${diff > 0 ? 'text-green-400' : 'text-red-400'}`}
+          >
+            <h3 className="translate-y-[1px]">{percent}%</h3>
+            {percent > 0 ? (
+              <Icon path={mdiArrowTopRight} size={0.6} />
+            ) : (
+              <Icon path={mdiArrowBottomRight} size={0.6} />
+            )}
+          </div>
+        )}
       </div>
-      <p className="text-xs text-right rtl text-gray-500">
-        בהשוואה לתקופת זמן קודמת
-      </p>
+      {!!percent && (
+        <p className="text-xs text-right rtl text-gray-500">
+          בהשוואה לתקופת זמן קודמת
+        </p>
+      )}
     </Card>
   );
 }

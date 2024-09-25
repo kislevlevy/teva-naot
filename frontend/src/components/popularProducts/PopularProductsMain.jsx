@@ -5,13 +5,15 @@ import PopularProductsItemContainer from './PopularProductsItemContainer';
 import PopularProductsSidebar from './PopularProductsSidebar';
 import PopularProductsButtonsGroup from './PopularProductsButtonGroup';
 import { useSelector } from 'react-redux';
+import { useGetPopularProductsQuery } from '../../slices/api/apiProductsSlices';
 
 export default function PopularProducts() {
   // const popularProducts = useSelector((state) => state.popularProducts);
+  const [selectedCategory, setSelectedCategory] = useState('מוצרים נבחרים');
+
   useEffect(() => {
     AOS.init();
   }, []);
-  const [selectedCategory, setSelectedCategory] = useState('');
 
   return (
     <section className="relative pb-24 md:pb-16">
@@ -26,16 +28,10 @@ export default function PopularProducts() {
             <PopularProductsButtonsGroup setSelectedCategory={setSelectedCategory} />
           </div>
 
-          <div className="flex justify-between align-top">
-            <PopularProductsSidebar setSelectedCategory={setSelectedCategory} />
+        <div className="flex justify-between align-top">
+         <PopularProductsSidebar {...{selectedCategory,setSelectedCategory}} />
 
-            {/* <PopularProductsItemContainer
-              selectedCategory={
-                selectedCategory
-                  ? popularProducts[selectedCategory]
-                  : popularProducts['Popular Products']
-              }
-            /> */}
+         <PopularProductsItemContainer selectedCategory={selectedCategory}/> 
           </div>
         </div>
       </div>

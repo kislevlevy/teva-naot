@@ -60,18 +60,18 @@ app.use(express.json({ limit: '10kb' }));
 // Data sanitization:
 app.use(mongoSanitize()); // noSQL injection protection
 app.use(xss()); // html/script injection protection
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price',
-    ],
-  })
-); // dup parmater protection
+// app.use(
+//   hpp({
+//     whitelist: [
+//       'duration',
+//       'ratingsQuantity',
+//       'ratingsAverage',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price',
+//     ],
+//   })
+// ); // dup parmater protection
 
 ////////////////////////////////////////////////
 // App router:

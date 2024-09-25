@@ -96,7 +96,8 @@ export default function ProductColorEditor({
       const length = Array.from(productColorFormData.entries()).length;
 
       if (color._id === 'new') {
-        if (length !== 6) throw new Error('* עליך למלא את כל השדות.');
+        if (!name || !price || !sizes || !thumbnail || !images)
+          throw new Error('* עליך למלא את כל השדות.');
         productColorFormData.append('product', color.product);
         await createProductColor(productColorFormData);
       } else {
@@ -244,6 +245,7 @@ export default function ProductColorEditor({
                           value={productColor.sizes[size] || ''}
                           disabled={!isEditing}
                           onChange={(e) => handleInputChange(e, 'sizes', size)}
+                          min={1}
                         />
                       </Table.Cell>
                     ))}
