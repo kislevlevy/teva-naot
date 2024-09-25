@@ -87,9 +87,10 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       const productFormData = new FormData();
       name && productFormData.append('name', name);
       price && productFormData.append('price', price);
-      description && productFormData.append('description', description.split(','));
+      description && productFormData.append('description', description);
       image && productFormData.append('image', image);
-      category && productFormData.append('category', category.split(','));
+      category &&
+        productFormData.append('category', JSON.stringify(category.split(',')));
 
       const length = Array.from(productFormData.entries()).length;
 

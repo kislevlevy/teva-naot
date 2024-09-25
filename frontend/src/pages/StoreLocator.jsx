@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
-import 'leaflet.markercluster'; // Import leaflet marker clustering plugin
 import $ from 'jquery';
 import { branches, STORE_LOCATOR_API_KEY } from '../utils/config';
 
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
+import 'leaflet.markercluster'; // Import leaflet marker clustering plugin
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
@@ -52,7 +52,7 @@ const StoreLocator = () => {
     if (!mapRef.current) {
       const map = L.map('store-locator-map', {
         center: currentLocation, // Israel's latitude and longitude
-        zoom: 7,
+        zoom: 12,
         minZoom: 7, // Default zoom level
         maxZoom: 12,
         attributionControl: true, // Attribution control enabled
@@ -76,6 +76,10 @@ const StoreLocator = () => {
       });
 
       const markers = L.markerClusterGroup({ maxClusterRadius: 0 }); // Marker cluster group
+      const icon = L.icon({
+        iconUrl: '/img/mapMarker.svg',
+        iconSize: [38, 95],
+      });
 
       // Add branches markers
       branches.map(async (branch) => {
@@ -98,6 +102,7 @@ const StoreLocator = () => {
           const marker = L.marker([location.lat, location.lon], {
             riseOnHover: true,
             opacity: 0.9,
+            icon,
           }).bindPopup(popupContent);
 
           // Add the marker to the cluster group
@@ -113,7 +118,7 @@ const StoreLocator = () => {
   // Update map view when currentLocation changes
   useEffect(() => {
     if (mapRef.current) {
-      mapRef.current.setView(currentLocation, 10); // Change the view to the updated currentLocation
+      mapRef.current.setView(currentLocation, 12); // Change the view to the updated currentLocation
     }
   }, [currentLocation]); // Dependency on currentLocation
 

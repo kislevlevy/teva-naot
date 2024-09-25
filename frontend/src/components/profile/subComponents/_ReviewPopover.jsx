@@ -19,7 +19,7 @@ export default function ReviewPopover({ children, productId }) {
     try {
       if (rating < 0.5 || !review) return setIsError('עליך למלא את כל השדות');
 
-      await createReview({ product: productId, review, rating });
+      await createReview({ product: productId, review, rating: rating * 2 });
       clearFields();
       setIsError('');
     } catch (_) {
