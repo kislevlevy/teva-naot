@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { protect } from '../controllers/authController.js';
 import {
-  getReviewsByProductGroupId,
+  getReviewsByProductId,
   createReview,
   editReviewById,
   deleteReviewById,
@@ -10,11 +10,11 @@ import {
 } from '../controllers/reviewController.js';
 
 const router = Router();
-router.route('/').post(protect, canLeaveReview, createReview);
+router.post('/', protect, canLeaveReview, createReview);
 
 router
   .route('/:id')
-  .get(getReviewsByProductGroupId)
+  .get(getReviewsByProductId)
   .patch(protect, isUserAuthor, editReviewById)
   .delete(protect, isUserAuthor, deleteReviewById);
 

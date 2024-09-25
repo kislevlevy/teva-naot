@@ -5,7 +5,7 @@ import Product from '../models/productModel.js';
 import { deleteOneById, editOneById } from '../utils/handlerFactory.js';
 import Order from '../models/orderModel.js';
 
-export const getReviewsByProductGroupId = asyncHandler(async (req, res, next) => {
+export const getReviewsByProductId = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   if (!product) return next(new AppError(400, 'Product ID is not exist'));
 

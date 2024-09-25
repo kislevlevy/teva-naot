@@ -167,45 +167,44 @@ export const editProductStockById = asyncHandler(async (req, res, next) => {
 //     next(err);()
 //   }
 // };
-export const getProductsForUser = async (req, res, next) => {
-  try {
-    // Fetch top 5 sold products
-    const topSoldProducts = await Product.aggregate([
-      { $match: { sold: { $gt: 0 } } },
-      { $sort: { sold: -1 } },
-      { $limit: 5 },
-    ]);
+export const getProductsForUser = asyncHandler(async (req, res, next) => {
+  // Fetch top 5 sold products
+  const topSoldProducts = await Product.aggregate([
+    { $match: { sold: { $gt: 0 } } },
+    { $sort: { sold: -1 } },
+    { $limit: 5 },
+  ]);
 
-    // Fetch 5 discounted product colors
-    let discountedProductColors = await ProductColor.aggregate([
-      {
-        $match: {
-          priceBeforeDiscount: { $exists: true, $gt: 0 },
-          $expr: { $gt: ['$priceBeforeDiscount', '$price'] },
-        },
+  // Fetch 5 discounted product colors
+  let discountedProductColors = await ProductColor.aggregate([
+    {
+      $match: {
+        priceBeforeDiscount: { $exists: true, $gt: 0 },
+        $expr: { $gt: ['$priceBeforeDiscount', '$price'] },
       },
-      { $sample: { size: 5 } },
-    ]);
+    },
+    { $sample: { size: 5 } },
+  ]);
 
-    // Convert topSoldProducts IDs to a Set for quick lookup
-    const topSoldProductIds = new Set(
-      topSoldProducts.map((product) => product._id.toString())
-    );
+  // Convert topSoldProducts IDs to a Set for quick lookup
+  const topSoldProductIds = new Set(
+    topSoldProducts.map((product) => product._id.toString())
+  );
 
-    // Filter discounted products to remove any that are also in topSoldProducts
-    discountedProductColors = discountedProductColors.filter(
-      (productColor) => !topSoldProductIds.has(productColor._id.toString())
-    );
+  // Filter discounted products to remove any that are also in topSoldProducts
+  discountedProductColors = discountedProductColors.filter(
+    (productColor) => !topSoldProductIds.has(productColor._id.toString())
+  );
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        topSoldProducts, // Send top sold products separately
-        discountedProductColors, // Send discounted product colors separately
-      },
-    });
-  } catch (err) {
-    console.error('Error fetching products for user:', err);
-    next(err);
-  }
-};
+  const discountedProducts = await Product.find({
+    _id: { $in: discountedProductColors.map((ele) => ele.product) },
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      topSoldProducts,
+      discountedProducts,
+    },
+  });
+});

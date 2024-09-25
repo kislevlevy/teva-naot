@@ -87,7 +87,7 @@ router
     simpleResponse
   );
 
-router.route('/foru').get(protect, getProductsForUser);
+router.route('/foru').get(getProductsForUser);
 
 router
   .route('/full-info/:id') //maybe choose "with-sizes" or "details"

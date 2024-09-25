@@ -15,8 +15,8 @@ The goal of this project is to provide customers with the best shopping experien
 - **Kislev Levy** - Team Leader
 - **Yaron Ender** - Frontend, API Integration
 - **Kobi Set** - Frontend, Routing and Special Components
-- **Dana Levin** - Backend, Data Manager, Reviews and Order Routes
-- **David Terabisi** - Backend, Aggregation Manager, Product, User, and Auth Routes
+- **Dana Levin** - Backend, Data, Reviews and Order Routes
+- **David Terabisi** - Backend, Data Aggregation, Product, User, and Auth Routes
 
 ## Technologies Used
 
@@ -113,9 +113,59 @@ The goal of this project is to provide customers with the best shopping experien
 
 ### Hosting
 
-- Backend is hosted on **Google Cloud** and the frontend on **Vercel** or **Render**.
+- Backend is ready to be hosted on **Google Cloud**
+  in the mean time backend hosted on **Render** and frontend hosted on **Vercel**.
 
 ## Documentation Sections
+
+### Endpoints
+
+```
+/api/v1
+├── /users
+│   ├── GET /                - Get all users
+│   ├── GET /:id             - Get user by ID
+│   ├── POST /login          - Log in a user
+│   ├── GET /logout          - Log out a user
+│   ├── POST /signup         - Sign up a new user
+│   ├── PATCH /resetPassword/:resetToken  - Reset password with token
+│   ├── POST /forgotPassword - Send password reset email
+│   ├── PATCH /changePassword - Change current user password
+│   ├── GET /getMe           - Get current logged-in user info
+│   ├── DELETE /disableMe    - Disable current user
+│   ├── PATCH /updateMe      - Update current user info
+│
+├── /products
+│   ├── GET /                - Get all products
+│   ├── GET /:id             - Get product by ID
+│   ├── POST /               - Create new product
+│   ├── PATCH /:id           - Edit product by ID
+│   ├── DELETE /:id          - Delete product by ID
+│   ├── GET /foru            - Get products by user interest
+│   ├── /colors
+│       ├── GET /            - Get all product colors
+│       ├── GET /:id         - Get product color by ID
+│       ├── POST /           - Create new product color
+│       ├── PATCH /:id       - Edit product color by ID
+│       ├── DELETE /:id      - Delete product color by ID
+│
+├── /orders
+│   ├── GET /                - Get all orders
+│   ├── POST /               - Create new order
+│   ├── POST /success        - Order confirmation route
+│   ├── POST /failure        - Order cancellation route
+│   ├── PATCH /:id/changeStatus - Change order status by ID
+│
+├── /reviews
+│   ├── POST /               - Create new review
+│   ├── GET /:id             - Get review by product ID
+│   ├── PATCH /:id           - Edit review by review ID
+│   ├── DELETE /:id          - Delete review by review ID
+│
+├── /stats
+│   ├── GET /profits         - Get profits separated by timestamps
+│   ├── GET /ordersLeft      - Get aggregation of orders left to fulfill
+```
 
 ### Installation and Setup
 

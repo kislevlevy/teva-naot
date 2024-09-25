@@ -1,0 +1,46 @@
+runtime: nodejs22
+env: flex
+
+entrypoint: npm run start
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 5
+
+env_variables:
+  NODE_ENV: 'production'
+  FRONT_END: ''
+
+  DB_USER: ''
+  DB_PASS: ''
+  DB_LINK: 'mongodb+srv://<USER>:<PASS>@...'
+
+  JWT_SECRET: ''
+  JWT_EXPIRES: '30'
+
+  EMAIL_USER: ''
+  EMAIL_PASS: ''
+  EMAIL_PORT: '465'
+  EMAIL_HOST: 'smtp.hostinger.com'
+
+  CLOUDINARY_NAME: ''
+  CLOUDINARY_KEY: ''
+  CLOUDINARY_SECRET: ''
+
+  PAYPAL_ID: ''
+  PAYPAL_KEY: ''
+  PAYPAL_URL: 'https://api-m.sandbox.paypal.com'
+
+handlers:
+  - url: /api/v1/users.*
+    script: auto
+  - url: /api/v1/products.*
+    script: auto
+  - url: /api/v1/orders.*
+    script: auto
+  - url: /api/v1/reviews.*
+    script: auto
+  - url: /api/v1/stats.*
+    script: auto
+  - url: /.*
+    script: auto
