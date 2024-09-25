@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// Imports:
+import React, { lazy } from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+  Navigate,
+} from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { MantineProvider } from '@mantine/core';
+import './App.css';
+import '@mantine/core/styles.css';
+import { Provider } from 'react-redux';
+import store from './slices/store';
+import Root from './layout/Root';
+import Error from './pages/Error';
+import Signup from './pages/Signup';
+import Checkout from './pages/Checkout';
+import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import OrderSuccess from './pages/OrderSuccess';
+import OrderFailure from './pages/OrderFailure';
+import Home from './pages/Home';
+import StoreLocator from './pages/StoreLocator';
+import ResetPassword from './pages/ResetPassword';
+
+// Lazy imports:
+const Shop = lazy(() => import('./pages/Shop'));
+const SingleProduct = lazy(() => import('./pages/Product'));
+const Info = lazy(() => import('./pages/Info'));
+
+// Component:
+export default function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Root />} errorElement={<Error />}>
+        <Route index element={<Home />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="order-success" element={<OrderSuccess />} />
+        <Route path="order-failure" element={<OrderFailure />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="products">
+          <Route index element={<Shop />} />
+          <Route path="product/:slug" element={<SingleProduct />} />
+          <Route path="category/:slug" element={<Shop />} />
+        </Route>
+        <Route path="policy">
+          <Route index element={<Navigate to="משלוחים" />} />
+          <Route path=":slug" element={<Info />} />
+        </Route>
+        <Route path="company">
+          <Route index element={<Navigate to="אודות" />} />
+          <Route path="סניפים" element={<StoreLocator />} />
+          <Route path=":slug" element={<Info />} />
+        </Route>
+      </Route>,
+    ),
+  );
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <MantineProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </MantineProvider>
+  );
 }
-
-export default App

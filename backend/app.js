@@ -6,31 +6,53 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
-import path from 'path';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+
+import userRouter from './routes/userRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
+import reviewRouter from './routes/reviewRoutes.js';
+import statsRouter from './routes/statsRoutes.js';
 
 import AppError from './utils/appError.js';
+import errorController from './controllers/errorController.js';
 
 ////////////////////////////////////////////////
 // App init:
+dotenv.config();
 const app = express();
 
-// Static public folder:
-app.use(express.static('public'));
-
-////////////////////////////////////////////////
-// Middlewares:
-app.use(helmet()); // HTTP secure setup:
-
+// Cors config:
+const corsWhiteList = [process.env.FRONT_END, process.env.FRONT_END + '/'];
+const corsConfig = {
+  origin: (origin, callback) => {
+    if (!origin || corsWhiteList.includes(origin)) callback(null, true);
+    else callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 // Dev logging:
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
+// Static public folder:
+app.use(express.static('public'));
+app.use(cors(corsConfig));
+
+////////////////////////////////////////////////
+// Middlewares:
+app.use(cookieParser()); // cookieParser
+app.use(helmet()); // HTTP secure setup:
+
 // Limit api req from one client:
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 3600000,
-  message: 'Too many requests from this IP, please try again later.',
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 3600000,
+//   message: 'Too many requests from this IP, please try again later.',
+// });
+// app.use('/api', limiter);
 
 // body parcer:
 app.use(express.json({ limit: '10kb' }));
@@ -38,31 +60,37 @@ app.use(express.json({ limit: '10kb' }));
 // Data sanitization:
 app.use(mongoSanitize()); // noSQL injection protection
 app.use(xss()); // html/script injection protection
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price',
-    ],
-  })
-); // dup parmater protection
+// app.use(
+//   hpp({
+//     whitelist: [
+//       'duration',
+//       'ratingsQuantity',
+//       'ratingsAverage',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price',
+//     ],
+//   })
+// ); // dup parmater protection
 
 ////////////////////////////////////////////////
 // App router:
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/orders', orderRouter);
+app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/stats', statsRouter);
 
 // Error handeling:
 app.all('*', (req, res, next) => {
   next(
     new AppError(
-      `Cannot find desired request on this server. (${req.originalUrl})`,
-      404
+      404,
+      `Cannot find desired request on this server. (${req.originalUrl})`
     )
   );
 });
+app.use(errorController);
 
 ////////////////////////////////////////////////
 // Export module:

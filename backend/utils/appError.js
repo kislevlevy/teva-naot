@@ -1,6 +1,5 @@
-// Costume Error class:
-class AppError extends Error {
-  constructor(message, statusCode) {
+export default class AppError extends Error {
+  constructor(statusCode, message) {
     super(message);
 
     this.message = message;
@@ -11,5 +10,3 @@ class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 }
-
-export default AppError;
