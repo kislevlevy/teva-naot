@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -15,7 +15,7 @@ export default function FavoriteProduct() {
     <Card className="mt-5">
       <div dir="rtl">
         <h2 className="text-xl font-bold">מוצרים אהובים</h2>
-        <Container className="overflow-x-scroll mt-5 flex gap-x-3 p-2">
+        <Container className="flex p-2 mt-5 overflow-x-scroll gap-x-3">
           {likedItems.length > 0 ? (
             likedItems.map((ele, i) => (
               <OneFavorite productId={ele} key={'favorite-' + i} />
@@ -36,7 +36,7 @@ function OneFavorite({ productId }) {
   if (isSuccess)
     return (
       <Card
-        className="min-w-40 w-40 hover:brightness-95 cursor-pointer"
+        className="w-40 cursor-pointer min-w-40 hover:brightness-95"
         imgSrc={data.data.doc.image}
         onClick={() =>
           navigate(`/products/product/${data.data.doc.slug}`, {

@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { instagramPosts } from '../../utils/config';
 
 export default function FooterInstagramSection() {
   return (
-    <div className="flex w-52 flex-wrap justify-center ">
+    <div className="flex flex-wrap justify-center w-52 ">
       {instagramPosts.href.map((_, i) => (
         <PostItem
           key={'post-' + i}

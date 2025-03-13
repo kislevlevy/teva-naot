@@ -14,11 +14,11 @@ export default function CartProductCard({ cart, cache, i, deleteProductFromLS })
 
   return (
     <Card
-      className="max-w-xs flex-row mb-1"
+      className="flex-row max-w-xs mb-1"
       horizontal
       renderImage={() => (
         <img
-          className="w-1/3 object-cover"
+          className="object-cover w-1/3"
           src={cache[i].image}
           alt={cache[i].productName}
         />
@@ -60,7 +60,7 @@ export default function CartProductCard({ cart, cache, i, deleteProductFromLS })
           </div>
         </div>
         <div
-          className="hover:text-red-500 text-gray-400 cursor-pointer absolute top-0 left-0"
+          className="absolute top-0 left-0 text-gray-400 cursor-pointer hover:text-red-500"
           onClick={() => deleteProductFromLS(cart[i].productColor)}
         >
           <Icon path={mdiTrashCanOutline} size={1} />

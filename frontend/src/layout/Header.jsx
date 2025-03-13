@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -36,31 +36,31 @@ export default function Header() {
   return (
     <MegaMenu dir="rtl">
       <CartDrawer {...{ isCartOpen, setIsCartOpen }} />
-      <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between p-4 ">
+      <div className="flex flex-wrap items-center justify-between w-full max-w-screen-xl p-4 mx-auto ">
         <Navbar.Brand onClick={() => navigate('/')}>
           <img
             alt="Teva Naot"
             src="/img/logoMain.svg"
-            className="mr-3 h-10 cursor-pointer"
+            className="h-10 mr-3 cursor-pointer"
           />
         </Navbar.Brand>
-        <div className="order-2 hidden items-center md:flex ">
+        <div className="items-center order-2 hidden md:flex ">
           <div
             onClick={() => setIsCartOpen(true)}
-            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer ml-2"
+            className="items-center p-2 ml-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           {currentUser?._id ? (
             <div
-              className="flex items-center hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
+              className="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100"
               onClick={() => navigate('/profile')}
             >
-              <div className="flex flex-col text-center ml-2 text-sm text-emerald-500 font-bold">
+              <div className="flex flex-col ml-2 text-sm font-bold text-center text-emerald-500">
                 {currentUser?.fullName}
               </div>
               <img
-                className="w-7 h-7 rounded-full"
+                className="rounded-full w-7 h-7"
                 src={
                   currentUser?.profileImg
                     ? currentUser?.profileImg
@@ -95,13 +95,13 @@ export default function Header() {
         <div className="flex space-x-1">
           <div
             onClick={() => setIsCartOpen(true)}
-            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer"
+            className="items-center p-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
           >
             <Icon path={mdiCartVariant} size={1} color="#6b7280" />
           </div>
           <div
             onClick={() => navigate(currentUser?._id ? '/profile' : '/signup')}
-            className="items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden cursor-pointer"
+            className="items-center p-2 text-sm text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
           >
             <Icon path={mdiAccount} size={1} color="#6b7280" />
           </div>
@@ -146,7 +146,7 @@ export default function Header() {
                         subCategories[i].length > 5 && 'grid-cols-2'
                       }`}
                     >
-                      <div className="space-y-4 p-4">
+                      <div className="p-4 space-y-4">
                         {subCategories[i].map(
                           (subCategory, i) =>
                             i < 5 && (
@@ -162,7 +162,7 @@ export default function Header() {
                         )}
                       </div>
                       {subCategories[i].length > 5 && (
-                        <div className="space-y-4 p-4">
+                        <div className="p-4 space-y-4">
                           {subCategories[i].map(
                             (subCategory, i) =>
                               i > 5 && (

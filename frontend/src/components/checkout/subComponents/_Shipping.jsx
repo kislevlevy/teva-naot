@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button, Card, List } from 'flowbite-react';
@@ -43,7 +43,7 @@ export default function Shipping({
 
   return (
     <Card className="mb-4">
-      <h3 className="font-bold text-lg text-emerald-500">כתובת למשלוח:</h3>
+      <h3 className="text-lg font-bold text-emerald-500">כתובת למשלוח:</h3>
       {isEditing ? (
         <List unstyled className="space-y-3">
           <Adress
@@ -56,11 +56,11 @@ export default function Shipping({
               setPostalCode,
             }}
           />
-          {!isValid && <p className="text-red-600 text-sm ">כתובת משלוח לא תקינה</p>}
+          {!isValid && <p className="text-sm text-red-600 ">כתובת משלוח לא תקינה</p>}
 
           <Button
             onClick={handleFinishEditing}
-            className="m-auto w-full"
+            className="w-full m-auto"
             gradientDuoTone="greenToBlue"
           >
             עדכן
@@ -88,7 +88,7 @@ export default function Shipping({
           </List.Item>
           <Button
             onClick={() => setIsEditing(true)}
-            className="m-auto w-full"
+            className="w-full m-auto"
             gradientDuoTone="greenToBlue"
             outline
           >

@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
 import {
@@ -78,22 +78,22 @@ export default function ProductModal({ productModalId, setProductModalId }) {
       >
         <Modal.Body>
           <div
-            className="absolute right-0 top-0 m-2 text-red-300 hover:text-red-600 cursor-pointer"
+            className="absolute top-0 right-0 m-2 text-red-300 cursor-pointer hover:text-red-600"
             onClick={() => setProductModalId('')}
           >
             <Icon path={mdiCloseThick} size={0.75} />
           </div>
           <div className="flex justify-between">
-            <div className="my-2 w-fit h-full flex rounded-md">
+            <div className="flex h-full my-2 rounded-md w-fit">
               <ProductGallery
                 classNames=" w-[250px]"
                 imagesArr={currentProductColor.images}
                 {...{ setActiveImg, activeImg }}
               />
             </div>
-            <div className="p-2 rtl flex flex-col ml-5">
+            <div className="flex flex-col p-2 ml-5 rtl">
               <div className="flex items-center">
-                <p className="text-xs font-medium   text-gray-400">
+                <p className="text-xs font-medium text-gray-400">
                   {product?.category[product.category.length - 1]}
                 </p>
 
@@ -103,12 +103,12 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                 />
               </div>
               <h3
-                className="hover:underline cursor-pointer text-right text-xl font-medium"
+                className="text-xl font-medium text-right cursor-pointer hover:underline"
                 onClick={goToProductPage}
               >
                 {product.name}
               </h3>
-              <p className="text-sm mt-1">{product.description}</p>
+              <p className="mt-1 text-sm">{product.description}</p>
               <div className="mt-2">
                 <h4>צבעים:</h4>
                 <div className="flex flex-wrap">
@@ -158,7 +158,7 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                   })}
                 </div>
               </div>
-              <div className="w-full flex justify-between mt-10 items-center">
+              <div className="flex items-center justify-between w-full mt-10">
                 <div className="flex">
                   {(isLiked && (
                     <div
@@ -190,12 +190,12 @@ export default function ProductModal({ productModalId, setProductModalId }) {
                   </div>
                 </div>
                 <div>
-                  <span className="mr-1 font-bold text-emerald-500 text-xl">
+                  <span className="mr-1 text-xl font-bold text-emerald-500">
                     {toMoneyString(currentProductColor.price)}
                   </span>
 
                   {currentProductColor.priceBeforeDiscount && (
-                    <span className="ml-1 text-md text-gray-500 line-through">
+                    <span className="ml-1 text-gray-500 line-through text-md">
                       {toMoneyString(currentProductColor.priceBeforeDiscount)}
                     </span>
                   )}

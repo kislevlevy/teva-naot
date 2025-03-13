@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { mdiMapMarkerOutline } from '@mdi/js';
@@ -72,7 +72,7 @@ export default function AdressModal({ isAdressOpen, setIsAdressOpen, updateMe })
             }}
           />
         </List>
-        {isError && <p className="rtl mt-4 text-sm text-red-500">{isError}</p>}
+        {isError && <p className="mt-4 text-sm text-red-500 rtl">{isError}</p>}
       </Modal.Body>
 
       <Modal.Footer>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Button, Label, Popover, Textarea, TextInput } from 'flowbite-react';
+import { Button, Label, Popover, Textarea } from 'flowbite-react';
 import Rating from '@mui/material/Rating';
 import { useCreateReviewMutation } from '../../../slices/api/apiReviewsSlices';
 
@@ -33,7 +33,7 @@ export default function ReviewPopover({ children, productId }) {
       trigger="hover"
       placement="bottom-start"
       content={
-        <div className="p-5 flex flex-col m-2 space-y-2 items-center">
+        <div className="flex flex-col items-center p-5 m-2 space-y-2">
           <Rating
             dir="ltr"
             precision={0.5}
@@ -48,7 +48,7 @@ export default function ReviewPopover({ children, productId }) {
             rows={2}
           />
           {isError && (
-            <p className="text-xs w-full text-right text-red-500">* {isError}</p>
+            <p className="w-full text-xs text-right text-red-500">* {isError}</p>
           )}
 
           <Button

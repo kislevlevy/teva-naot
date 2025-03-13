@@ -1,5 +1,4 @@
 import { Footer } from 'flowbite-react';
-import React from 'react';
 
 import Icon from '@mdi/react';
 import { mdiCellphone, mdiEmailOutline } from '@mdi/js';
@@ -11,7 +10,7 @@ export default function FooterContacts() {
     <>
       <Footer.Link
         href={`tel:${storeTel}`}
-        className="mr-0 md:mr-0 pb-3 md:pb-0 w-full hover:text-gray-700 text-gray-500"
+        className="w-full pb-3 mr-0 text-gray-500 md:mr-0 md:pb-0 hover:text-gray-700"
       >
         <div className="flex justify-start rtl">
           <Icon path={mdiCellphone} size={1} className="ml-2" />
@@ -20,7 +19,7 @@ export default function FooterContacts() {
       </Footer.Link>
       <Footer.Link
         href={`mailto:${storeEmail}`}
-        className="m-0 hover:text-gray-700 text-gray-500"
+        className="m-0 text-gray-500 hover:text-gray-700"
       >
         <div className="flex justify-start rtl">
           <Icon path={mdiEmailOutline} size={1} className="ml-2" />

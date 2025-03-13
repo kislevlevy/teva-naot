@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
@@ -102,7 +102,7 @@ export default function Shop() {
         )}
 
         {details && details.results > 5 && (
-          <div className="w-full flex flex-col items-center my-2">
+          <div className="flex flex-col items-center w-full my-2">
             <Pagination
               layout="pagination"
               currentPage={currentPage}

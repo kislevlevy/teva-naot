@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, TextInput, Table, Card, Select } from 'flowbite-react';
 import Icon from '@mdi/react';
@@ -49,7 +49,7 @@ export default function ProductDashboard() {
   return (
     <div className="w-full">
       {stats && (
-        <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
+        <div className="flex justify-center p-2 m-2 space-x-3 overflow-x-scroll">
           <StatsCard
             {...{ lable: 'חודשי', main: stats.month[0], diff: stats.month[1] }}
           />
@@ -65,11 +65,11 @@ export default function ProductDashboard() {
         <ProductEditor {...{ setSelectedProductId, selectedProductId }} />
       )}
 
-      <div className="container mx-auto p-4">
+      <div className="container p-4 mx-auto">
         <form
           dir="rtl"
           onSubmit={handleSubmit}
-          className=" mb-2 p-2 flex justify-between items-center bg-gray-50 rounded-lg"
+          className="flex items-center justify-between p-2 mb-2 rounded-lg bg-gray-50"
         >
           <div className="flex gap-x-1">
             <TextInput
@@ -85,7 +85,7 @@ export default function ProductDashboard() {
             <Select
               value={searchOption}
               onChange={(e) => setSearchOption(e.target.value)}
-              className="rounded w-20"
+              className="w-20 rounded"
             >
               <option value="_id">{'מק"ט'}</option>
               <option value="q">שם</option>
@@ -136,12 +136,12 @@ function StatsCard({ lable, main, diff }) {
 
   return (
     <Card className="min-w-52 w-fit bg-gray-50">
-      <div className="flex justify-between items-center font-bold text-gray-400">
+      <div className="flex items-center justify-between font-bold text-gray-400">
         <Icon path={mdiCurrencyIls} size={0.6} />
         <h5 className="">{lable}</h5>
       </div>
       <div className="flex items-end">
-        <h2 className="text-3xl font-bold mr-3">{toMoneyString(main)}</h2>
+        <h2 className="mr-3 text-3xl font-bold">{toMoneyString(main)}</h2>
         {!!percent && (
           <div
             className={`flex h-fit items-center ${
@@ -158,7 +158,7 @@ function StatsCard({ lable, main, diff }) {
         )}
       </div>
       {!!percent && (
-        <p className="text-xs text-right rtl text-gray-500">
+        <p className="text-xs text-right text-gray-500 rtl">
           בהשוואה לתקופת זמן קודמת
         </p>
       )}
@@ -194,7 +194,7 @@ function TableEntry({ product, setSelectedProductId }) {
         <img
           src={product.image}
           alt={product.name}
-          className="h-20 w-20 object-cover rounded-lg"
+          className="object-cover w-20 h-20 rounded-lg"
         />
       </Table.Cell>
       <Table.Cell>{product.name}</Table.Cell>

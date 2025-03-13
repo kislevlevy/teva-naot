@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text, Avatar, Group } from '@mantine/core';
 import StarComponent from '../product/subComponents/_StarComponent';
 
@@ -14,7 +13,7 @@ export default function ReviewCard({ review }) {
   );
 
   return (
-    <div className="border-2 border-gray-400 p-2 rounded-md">
+    <div className="p-2 border-2 border-gray-400 rounded-md">
       <Group>
         <Avatar
           src={review.user.profileImg}

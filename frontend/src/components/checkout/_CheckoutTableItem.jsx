@@ -29,35 +29,35 @@ export default function CheckoutItem({
   const navigate = useNavigate();
   const location = useLocation();
   const goToProductPage = () =>
-    navigate(`/products/product/${product.slug}`, {
-      state: { ...(location.state || {}), _id: product._id },
+    navigate(`/products/product/${p.slug}`, {
+      state: { ...(location.state || {}), _id: p._id },
     });
 
   return p.map((product, i) => (
     <Table.Row key={`${product.productColor}-${i}`}>
       <Table.Cell className="flex">
-        <div className="flex flex-col justify-center items-center ml-1">
+        <div className="flex flex-col items-center justify-center ml-1">
           <div
-            className="hover:text-green-500 text-gray-400 cursor-pointer"
+            className="text-gray-400 cursor-pointer hover:text-green-500"
             onClick={() => addQuantity(product.productColor, product.size)}
           >
             <Icon path={mdiPlusBoxOutline} size={1} />
           </div>
           <div
-            className="hover:text-green-500 text-gray-400 cursor-pointer mb-2"
+            className="mb-2 text-gray-400 cursor-pointer hover:text-green-500"
             onClick={() => reduceQuntity(product.productColor, product.size)}
           >
             <Icon path={mdiMinusBoxOutline} size={1} />
           </div>
           <div
-            className="hover:text-red-500 text-gray-400 cursor-pointer"
+            className="text-gray-400 cursor-pointer hover:text-red-500"
             onClick={() => deleteItem(product.productColor, product.size)}
           >
             <Icon path={mdiTrashCanOutline} size={1} />
           </div>
         </div>
         <img
-          className="min-w-16 h-20 object-cover m-auto rounded-lg"
+          className="object-cover h-20 m-auto rounded-lg min-w-16"
           src={product.image}
           alt={product.productName}
         />

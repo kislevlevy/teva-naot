@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, Select } from '@mantine/core';
 import Icon from '@mdi/react';
@@ -34,14 +34,14 @@ export default function ShopTooltip({
       <div className="flex items-center">
         <Button
           onClick={() => setIsDetailed(false)}
-          className="w-fit p-1 mr-1"
+          className="p-1 mr-1 w-fit"
           color={isDetailed ? '#F9FAFB' : '#75B197'}
         >
           <Icon path={mdiGrid} size={1} color={isDetailed ? 'black' : 'white'} />
         </Button>
         <Button
           onClick={() => setIsDetailed(true)}
-          className="w-fit p-1 mr-2"
+          className="p-1 mr-2 w-fit"
           color={isDetailed ? '#75B197' : '#F9FAFB'}
         >
           <Icon

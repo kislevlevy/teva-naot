@@ -3,9 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const apiProducts = createApi({
   reducerPath: 'apiProducts',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://teva-naot.onrender.com/api/v1/products',
-    credentials: 'include'
-
+    baseUrl: import.meta.env.VITE_BACKEND_URL + '/products',
+    credentials: 'include',
   }),
   tagTypes: ['Products'],
 

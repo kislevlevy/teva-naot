@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiPrinter } from '@mdi/js';
@@ -139,7 +139,7 @@ export default function PrintSticker({ order }) {
     <>
       <div
         onClick={openModal}
-        className="hover:text-emerald-600 text-emerald-500 cursor-pointer"
+        className="cursor-pointer hover:text-emerald-600 text-emerald-500"
       >
         <Icon path={mdiPrinter} size={1} />
       </div>

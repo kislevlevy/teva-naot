@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Modal, Button } from 'flowbite-react';
 import { mdiAlert } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -20,7 +18,7 @@ export default function ConfirmationModal({
       <Modal.Header className="bg-white border-b border-gray-200">
         <Icon path={mdiAlert} size={1.2} className="text-red-600" />
       </Modal.Header>
-      <Modal.Body className="bg-white mt-5">
+      <Modal.Body className="mt-5 bg-white">
         <p className="text-base text-gray-700 rtl">{message}</p>
       </Modal.Body>
       <Modal.Footer className="bg-white border-t border-gray-200">

@@ -798,8 +798,8 @@ export const informationBank = {
 <input name="lastname" id="lastname" title="שם משפחה" class="w-full border border-gray-300 rounded-md p-2" type="text" placeholder="שם משפחה" aria-required="true">
 </div>
 <div class="mb-4">
-<label class='block text-gray-700' for="email"><span>דוא\"ל</span></label>
-<input name="email" id="email" title='דוא\"ל' class="w-full border border-gray-300 rounded-md p-2" type="email" placeholder='דוא\"ל' aria-required="true">
+<label class='block text-gray-700' for="email"><span>דוא"ל</span></label>
+<input name="email" id="email" title='דוא"ל' class="w-full border border-gray-300 rounded-md p-2" type="email" placeholder='דוא"ל' aria-required="true">
 </div>
 <div class="mb-4">
 <label class="block text-gray-700" for="telephone"><span>טלפון/סלולרי</span></label>

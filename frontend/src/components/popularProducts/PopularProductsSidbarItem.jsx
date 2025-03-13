@@ -1,4 +1,3 @@
-import React from 'react';
 import { Sidebar } from 'flowbite-react';
 import { HiArrowSmRight } from 'react-icons/hi';
 
@@ -20,7 +19,7 @@ export default function PopularProductsSidbarItem({
           : ' bg-gray-100'
       } hover:cursor-pointer shadow-md rounded-lg my-2 p-2`}
     >
-      <div className="flex flex-nowrap items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full flex-nowrap">
         {iconToShow}
         {textToShow}
         <HiArrowSmRight className="ml-2 text-emerald-500" />

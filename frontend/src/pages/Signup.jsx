@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import Grid from '@mui/material/Grid2';
 
@@ -17,7 +17,7 @@ export default function Signup() {
   }, [currentUser]);
 
   return (
-    <Container className="rtl min-h-max bg-gray-100">
+    <Container className="bg-gray-100 rtl min-h-max">
       <Grid container spacing={1}>
         <Grid size={{ xs: 12, md: 8 }} w>
           <SignupSection />

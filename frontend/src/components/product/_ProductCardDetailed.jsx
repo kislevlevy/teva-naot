@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiEyeOutline, mdiHeartOutline, mdiHeart } from '@mdi/js';
@@ -49,11 +49,11 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
   };
 
   return (
-    <Card className="m-1 w-full">
+    <Card className="w-full m-1">
       <div className="flex justify-between">
         <div className="relative">
           <div
-            className="img_producto_container rounded-xl border-2 border-slate-200 h-full w-64"
+            className="w-64 h-full border-2 img_producto_container rounded-xl border-slate-200"
             data-scale="1.6"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
@@ -66,7 +66,7 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
               }}
             ></a>
           </div>
-          <div className="absolute flex top-0 right-0 m-1">
+          <div className="absolute top-0 right-0 flex m-1">
             {isHover &&
               ((isLiked && (
                 <div onMouseEnter={() => setIsHover(true)} className="mr-0.5">
@@ -100,9 +100,9 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
             </div>
           </div>
         </div>
-        <div className="p-2 rtl flex flex-col ml-5">
+        <div className="flex flex-col p-2 ml-5 rtl">
           <div className="flex items-center">
-            <p className="text-xs font-medium   text-gray-400">
+            <p className="text-xs font-medium text-gray-400">
               {product.category[product.category.length - 1]}
             </p>
             <StarComponent
@@ -112,16 +112,16 @@ export default function ProductCardDetailed({ setProductModalId, product }) {
           </div>
 
           <h3
-            className="hover:underline cursor-pointer text-right text-xl font-medium w-fit"
+            className="text-xl font-medium text-right cursor-pointer hover:underline w-fit"
             onClick={goToProductPage}
           >
             {product.name}
           </h3>
 
-          <p className="text-sm mt-1">{product.description}</p>
+          <p className="mt-1 text-sm">{product.description}</p>
 
           <div className="self-end mt-10">
-            <span className="mr-1 font-bold text-lg text-emerald-500">
+            <span className="mr-1 text-lg font-bold text-emerald-500">
               {product.price}₪
             </span>
           </div>

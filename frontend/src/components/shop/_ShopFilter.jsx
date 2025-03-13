@@ -1,5 +1,5 @@
 // Imports:
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button, RangeSlider, Slider } from '@mantine/core';
 import { Radio, Label, Sidebar } from 'flowbite-react';
@@ -16,7 +16,7 @@ export default function ShopFilter({ setMinMaxObj, setCategory, data }) {
     <Sidebar className="p-3 w-auto max-w-[250px]">
       <Sidebar.Items>
         <h3 className="text-right">קטגוריות</h3>
-        <Sidebar.ItemGroup className="max-h-72 mb-4 overflow-y-scroll">
+        <Sidebar.ItemGroup className="mb-4 overflow-y-scroll max-h-72">
           {categories.map((category, i) => (
             <Sidebar.Item className="text-right" key={`category-${i}`}>
               <fieldset>
@@ -29,7 +29,7 @@ export default function ShopFilter({ setMinMaxObj, setCategory, data }) {
                 />
                 <div>
                   {subCategories[i].map((subCategory, j) => (
-                    <div className="mr-4 my-1 h-fit" key={`category-${i}-sub-${j}`}>
+                    <div className="my-1 mr-4 h-fit" key={`category-${i}-sub-${j}`}>
                       <Label className="mr-2">{subCategory}</Label>
                       <Radio
                         value={subCategory}
@@ -75,7 +75,7 @@ export default function ShopFilter({ setMinMaxObj, setCategory, data }) {
           <Sidebar.Item>
             <Button
               color="#64b496"
-              className="mt-2 h-6 w-full"
+              className="w-full h-6 mt-2"
               onClick={() => setMinMaxObj({ price: priceRange, size: sizeRange })}
             >
               סינון

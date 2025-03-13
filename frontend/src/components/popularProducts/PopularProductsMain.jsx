@@ -22,13 +22,13 @@ export default function PopularProducts() {
   return (
     <section className="relative pb-24 md:pb-16">
       <div
-        className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
+        className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto"
         data-aos="fade-up"
         data-aos-duration="2000"
       >
         <div className="relative">
           {/* Button Group for small screens */}
-          <div className="md:hidden sticky top-0 z-50 bg-white shadow-md">
+          <div className="sticky top-0 z-50 bg-white shadow-md md:hidden">
             <PopularProductsButtonsGroup setSelectedCategory={setSelectedCategory} />
           </div>
 

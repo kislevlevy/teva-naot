@@ -1,5 +1,4 @@
 import { Label, TextInput } from 'flowbite-react';
-import React from 'react';
 import PasswordRequirement from './_PasswordRequirement';
 import Icon from '@mdi/react';
 import { mdiPhone } from '@mdi/js';
@@ -31,7 +30,7 @@ export default function PhoneNumer({
       <div dir="ltr">
         <div dir="rtl">
           <Label value={'מספר טלפון נייד'} />
-          {isRequired && <span className="text-red-500 text-sm mx-1">*</span>}
+          {isRequired && <span className="mx-1 text-sm text-red-500">*</span>}
         </div>
         <TextInput
           type="text"

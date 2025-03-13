@@ -7,21 +7,21 @@ export default function PopularProductsButtonsGroup({ setSelectedCategory }) {
   return (
     <div className="flex justify-around p-4 bg-gray-100">
       <Button
-        className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
+        className="flex items-center justify-center w-full px-4 py-2 mx-2 bg-white rounded-lg shadow-md text-emerald-500 hover:bg-gray-200 rtl"
         onClick={() => setSelectedCategory('all')}
       >
         <FaRegStar size={'1.5rem'} className="self-center ml-2" />
         הצג הכל
       </Button>
       <Button
-        className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
+        className="flex items-center justify-center w-full px-4 py-2 mx-2 bg-white rounded-lg shadow-md text-emerald-500 hover:bg-gray-200 rtl"
         onClick={() => setSelectedCategory('popular')}
       >
         <BsTag size={'1.5rem'} className="self-center ml-2" />
         דגמים פופולריים
       </Button>
       <Button
-        className="flex items-center justify-center bg-white text-emerald-500 hover:bg-gray-200 shadow-md rounded-lg px-4 py-2 w-full mx-2 rtl"
+        className="flex items-center justify-center w-full px-4 py-2 mx-2 bg-white rounded-lg shadow-md text-emerald-500 hover:bg-gray-200 rtl"
         onClick={() => setSelectedCategory('selected')}
       >
         <RiHeart2Line size={'1.5rem'} className="self-center ml-2" />

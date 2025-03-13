@@ -11,30 +11,27 @@ import scrollToTop from '../../utils/scrollToTop';
 export default function FooterComp() {
   return (
     <Footer container>
-      <div className="w-full  m-0 mx-auto">
+      <div className="w-full m-0 mx-auto">
         {/* Normal Footer for md and larger screens */}
         <div className="hidden md:block">
-          <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:flex-row-reverse md:grid-cols-1">
-            <div
-              className="flex flex-col justify-start
-             items-center mx-5"
-            >
+          <div className="grid justify-between w-full sm:flex sm:justify-between md:flex md:flex-row-reverse md:grid-cols-1">
+            <div className="flex flex-col items-center justify-start mx-5">
               <FooterLogo />
               <div>
                 <Footer.Title title="שמרו על קשר" className="text-center" />
                 <Footer.LinkGroup
                   col
-                  className="flex flex-col justify-start rtl pb-3"
+                  className="flex flex-col justify-start pb-3 rtl"
                 >
                   <FooterContacts />
                 </Footer.LinkGroup>
                 <FooterSocialIcons />
               </div>
             </div>
-            <div className="grid text-center grid-cols-3 mx-2 w-fit gap-5">
+            <div className="grid grid-cols-3 gap-5 mx-2 text-center w-fit">
               <div className="min-w-36">
                 <Link to="/company">
-                  <Footer.Title title="החברה" className="mb-3 mx-auto text-center" />
+                  <Footer.Title title="החברה" className="mx-auto mb-3 text-center" />
                 </Link>
                 <FooterLinks section="company" scrollToTop={scrollToTop} />
               </div>
@@ -42,7 +39,7 @@ export default function FooterComp() {
                 <Link to="/policy">
                   <Footer.Title
                     title="מדיניות"
-                    className="w-3/6 mb-3 mx-auto text-center"
+                    className="w-3/6 mx-auto mb-3 text-center"
                   />
                 </Link>
                 <FooterLinks section="policy" scrollToTop={scrollToTop} />
@@ -51,7 +48,7 @@ export default function FooterComp() {
                 <Link to="/category">
                   <Footer.Title
                     title="קטגוריות"
-                    className="mb-3 mx-auto text-center"
+                    className="mx-auto mb-3 text-center"
                   />
                 </Link>
                 <FooterCategoryLinks scrollToTop={scrollToTop} />
@@ -68,34 +65,34 @@ export default function FooterComp() {
           <FooterLogo />
           <Accordion>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5 rtl">
+              <Accordion.Title className="px-5 py-4 rtl">
                 שמרו על קשר
               </Accordion.Title>
-              <Accordion.Content className="list-none py-4 px-5">
+              <Accordion.Content className="px-5 py-4 list-none">
                 <FooterContacts />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5 rtl">החברה</Accordion.Title>
-              <Accordion.Content className="py-4 px-5">
+              <Accordion.Title className="px-5 py-4 rtl">החברה</Accordion.Title>
+              <Accordion.Content className="px-5 py-4">
                 <FooterLinks section="company" />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5 rtl">מדיניות</Accordion.Title>
-              <Accordion.Content className="py-4 px-5">
+              <Accordion.Title className="px-5 py-4 rtl">מדיניות</Accordion.Title>
+              <Accordion.Content className="px-5 py-4">
                 <FooterLinks section="policy" />
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="py-4 px-5 rtl">קטגוריות</Accordion.Title>
-              <Accordion.Content className="py-4 px-5">
+              <Accordion.Title className="px-5 py-4 rtl">קטגוריות</Accordion.Title>
+              <Accordion.Content className="px-5 py-4">
                 <FooterCategoryLinks />
               </Accordion.Content>
             </Accordion.Panel>
           </Accordion>
-          <div className="flex justify-center items-center">
-            <FooterSocialIcons className="flex align-middle justify-center" />
+          <div className="flex items-center justify-center">
+            <FooterSocialIcons className="flex justify-center align-middle" />
           </div>
         </div>
         <Footer.Divider />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, TextInput, Table, Card, Popover, Select } from 'flowbite-react';
 import Icon from '@mdi/react';
@@ -36,17 +36,17 @@ export default function ShipmentDashboard() {
   return (
     <div className="w-full">
       {stats && (
-        <div className="flex space-x-3 p-2 m-2 overflow-x-scroll justify-center">
+        <div className="flex justify-center p-2 m-2 space-x-3 overflow-x-scroll">
           <StatsCard {...{ lable: 'בדרך ללקוח', main: stats.shipped }} />
           <StatsCard {...{ lable: 'מוכן לשילוח', main: stats.processing }} />
           <StatsCard {...{ lable: 'ממתין לתשלום', main: stats.pending }} />
         </div>
       )}
 
-      <div className="container mx-auto p-4">
+      <div className="container p-4 mx-auto">
         <form
           onSubmit={handleQuery}
-          className="mb-2 p-2 flex justify-between bg-gray-50 rounded-lg"
+          className="flex justify-between p-2 mb-2 rounded-lg bg-gray-50"
         >
           <Button color="gray" onClick={() => setFilterStr('')}>
             אפס חיפוש
@@ -86,12 +86,12 @@ export default function ShipmentDashboard() {
 function StatsCard({ lable, main }) {
   return (
     <Card className="min-w-52 w-fit bg-gray-50">
-      <div className="flex justify-between items-center font-bold text-gray-400">
+      <div className="flex items-center justify-between font-bold text-gray-400">
         <Icon path={mdiTruck} size={0.6} />
         <h5 className="">{lable}</h5>
       </div>
       <div className="flex items-end">
-        <h2 className="text-3xl w-full text-center font-bold mr-3">{main}</h2>
+        <h2 className="w-full mr-3 text-3xl font-bold text-center">{main}</h2>
       </div>
     </Card>
   );
@@ -129,7 +129,7 @@ function TableEntry({ order }) {
       <Table.Cell>{toDateString(order.orderDate)}</Table.Cell>
       <Table.Cell>{order.shippingAddress.city}</Table.Cell>
       <Table.Cell>
-        <div className="space-y-1 flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center space-y-1">
           <Popover
             content={
               <div className="flex flex-col p-5 space-y-2">
@@ -152,7 +152,7 @@ function TableEntry({ order }) {
               </div>
             }
           >
-            <div className="hover:text-emerald-600 text-emerald-500 cursor-pointer">
+            <div className="cursor-pointer hover:text-emerald-600 text-emerald-500">
               <Icon path={mdiSync} size={1} />
             </div>
           </Popover>

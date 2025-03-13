@@ -23,7 +23,7 @@ export default function Checkout() {
   }, [currentUser]);
 
   return (
-    <Container className="rtl min-h-max bg-gray-100">
+    <Container className="bg-gray-100 rtl min-h-max">
       <Grid container spacing={2} padding={2}>
         <Grid size={{ xs: 12, md: 8 }}>
           <CheckoutTable setPriceBeforeTax={setPriceBeforeTax} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 import $ from 'jquery';
 import { branches, STORE_LOCATOR_API_KEY } from '../utils/config';
@@ -107,7 +107,9 @@ const StoreLocator = () => {
 
           // Add the marker to the cluster group
           markers.addLayer(marker);
-        } catch (error) {}
+        } catch (err) {
+          console.error(err);
+        }
       });
 
       // Add the marker cluster group to the map
@@ -124,7 +126,7 @@ const StoreLocator = () => {
 
   return (
     <section id="about-naot" className="p-8 bg-gray-50">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4 rtl">סניפי הרשת</h1>
+      <h1 className="mb-4 text-3xl font-bold text-gray-800 rtl">סניפי הרשת</h1>
       <div id="store-locator-map" className="h-[70vh] w-[80vw] mx-auto z-0"></div>
     </section>
   );

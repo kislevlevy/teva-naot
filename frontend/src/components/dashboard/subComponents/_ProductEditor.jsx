@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   TextInput,
@@ -113,7 +113,7 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
   };
 
   return (
-    <Card className="container mx-auto p-4 rtl">
+    <Card className="container p-4 mx-auto rtl">
       <ProductColorEditor
         {...{
           isEditingColor,
@@ -124,12 +124,12 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
       />
 
       <div
-        className="hover:text-gray-600 text-gray-500 cursor-pointer"
+        className="text-gray-500 cursor-pointer hover:text-gray-600"
         onClick={handleClose}
       >
         <Icon path={mdiWindowClose} size={1} />
       </div>
-      <div className="flex justify-center items-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <div className=" w-60 h-60">
           {isEditing ? (
             <FileDropzone setFiles={(e) => handleInputChange(e, 'image')} />
@@ -137,7 +137,7 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
             <img className="rounded-lg" src={product.image} alt={product.name} />
           )}
         </div>
-        <div className="space-y-2 w-3/4">
+        <div className="w-3/4 space-y-2">
           <div>
             <Label value="שם מוצר" />
             <TextInput
@@ -183,8 +183,8 @@ export default function ProductEditor({ setSelectedProductId, selectedProductId 
           </div>
         </div>
       </div>
-      {isError && <p className="rtl mt-4 text-sm text-red-500">{isError}</p>}
-      <div className="flex w-full justify-center gap-x-1">
+      {isError && <p className="mt-4 text-sm text-red-500 rtl">{isError}</p>}
+      <div className="flex justify-center w-full gap-x-1">
         {isEditing ? (
           <>
             <Button onClick={handleSubmit} color="success" isProcessing={isLoading}>
@@ -294,7 +294,7 @@ function TableEntry({ color, setIsEditingColor, setProductColor }) {
           content={
             <div
               dir="ltr"
-              className="flex flex-wrap max-w-32 justify-center p-1 gap-x-2 items-center"
+              className="flex flex-wrap items-center justify-center p-1 max-w-32 gap-x-2"
             >
               {Object.entries(color.sizes).map(([size, stock], i) => (
                 <div key={'size-' + i}>
@@ -310,7 +310,7 @@ function TableEntry({ color, setIsEditingColor, setProductColor }) {
         </Popover>
       </Table.Cell>
       <Table.Cell>
-        <div className="flex flex-col space-y-1 justify-center w-fit">
+        <div className="flex flex-col justify-center space-y-1 w-fit">
           <Button
             size="xs"
             color="warning"

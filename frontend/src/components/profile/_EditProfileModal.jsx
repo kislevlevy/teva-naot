@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { mdiPencilOutline } from '@mdi/js';
 import Icon from '@mdi/react';
@@ -95,7 +95,7 @@ export default function EditProfileModal({
             />
           </div>
         </div>
-        {isError && <p className="rtl mt-4 text-sm text-red-500">{isError}</p>}
+        {isError && <p className="mt-4 text-sm text-red-500 rtl">{isError}</p>}
       </Modal.Body>
 
       <Modal.Footer>

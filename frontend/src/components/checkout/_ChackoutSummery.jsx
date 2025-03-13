@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button, Card, List } from 'flowbite-react';
 
@@ -36,7 +36,7 @@ export default function ChackoutSummery({ PriceBeforeTax, address }) {
 
   return (
     <Card>
-      <h3 className="font-bold text-lg text-emerald-500">סיכום הזמנה:</h3>
+      <h3 className="text-lg font-bold text-emerald-500">סיכום הזמנה:</h3>
       <List unstyled>
         <List.Item>{createListItem(PriceBeforeTax, 'סכום ביניים')}</List.Item>
         <List.Item>{createListItem(tax, 'מע"מ')}</List.Item>

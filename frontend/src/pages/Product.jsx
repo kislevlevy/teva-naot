@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import {
@@ -68,14 +68,14 @@ export default function ProductPage() {
 
   return product ? (
     <>
-      <div className="flex justify-between m-5 flex-col md:flex-row mb-10">
-        <div className="my-2 h-full w-full md:w-1/2">
+      <div className="flex flex-col justify-between m-5 mb-10 md:flex-row">
+        <div className="w-full h-full my-2 md:w-1/2">
           <ProductGallery
             classNames=" h-[300px]"
             {...{ setActiveImg, activeImg, imagesArr: currentProductColor.images }}
           />
         </div>
-        <div className="w-full md:w-1/2 p-5 flex flex-col rtl">
+        <div className="flex flex-col w-full p-5 md:w-1/2 rtl">
           <div className="flex items-center">
             <div className="mb-4">
               <Breadcrumbs
@@ -114,15 +114,15 @@ export default function ProductPage() {
               </Breadcrumbs>
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <h3 className="text-right text-xl font-medium">{product.name}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-medium text-right">{product.name}</h3>
             <StarComponent
               rating={product.ratingsAvg}
               reveiws={product.ratingsQuantity}
             />
           </div>
 
-          <p className="text-sm mt-1">{product.description}</p>
+          <p className="mt-1 text-sm">{product.description}</p>
           <div className="mt-2">
             <h4>צבעים:</h4>
             <div className="flex flex-wrap">
@@ -172,7 +172,7 @@ export default function ProductPage() {
               })}
             </div>
           </div>
-          <div className="w-full flex justify-between mt-10 items-center">
+          <div className="flex items-center justify-between w-full mt-10">
             <div className="flex">
               {(isLiked && (
                 <div
@@ -199,7 +199,7 @@ export default function ProductPage() {
               </div>
             </div>
             <div>
-              <span className="mr-1 font-bold text-emerald-500 text-2xl">
+              <span className="mr-1 text-2xl font-bold text-emerald-500">
                 {currentProductColor.price}₪
               </span>
 
@@ -213,7 +213,7 @@ export default function ProductPage() {
         </div>
       </div>
       {product.reviews && (
-        <Container className="rtl mt-5">
+        <Container className="mt-5 rtl">
           <h4 className="mb-5">חוות דעת הלקוחות:</h4>
           <Grid>
             {product.reviews.map((ele, i) => (

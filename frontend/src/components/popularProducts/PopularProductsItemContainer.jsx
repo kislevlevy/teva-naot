@@ -30,7 +30,7 @@ export default function PopularProductsItemContainer({
   }, [selectedCategory]);
 
   return (
-    <div className="product-content flex flex-grow flex-wrap w-full mb-6">
+    <div className="flex flex-wrap flex-grow w-full mb-6 product-content">
       {productsArr.length > 0 && <ProductList productsGroupArr={productsArr} />}
     </div>
   );

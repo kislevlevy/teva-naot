@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useInputState } from '@mantine/hooks';
 
 import Icon from '@mdi/react';
@@ -43,18 +43,18 @@ export default function SignupSection() {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <form
-        className="bg-white p-8 rounded shadow-md w-full m-5 space-y-2 h-full"
+        className="w-full h-full p-8 m-5 space-y-2 bg-white rounded shadow-md"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-xl mb-3">לקוחות חדשים:</h2>
+        <h2 className="mb-3 text-xl">לקוחות חדשים:</h2>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div dir="rtl">
               <Label value={'שם מלא'} />
-              <span className="text-red-500 text-sm mx-1">*</span>
+              <span className="mx-1 text-sm text-red-500">*</span>
             </div>
             <TextInput
               type="text"
@@ -68,7 +68,7 @@ export default function SignupSection() {
           <div dir="ltr">
             <div dir="rtl">
               <Label value={'כתובת מייל'} />
-              <span className="text-red-500 text-sm mx-1">*</span>
+              <span className="mx-1 text-sm text-red-500">*</span>
             </div>
             <TextInput
               type="email"
@@ -96,7 +96,7 @@ export default function SignupSection() {
             {...{ password, setPassword, setPasswordConfirm, passwordConfirm }}
           />
         </div>
-        <div className="text-red-500 mb-2 text-sm">* שדות נדרשים</div>
+        <div className="mb-2 text-sm text-red-500">* שדות נדרשים</div>
 
         <Button
           type="submit"
@@ -107,7 +107,7 @@ export default function SignupSection() {
           הרשמה
         </Button>
         {isSuccess || (
-          <p className="text-red-600 text-sm">מייל כבר נמצא בשימוש, אנא התחבר </p>
+          <p className="text-sm text-red-600">מייל כבר נמצא בשימוש, אנא התחבר </p>
         )}
       </form>
     </div>

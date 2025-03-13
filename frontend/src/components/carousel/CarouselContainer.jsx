@@ -1,5 +1,4 @@
 // Imports:
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'flowbite-react';
 import { banners } from '../../utils/config';
@@ -8,7 +7,7 @@ import { AsyncImage } from 'loadable-image';
 
 export default function CarouselContainer() {
   return (
-    <div className="h-fit w-full">
+    <div className="w-full h-fit">
       <Carousel
         className="rounded-none"
         slideInterval={5000}

@@ -1,5 +1,4 @@
 import { Footer } from 'flowbite-react';
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { categories } from '../../utils/config';
 import { slugify } from '../../utils/slugify';

@@ -1,11 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Error() {
   return (
     <div
       dir="rtl"
-      className="grid min-h-full place-items-center  px-6 py-24 sm:py-32 lg:px-8 bg-emerald-50 w-full h-full"
+      className="grid w-full h-full min-h-full px-6 py-24 place-items-center sm:py-32 lg:px-8 bg-emerald-50"
     >
       <p className="text-base font-semibold text-emerald-600">404</p>
       <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
@@ -14,7 +13,7 @@ export default function Error() {
       <p className="mt-6 text-base leading-7 text-gray-600">
         סליחה, לא הצלחנו למצוא את הדף שחיפשת.
       </p>
-      <div className="mt-10 flex items-center justify-center gap-x-6">
+      <div className="flex items-center justify-center mt-10 gap-x-6">
         <Link
           to="/"
           className="rounded-md bg-emerald-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"

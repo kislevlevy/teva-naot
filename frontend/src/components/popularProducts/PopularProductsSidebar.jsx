@@ -10,21 +10,21 @@ export default function PopularProductsSidebar({
 }) {
   return (
     /* Sidebar for screens >= md */
-    <Sidebar className="hidden md:flex w-64 min-h-0 sticky top-0 bg-gray-100 rounded-md m-1 mb-6">
-      <Sidebar.Items className="relative my-1 p-2">
-        <Sidebar.ItemGroup className="my-0 py-0">
+    <Sidebar className="sticky top-0 hidden w-64 min-h-0 m-1 mb-6 bg-gray-100 rounded-md md:flex">
+      <Sidebar.Items className="relative p-2 my-1">
+        <Sidebar.ItemGroup className="py-0 my-0">
           <PopularProductsSidbarItem
-            iconToShow={<FaRegStar className="text-emerald-500 mr-2" />}
+            iconToShow={<FaRegStar className="mr-2 text-emerald-500" />}
             textToShow="הצג הכל"
             {...{ selectedCategory, setSelectedCategory, name: 'all' }}
           />
           <PopularProductsSidbarItem
-            iconToShow={<BsTag className="text-emerald-500 mr-2" />}
+            iconToShow={<BsTag className="mr-2 text-emerald-500" />}
             textToShow="מוצרים פופולריים"
             {...{ selectedCategory, setSelectedCategory, name: 'popular' }}
           />
           <PopularProductsSidbarItem
-            iconToShow={<RiHeart2Line className="text-emerald-500 mr-2" />}
+            iconToShow={<RiHeart2Line className="mr-2 text-emerald-500" />}
             textToShow="מוצרים נבחרים"
             {...{ selectedCategory, setSelectedCategory, name: 'selected' }}
           />

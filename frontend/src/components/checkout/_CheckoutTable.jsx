@@ -13,8 +13,7 @@ export default function CheckoutTable({ setPriceBeforeTax }) {
   const { productCartObj } = retrieveFromLocalStorage();
   const [_product, setProduct] = useState([]);
   const [update, setUpdate] = useState(false);
-  if (productCartObj == null) {
-  }
+
   const productRef = useRef(productCartObj ? productCartObj : {}).current;
 
   useEffect(() => {

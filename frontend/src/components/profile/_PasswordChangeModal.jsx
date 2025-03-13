@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useInputState } from '@mantine/hooks';
 
 import { Button, Modal, TextInput, Label } from 'flowbite-react';
@@ -70,7 +70,7 @@ export default function ChangePasswordModal({
           <div>
             <div dir="rtl">
               <Label value={'סיסמה נוכחית'} />
-              <span className="text-red-500 text-sm mx-1">*</span>
+              <span className="mx-1 text-sm text-red-500">*</span>
             </div>
 
             <TextInput
@@ -85,7 +85,7 @@ export default function ChangePasswordModal({
             {...{ password, setPassword, passwordConfirm, setPasswordConfirm }}
           />
         </div>
-        <p className="rtl mt-4 text-sm text-red-500">
+        <p className="mt-4 text-sm text-red-500 rtl">
           {isError ? isError : '* אחרי שינוי סיסמה יהיה עליך להתחבר שוב לחשבון'}
         </p>
       </Modal.Body>

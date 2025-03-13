@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiEyeClosed, mdiEyeOutline } from '@mdi/js';
@@ -64,7 +64,7 @@ export default function Password({
       <div dir="ltr">
         <div dir="rtl">
           <Label value={'סיסמה'} />
-          <span className="text-red-500 text-sm mx-1">*</span>
+          <span className="mx-1 text-sm text-red-500">*</span>
         </div>
         <TextInput
           size={5}
@@ -73,7 +73,7 @@ export default function Password({
           onChange={(e) => setPassword(e.target.value)}
           addon={
             <div
-              className="h-fit w-fit cursor-pointer"
+              className="cursor-pointer h-fit w-fit"
               onClick={() => setIsPasswordHidden((prev) => !prev)}
             >
               {isPasswordHidden ? (
@@ -107,7 +107,7 @@ export default function Password({
       <div dir="ltr">
         <div dir="rtl">
           <Label value={'אימות סיסמה'} />
-          <span className="text-red-500 text-sm mx-1">*</span>
+          <span className="mx-1 text-sm text-red-500">*</span>
         </div>
         <TextInput
           size={5}
@@ -116,7 +116,7 @@ export default function Password({
           onChange={(e) => setPasswordConfirm(e.target.value)}
           addon={
             <div
-              className="h-fit w-fit cursor-pointer"
+              className="cursor-pointer h-fit w-fit"
               onClick={() => setIsPasswordHidden((prev) => !prev)}
             >
               {isPasswordHidden ? (

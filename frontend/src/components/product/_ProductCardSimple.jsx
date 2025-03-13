@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiEyeOutline, mdiHeartOutline, mdiHeart } from '@mdi/js';
@@ -50,10 +50,10 @@ export default function ProductCardSimple({ setProductModalId, product }) {
   };
 
   return (
-    <Card className="m-1 max-w-xs">
+    <Card className="max-w-xs m-1">
       <div className="relative">
         <div
-          className="img_producto_container rounded-xl border-2 border-slate-200"
+          className="border-2 img_producto_container rounded-xl border-slate-200"
           data-scale="1.6"
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
@@ -109,8 +109,8 @@ export default function ProductCardSimple({ setProductModalId, product }) {
               </div>
             )))}
       </div>
-      <div className="p-2 flex flex-col items-center">
-        <p className="text-center text-xs font-medium   text-gray-400">
+      <div className="flex flex-col items-center p-2">
+        <p className="text-xs font-medium text-center text-gray-400">
           {product.category[product.category.length - 1]}
         </p>
 
@@ -120,7 +120,7 @@ export default function ProductCardSimple({ setProductModalId, product }) {
         />
 
         <h3
-          className="hover:underline cursor-pointer text-lg font-medium w-fit"
+          className="text-lg font-medium cursor-pointer hover:underline w-fit"
           onClick={goToProductPage}
         >
           {product.name}

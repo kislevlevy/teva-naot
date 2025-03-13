@@ -2,7 +2,7 @@ import { Autocomplete, Loader, TextInput } from '@mantine/core';
 import { List } from 'flowbite-react';
 import $ from 'jquery';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function Adress({
   address,

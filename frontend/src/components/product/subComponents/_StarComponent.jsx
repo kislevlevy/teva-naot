@@ -1,6 +1,4 @@
 // Imports:
-import React from 'react';
-
 import { mdiStar, mdiStarOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 
@@ -11,7 +9,7 @@ export default function StarComponent({ rating, reveiws }) {
 
   if (reveiws === 0)
     return (
-      <div className="m-2 mr-5 flex items-center justify-center">
+      <div className="flex items-center justify-center m-2 mr-5">
         {getArray(5).map((_, i) => (
           <Icon
             key={'no-star-' + i}
@@ -24,7 +22,7 @@ export default function StarComponent({ rating, reveiws }) {
     );
 
   return (
-    <div className="m-2 mr-5 flex items-center justify-center">
+    <div className="flex items-center justify-center m-2 mr-5">
       {getArray(base5 + (base5 % 1 === 0 ? 0 : 1)).map((_, i) => (
         <Icon key={'full-star-' + i} color="#E98F65" path={mdiStar} size={0.75} />
       ))}

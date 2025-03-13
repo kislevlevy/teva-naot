@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import Icon from '@mdi/react';
@@ -66,8 +66,8 @@ export default function ForgotPasswordModal({
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        {error && <p className="text-sm text-red-500 rtl mt-2">* {error}</p>}
-        {!error && message && <p className="text-sm rtl mt-2">{message}</p>}
+        {error && <p className="mt-2 text-sm text-red-500 rtl">* {error}</p>}
+        {!error && message && <p className="mt-2 text-sm rtl">{message}</p>}
       </Modal.Body>
       <Modal.Footer>
         <Button

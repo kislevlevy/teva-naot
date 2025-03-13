@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { TextInput, Select, Button, Label, Card } from 'flowbite-react';
 import { Icon } from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
-import { Container } from '@mui/material';
 
 import {
   useEditUserByIdMutation,
@@ -17,7 +16,7 @@ export default function CsDashboard() {
   const [user, setUser] = useState(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_, setIsLoading] = useState(false);
 
   const { data, isSuccess } = useGetUsersQuery(filterStr || '');
   const [editUserById] = useEditUserByIdMutation();
@@ -64,7 +63,7 @@ export default function CsDashboard() {
       <form
         dir="rtl"
         onSubmit={onSearch}
-        className=" mb-2 p-2 flex justify-between items-center bg-gray-50 rounded-lg"
+        className="flex items-center justify-between p-2 mb-2 rounded-lg bg-gray-50"
       >
         <div className="flex gap-x-1">
           <TextInput
@@ -131,7 +130,7 @@ export default function CsDashboard() {
                 onChange={handleInput('password')}
               />
             </div>
-            <div className="my-2 gap-x-1 flex justify-center">
+            <div className="flex justify-center my-2 gap-x-1">
               {isEditing ? (
                 <>
                   <Button onClick={onSubmit}>שמור</Button>

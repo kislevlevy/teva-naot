@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Modal,
@@ -145,7 +145,7 @@ export default function ProductColorEditor({
         <Modal.Header className="bg-white border-b border-gray-200">
           <Icon path={mdiPencilOutline} size={1.2} />
         </Modal.Header>
-        <Modal.Body className="bg-white mt-5">
+        <Modal.Body className="mt-5 bg-white">
           <div className="space-y-4 rtl">
             <div>
               <Label value="שם צבע" />
@@ -192,13 +192,13 @@ export default function ProductColorEditor({
                   setFiles={(e) => handleInputChange(e, 'images')}
                 />
               ) : (
-                <div className="flex flex-nowrap overflow-x-auto gap-4 mt-2 max-h-20">
+                <div className="flex gap-4 mt-2 overflow-x-auto flex-nowrap max-h-20">
                   {productColor.images.map((image, i) => (
                     <img
                       key={'productColor-img-' + i}
                       src={image}
                       alt={productColor.name}
-                      className="h-20 w-20 object-cover"
+                      className="object-cover w-20 h-20"
                     />
                   ))}
                 </div>
@@ -256,7 +256,7 @@ export default function ProductColorEditor({
               </Table>
             </div>
           </div>
-          {isError && <p className="rtl m-4 text-sm text-red-500">{isError}</p>}
+          {isError && <p className="m-4 text-sm text-red-500 rtl">{isError}</p>}
         </Modal.Body>
         <Modal.Footer className="bg-white border-t border-gray-200">
           {isEditing ? (

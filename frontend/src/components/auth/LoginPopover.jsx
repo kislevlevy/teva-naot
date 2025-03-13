@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useInputState } from '@mantine/hooks';
 import Icon from '@mdi/react';
@@ -44,9 +44,9 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
         open={isLoginOpen}
         onOpenChange={setIsLoginOpen}
         content={
-          <div className="flex justify-center items-center bg-gray-100">
+          <div className="flex items-center justify-center bg-gray-100">
             <form
-              className="bg-white p-8 rounded shadow-md w-full max-w-sm space-y-2"
+              className="w-full max-w-sm p-8 space-y-2 bg-white rounded shadow-md"
               onSubmit={handleSubmit}
             >
               <div dir="ltr">
@@ -73,7 +73,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
                   onChange={(e) => setPassword(e.target.value)}
                   addon={
                     <div
-                      className="h-fit w-fit cursor-pointer"
+                      className="cursor-pointer h-fit w-fit"
                       onClick={() => setIsPasswordHidden((prev) => !prev)}
                     >
                       {isPasswordHidden ? (
@@ -91,7 +91,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
               <div className="text-sm ">
                 {'שכחת סיסמה? '}
                 <span
-                  className="text-sm text-green-500 hover:underline cursor-pointer"
+                  className="text-sm text-green-500 cursor-pointer hover:underline"
                   onClick={() => setIsForgotPasswordOpen(true)}
                 >
                   לחץ כאן
@@ -107,7 +107,7 @@ export default function LoginPopover({ isLoginOpen, setIsLoginOpen, children }) 
                 כניסה
               </Button>
               {isSuccess || (
-                <p className="text-red-600 text-sm">
+                <p className="text-sm text-red-600">
                   * מייל או סיסמה אינם נכונים, נסה שנית
                 </p>
               )}

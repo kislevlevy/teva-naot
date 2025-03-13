@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,7 +32,7 @@ export default function OrderModal({ isOrderOpen, setIsOrderOpen }) {
         <Modal.Header>
           <Icon path={mdiTruckFastOutline} size={1} />
         </Modal.Header>
-        <Modal.Body className="min-h-72 overflow-y-scroll rtl">
+        <Modal.Body className="overflow-y-scroll min-h-72 rtl">
           <Table hoverable>
             <Table.Head className="text-center">
               <Table.HeadCell>תמונה</Table.HeadCell>
@@ -62,7 +62,7 @@ function TableItem({ product }) {
 
   if (productColor)
     return (
-      <Table.Row className="bg-white text-center text-sm">
+      <Table.Row className="text-sm text-center bg-white">
         <Table.Cell>
           <img className="rounded-lg" src={productColor.images[0]} />
         </Table.Cell>
@@ -76,12 +76,12 @@ function TableItem({ product }) {
                   state: { ...(location.state || {}), _id: productColor.product },
                 })
               }
-              className="text-xs w-full text-white px-3 py-1 rounded-md bg-emerald-500 hover:bg-emerald-600"
+              className="w-full px-3 py-1 text-xs text-white rounded-md bg-emerald-500 hover:bg-emerald-600"
             >
               פתח עמוד מוצר
             </button>
             <ReviewPopover productId={productColor.product}>
-              <button className="text-xs w-full text-white px-3 py-1 rounded-md bg-emerald-500 hover:bg-emerald-600">
+              <button className="w-full px-3 py-1 text-xs text-white rounded-md bg-emerald-500 hover:bg-emerald-600">
                 הוסף פידבק
               </button>
             </ReviewPopover>

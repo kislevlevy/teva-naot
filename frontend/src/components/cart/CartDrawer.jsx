@@ -17,7 +17,7 @@ import { toMoneyString } from '../../utils/helperFunctions';
 export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
   let items, sum;
   const [_productCartObj, setProductCartObj] = useState({});
-  const [localStorage, setLocalStorage] = useState(0);
+  const [_, setLocalStorage] = useState(0);
   const [_sum, setSum] = useState(0);
   const [_items, setItems] = useState(0);
   const [deletItem, setDeletItem] = useState(false);
@@ -40,7 +40,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
       items = productCartObj.cart?.reduce(
         (acc, ele, i) =>
           acc +
-          Object.entries(ele.sizes).reduce((prev, [key, value]) => {
+          Object.entries(ele.sizes).reduce((prev, [_, value]) => {
             sum += productCartObj.cache[i].price * value;
             return prev + value;
           }, 0),
@@ -85,7 +85,7 @@ export default function CartDrawer({ isCartOpen, setIsCartOpen }) {
           ))}
       </Drawer.Items>
 
-      <div className="sticky bottom-0 w-full bg-white p-3 rounded-md shadow-md">
+      <div className="sticky bottom-0 w-full p-3 bg-white rounded-md shadow-md">
         <div>
           <div className="flex justify-between p-2 bg-gray-200 rounded-md">
             <div className="font-bold">

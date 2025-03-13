@@ -1,5 +1,5 @@
 // Imports:
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import hoverFunc from '../../../utils/hover';
 import '../../../styles/modules/hover.css';

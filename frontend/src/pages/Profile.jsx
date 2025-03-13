@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table } from 'flowbite-react';
 
@@ -57,7 +57,7 @@ export default function Profile() {
   }, [currentUser, isUpdating, IsPassChange, isConfirmed]);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container p-6 mx-auto">
       <ChangePasswordModal
         {...{ changePassword, isChangePasswordOpen, setIsChangePasswordOpen }}
       />
@@ -74,13 +74,13 @@ export default function Profile() {
         }}
       />
       <div className="flex flex-col lg:flex-row-reverse lg:space-x-6 lg:space-x-reverse">
-        <div className="lg:w-1/3 bg-white shadow-lg p-6 rounded-lg">
+        <div className="p-6 bg-white rounded-lg shadow-lg lg:w-1/3">
           <img
-            className="w-36 h-3w-36 rounded-full mx-auto"
+            className="mx-auto rounded-full w-36 h-3w-36"
             src={currentUser?.profileImg || '/img/profileImagePlaceholder.jpg'}
             alt={currentUser?.fullName}
           />
-          <div className="text-center mt-4">
+          <div className="mt-4 text-center">
             <h2 className="text-xl font-semibold">{currentUser?.fullName}</h2>
             <p className="text-gray-600 eng-font ">{currentUser?.email}</p>
             <p className="text-gray-600 eng-font ">{currentUser?.phoneNumber}</p>
@@ -96,7 +96,7 @@ export default function Profile() {
           </div>
           <div className="mt-6 space-y-1">
             <div
-              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-gray-100 rounded-lg p-1 text-sm"
+              className="flex w-full p-1 px-5 mx-auto text-sm rounded-lg cursor-pointer rtl hover:bg-gray-100"
               onClick={() => setIsEditProfileOpen(true)}
             >
               <Icon className="ml-5" path={mdiPencilOutline} size={1} />
@@ -104,7 +104,7 @@ export default function Profile() {
             </div>
 
             <div
-              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-gray-100 rounded-lg p-1 text-sm"
+              className="flex w-full p-1 px-5 mx-auto text-sm rounded-lg cursor-pointer rtl hover:bg-gray-100"
               onClick={() => setIsAdressOpen(true)}
             >
               <Icon className="ml-5" path={mdiMapMarkerOutline} size={1} />
@@ -112,7 +112,7 @@ export default function Profile() {
             </div>
 
             <div
-              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-gray-100 rounded-lg p-1 text-sm"
+              className="flex w-full p-1 px-5 mx-auto text-sm rounded-lg cursor-pointer rtl hover:bg-gray-100"
               onClick={() => setIsChangePasswordOpen(true)}
             >
               <Icon className="ml-5" path={mdiFormTextboxPassword} size={1} />
@@ -122,7 +122,7 @@ export default function Profile() {
             <hr className="border-[1px] w-full" />
 
             <div
-              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-red-100 rounded-lg p-1 text-sm"
+              className="flex w-full p-1 px-5 mx-auto text-sm rounded-lg cursor-pointer rtl hover:bg-red-100"
               onClick={() => triggerLogout()}
             >
               <Icon className="ml-5" path={mdiLogout} size={1} />
@@ -130,7 +130,7 @@ export default function Profile() {
             </div>
 
             <div
-              className="flex w-full px-5 mx-auto rtl cursor-pointer hover:bg-red-100 rounded-lg p-1 text-sm"
+              className="flex w-full p-1 px-5 mx-auto text-sm rounded-lg cursor-pointer rtl hover:bg-red-100"
               onClick={() => setIsConfirmOpen(true)}
             >
               <Icon className="ml-5" path={mdiAccountLockOutline} size={1} />
@@ -140,8 +140,8 @@ export default function Profile() {
         </div>
 
         {/* Order History */}
-        <div className="flex flex-col lg:w-2/3 mt-6 lg:mt-0 bg-white shadow-lg p-6 rounded-lg rtl">
-          <h2 className="text-xl font-semibold mb-4">היסטורית הזמנות</h2>
+        <div className="flex flex-col p-6 mt-6 bg-white rounded-lg shadow-lg lg:w-2/3 lg:mt-0 rtl">
+          <h2 className="mb-4 text-xl font-semibold">היסטורית הזמנות</h2>
           {currentUser?.orderHistory ? (
             <Table hoverable>
               <Table.Head className="text-center">
@@ -168,13 +168,13 @@ export default function Profile() {
 
 function TableItem({ order, setIsOrderOpen, i }) {
   return (
-    <Table.Row className="bg-white text-center text-sm">
+    <Table.Row className="text-sm text-center bg-white">
       <Table.Cell>{toDateString(order.orderDate)}</Table.Cell>
       <Table.Cell>{order._id}</Table.Cell>
       <Table.Cell>{`${Math.trunc(order.total)}.00`}₪</Table.Cell>
       <Table.Cell>
         <button
-          className="bg-emerald-500 px-5 py-1 rounded-md text-white hover:bg-emerald-600"
+          className="px-5 py-1 text-white rounded-md bg-emerald-500 hover:bg-emerald-600"
           onClick={() => setIsOrderOpen('' + i)}
         >
           פירטי הזמנה
