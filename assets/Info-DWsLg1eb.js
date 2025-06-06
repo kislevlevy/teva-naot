@@ -1,1 +1,0 @@
-import{A as o,D as l,j as s,E as a,az as r}from"./index-CPHkVKrZ.js";function m(){const{slug:t}=o(),{pathname:n}=l(),e=n.split("/")[1];return s.jsxs("div",{children:[s.jsx("h2",{className:"w-full p-2 m-4 text-3xl text-center",children:a(t)}),s.jsx("div",{className:"w-10/12 m-0 mx-auto rtl md:w-8/12",dangerouslySetInnerHTML:{__html:r[e][a(t)]}})]})}export{m as default};
