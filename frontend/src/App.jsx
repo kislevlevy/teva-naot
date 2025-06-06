@@ -58,7 +58,10 @@ export default function App() {
           <Route path=":slug" element={<Info />} />
         </Route>
       </Route>
-    )
+    ),
+    {
+      basename: '/teva-naot',
+    }
   );
 
   return (
