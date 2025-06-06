@@ -10,6 +10,7 @@ import { TextInput, ActionIcon } from '@mantine/core';
 
 import { categories, subCategories } from '../utils/config';
 import { slugify } from '../utils/slugify';
+import { getAssetPath } from '../utils/assets';
 import CartDrawer from '../components/cart/CartDrawer';
 import LoginPopover from '../components/auth/LoginPopover';
 
@@ -40,7 +41,7 @@ export default function Header() {
         <Navbar.Brand onClick={() => navigate('/')}>
           <img
             alt="Teva Naot"
-            src="/img/logoMain.svg"
+            src={getAssetPath('img/logoMain.svg')}
             className="h-10 mr-3 cursor-pointer"
           />
         </Navbar.Brand>
@@ -64,7 +65,7 @@ export default function Header() {
                 src={
                   currentUser?.profileImg
                     ? currentUser?.profileImg
-                    : '/img/profileImagePlaceholder.jpg'
+                    : getAssetPath('img/profileImagePlaceholder.jpg')
                 }
                 alt={currentUser?.fullName}
               />

@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_BASE_URL } from '../../utils/config';
 
 export const apiProducts = createApi({
   reducerPath: 'apiProducts',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL + '/products',
+    baseUrl: API_BASE_URL + '/products',
     credentials: 'include',
   }),
   tagTypes: ['Products'],

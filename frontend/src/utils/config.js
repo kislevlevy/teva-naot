@@ -29,7 +29,8 @@ export const links = {
   instegram: 'https://www.instagram.com/tevanaot',
 };
 
-export const backend = 'http://localhost:3000';
+export const API_BASE_URL =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000/api/v1i';
 
 export const instagramPosts = {
   images: [

@@ -22,6 +22,7 @@ import ChangePasswordModal from '../components/profile/_PasswordChangeModal';
 import EditProfileModal from '../components/profile/_EditProfileModal';
 import AdressModal from '../components/profile/_AdressModal';
 import { toDateString } from '../utils/helperFunctions';
+import { getAssetPath } from '../utils/assets';
 import OrderModal from '../components/profile/_OrderModal';
 import FavoriteProduct from '../components/profile/_FavoriteProduct';
 import ConfirmationModal from '../components/helpers/ConfermationModal';
@@ -77,7 +78,10 @@ export default function Profile() {
         <div className="p-6 bg-white rounded-lg shadow-lg lg:w-1/3">
           <img
             className="mx-auto rounded-full w-36 h-3w-36"
-            src={currentUser?.profileImg || '/img/profileImagePlaceholder.jpg'}
+            src={
+              currentUser?.profileImg ||
+              getAssetPath('img/profileImagePlaceholder.jpg')
+            }
             alt={currentUser?.fullName}
           />
           <div className="mt-4 text-center">

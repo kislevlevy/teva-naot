@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_BASE_URL } from '../../utils/config';
 
 export const apiReviews = createApi({
   reducerPath: 'apiReviws',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BACKEND_URL + '/reviews',
+    baseUrl: API_BASE_URL + '/reviews',
     credentials: 'include',
   }),
 
